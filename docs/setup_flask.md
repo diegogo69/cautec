@@ -12,7 +12,7 @@ flask --app hello run
 if the file is named app.py or wsgi.py, you don’t have to use --app
 
 Debug Mode
-flask --app hello run --debug
+flask --app WHERE_TO_FIND_IT run --debug
 
 Variable Rules
 variable sections to a URL by marking sections with <variable_name> or <converter:variable_name>
