@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Reporte: {{ data['reporte']['titulo'] | upper() }}
+{% endblock %}
+
+
+{% block body %}
+
+<h2>Reporte: {{ data['reporte']['titulo'] | upper() }}</h2>
+
+<ul>
+  <li>ID: {{ data['reporte']['id'] }}</li>
+  <li>Titulo: {{ data['reporte']['titulo'] }}</li>
+  <li>Descripcion: {{ data['reporte']['descripcion'] }}</li>
+</ul>
+
+{% endblock %}
+

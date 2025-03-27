@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Editar reporte
+{% endblock %}
+
+
+{% block body %}
+
+<h2>Editar reporte</h2>
+
+<form action="/editar-reporte/{{ data['reporte']['id'] }}" method="post">
+  <ul>
+    <li>
+      <label for="titulo">Titulo:</label>
+      <input type="text" name="titulo" id="titulo" value="{{ data['reporte']['titulo'] }}">
+    </li>
+    <li>
+      <label for="descripcion">Descripcion:</label>
+      <textarea name="descripcion" id="descripcion" rows="2" >{{ data['reporte']['descripcion'] }}</textarea>
+    </li>
+  </ul>
+  <button type="submit">Editar</button>
+</form>
+{% endblock %}
+

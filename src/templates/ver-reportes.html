@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Ver reportes
+{% endblock %}
+
+
+{% block body %}
+
+<h2>Reportes</h2>
+
+{% if data['reportes'] %}
+
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Titulo</td>
+      <td>Descripcion</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reporte in data['reportes'] %}
+        <tr>
+          <td>{{ reporte['id'] }}</td>
+          <td>{{ reporte['titulo'] }}</td>
+          <td>{{ reporte['descripcion'] }}</td>
+
+          <td>
+            <button>
+                <a href="/ver-reporte/{{ reporte['id'] }}">Ver</a>
+            </button>
+          </td>
+
+          <td>
+            <button>
+                <a href="/editar-reporte/{{ reporte['id'] }}">Editar</a>
+            </button>
+          </td>
+
+          <td>
+            <form action="/eliminar-reporte/{{ reporte['id'] }}" method="post">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+    {% endfor %}
+  
+  </tbody>
+</table>
+
+{% else %}
+  <p>No hay reportes para mostrar</p>
+
+{% endif %}
+
+{% endblock %}
+

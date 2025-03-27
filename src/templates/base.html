@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAUTEC {% block title %}{% endblock %}
   </title>
 </head>
+
 <body>
+
+  <header>
+    <ul>
+      <li>
+        <a href="/">Inicio</a>
+      </li>
+      <li>
+        <a href="/crear_reporte">Crear reporte</a>
+      </li>
+      <li>
+        <a href="/ver-reportes">Ver reportes</a>
+      </li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="messages">
+      <!-- Mostrar mensajes al inicio del contenido -->
+      <!-- categories: message, info, error, warning -->
+      <!-- with_categories:bool, controls whether categories are returned with message text -->
+      <!-- category_filter:arr/tuple, filters the messages down to only those matching the provided categories. -->
+      {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+          <h3>Flash messages:</h3>
+          <ul>
+            {% for category, message in messages %}
+              <li>{{ category }}: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </section>
+
     {% block body %}
     <!-- Bloque body para contenido generado en Jinja -->
     {% endblock %}
+  </main>
 </body>
+
 </html>
