@@ -5,7 +5,7 @@ from flask import (
 
 from src import db
 
-reportes = Blueprint('reportes', __name__, #url_prefix='/reportes',
+reportes = Blueprint('reportes', __name__, url_prefix='/reportes',
                     template_folder='templates')
 
 
