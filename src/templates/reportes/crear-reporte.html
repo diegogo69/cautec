@@ -19,6 +19,23 @@
       <label for="descripcion">Descripcion:</label>
       <textarea name="descripcion" id="descripcion" rows="2"></textarea>
     </li>
+    <li>
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" id="tipo">
+            <!-- <option value="" disabled selected>Elije el tipo de reporte</option> -->
+            <option value="solicitud">Solicitud</option>
+            <option value="incidencia">Incidencia</option>
+        </select>
+    </li>
+    <li>
+        <label for="categoria">Categoria</label>
+        <select name="categoria" id="categoria">
+            <!-- <option value="" disabled selected>Elije una categoria</option> -->
+            <option value="software">Software</option>
+        </select>
+    </li>
+    <!-- titulo, tipo, estado, categoria, descripcion, diagnostico,
+        accion, fecha_emision, fecha_atencion, fecha_cierre, resuelto -->
   </ul>
   <button type="submit">Crear</button>
 </form>

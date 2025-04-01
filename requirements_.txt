@@ -1,6 +1,7 @@
 Flask
 !Flask-MySQL
 python-dotenv
+Flask-SQLAlchemy
 
 DEVELOPMENT
 black | formatter
