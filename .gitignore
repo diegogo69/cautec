@@ -1,8 +1,7 @@
 .venv/
-src/_pycache__/
-
+.env
 prueba
-
+.vscode
 
 *.pyc
 __pycache__/

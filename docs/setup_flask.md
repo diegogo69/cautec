@@ -4,6 +4,9 @@ python3 -m venv .venv
 Activate the environment
 . .venv/bin/activate
 
+Deactivate the environment
+deactivate
+
 Install Flask
 pip install Flask
 

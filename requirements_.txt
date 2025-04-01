@@ -1,0 +1,6 @@
+Flask
+!Flask-MySQL
+python-dotenv
+
+DEVELOPMENT
+black | formatter
