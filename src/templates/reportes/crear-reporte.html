@@ -8,8 +8,8 @@
 {% block body %}
 
 <h2>Crear nuevo reporte</h2>
-
-<form action="/crear_reporte" method="post">
+                   
+<form action="{{ url_for('reportes.crear_reporte') }}" method="post">
   <ul>
     <li>
       <label for="titulo">Titulo:</label>
