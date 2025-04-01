@@ -1,16 +1,12 @@
 import os
-from dotenv import load_dotenv
+from src.utils.db import get_database_uri
 
-load_dotenv()  # take environment variables
+database_uri = get_database_uri()
 
-# Default values may be provided for enviroment variables. So it works anyway
-# All app.config configurations, grouped in a class. key=value format
+# Configuración de la aplicación agrupada en una clase
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY') # Usa una clave segura
-    MYSQL_HOST = os.getenv('MYSQL_HOST')
-    MYSQL_USER = os.getenv('MYSQL_USER')
-    MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
-    MYSQL_DB = os.getenv('MYSQL_DB')
-    
-    MYSQL_CURSORCLASS = "DictCursor"
+    # Conección Flask-SQLAlchemy: MySQL / MariaDB o SQLite
+    SQLALCHEMY_DATABASE_URI = database_uri
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
