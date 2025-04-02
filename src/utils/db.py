@@ -5,7 +5,12 @@ from sqlalchemy.orm import DeclarativeBase
 
 # db = MySQL()
 class SQLAlchemyBase(DeclarativeBase):
-  pass
+    __abstract__ = True
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
+    def to_list(self):
+        return [{field.name:getattr(self, field.name)} for field in self.__table__.c]
+    pass
 
 db = SQLAlchemy(model_class=SQLAlchemyBase)
 # Cargar variables de entorno
