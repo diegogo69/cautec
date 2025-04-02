@@ -1,18 +1,98 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Reporte: {{ data['reporte']['titulo'] | upper() }}
+ - Reporte: {{ reporte.titulo | upper() }}
 {% endblock %}
 
 
 {% block body %}
 
-<h2>Reporte: {{ data['reporte']['titulo'] | upper() }}</h2>
+<h2>{{ reporte.tipo | capitalize() }}</h2>
+
+<div>
+    <h3>{{ reporte.titulo }}</h3>
+    <p>{{ reporte.descripcion }}</p>
+    <span>{{ reporte.estado }}</span>
+    <span>Creado: {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</span> 
+    <span>Departamento</span>
+    <span>Reporte #{{ reporte.id }}</span>
+</div>
+
+<!-- Comentarios -->
+<div>
+    <ul>
+        {% if comentarios %}
+        {% for comentario in comentarios %}
+        <li class="comentario">
+            {{ comentario.comentario }}
+            {{ comentario.fecha }}
+            {{ comentario.usuario_id }}
+            <form action="{{ url_for('reportes.eliminar_comentario', id=comentario.id, reporte_id=reporte.id)}}" method="post">
+                <button type="submit">Eliminar comentario</button>
+            </form>
+        </li>
+        {% endfor %}
+        {% endif %}
+        
+    </ul>
+</div>
+<!-- Añadir comentario -->
+<div>
+    <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
+        <label for="crear_comentario">Crear comentario</label>
+        <textarea name="comentario" id="comentario" placeholder="Añade un comentario"></textarea>
+        <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+
+<!-- Demás información -->
+<div>
+    <ul>
+        <li>
+            <label for="fecha_emision">Fecha de emisión:</label>
+            <input type="date" name="fecha_emision" id="fecha_emision" value="{{reporte.fecha_emision.strftime('%Y-%m-%d')}}">
+        </li>
+        <li>
+
+        </li>
+        <li>
+
+        </li>
+        <li>
+
+        </li>
+        <li>
+
+        </li>
+    </ul>
+
+</div>
 
 <ul>
-  <li>ID: {{ data['reporte']['id'] }}</li>
-  <li>Titulo: {{ data['reporte']['titulo'] }}</li>
-  <li>Descripcion: {{ data['reporte']['descripcion'] }}</li>
+    <h4>Iterar sobre objeto reporte</h4>
+    {% for key, value in keys.items() %}
+    <li>
+        {{ key }}
+        {{ value }}
+    </li>
+    {% endfor %}
+    
+</ul>
+<ul>
+  <li>ID: {{ reporte.id }}</li>
+  <li>Titulo: {{ reporte.titulo }}</li>
+  <li>Descripcion: </li>
+  <li>Tipo: {{ reporte.tipo }}</li>
+  <li>Categoria: {{ reporte.categoria }}</li>
+  <li>Estado: {{ reporte.estado }}</li>
+  <li>Emitido: {{ reporte.fecha_emision }}</li> 
+  <li>Atendido: {{ reporte.fecha_atencion }}</li>
+  <li>Cerrado: {{ reporte.fecha_cierre }}</li>
+  <li>Diagnostico: {{ reporte.diagnostico }}</li>
+  <li>Accion: {{ reporte.accion }}</li>
+  <li>Resuelto: {{ reporte.resuelto }}</li>
+  <!-- <li>Usuario ID: {{ reporte.usuario }}</li> -->
 </ul>
 
 {% endblock %}
