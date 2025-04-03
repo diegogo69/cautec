@@ -11,7 +11,7 @@ from sqlalchemy.sql import func
 departamentos = Blueprint('departamentos', __name__, url_prefix='/departamentos',
                     template_folder='templates')
 
-@departamentos.route('/ver-departamentos', methods=['GET'])
+@departamentos.route('/', methods=['GET'])
 @login_required
 def ver_departamentos():
     departamentos = Departamento.query.all()
@@ -23,9 +23,7 @@ def ver_departamentos():
 @departamentos.route('/departamento/<int:id>')
 @login_required
 def ver_departamento(id):
-    # crear_comentario.reporte_id = id
     departamento = Departamento.query.get_or_404(id)
-    # reporte.fecha_atencion = func.now()
     
     form = CrearDepartamento(
         nombre=departamento.nombre,
@@ -65,7 +63,6 @@ def crear_departamento():
         return render_template('departamentos/crear-departamento.html', form=form)
 
 
-
 @departamentos.route('/departamento/<int:id>/editar', methods=['GET', 'POST'])
 @login_required
 def editar_departamento(id):
@@ -73,7 +70,6 @@ def editar_departamento(id):
     form = CrearDepartamento()
 
     if request.method == 'POST':
-
         departamento.nombre=form.nombre.data,
         departamento.ubicacion=form.ubicacion.data,
         departamento.nombre_coordinador=form.nombre_coordinador.data,
@@ -101,19 +97,13 @@ def editar_departamento(id):
 def eliminar_departamento(id):
     if request.method == 'POST':
         departamento = Departamento.query.get_or_404(id)
-        if departamento.usuario_id != current_user.id:
-            abort(403)
 
         db.session.delete(departamento)
         db.session.commit()
         
         flash(f'El departamento ID #{id} se elimino exitosamente!', 'message')
-        
         return redirect(url_for('departamentos.ver_departamentos'))
-    
     
     elif request.method == 'GET':
-        flash('Los elementos se eliminan a través del método POST solamente', 'error')
-
-        return redirect(url_for('departamentos.ver_departamentos'))
+        abort(403)
         
