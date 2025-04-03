@@ -19,7 +19,7 @@ class Reporte(db.Model):
     fecha_cierre = db.Column(db.DateTime)
     resuelto = db.Column(db.Boolean(False), default=False)
 
-    # usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     # equipo_id = db.Column(db.Integer, db.ForeignKey('departamentos.id'), nullable=False)
 
     def __repr__(self):
