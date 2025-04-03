@@ -4,7 +4,6 @@ from flask_login import UserMixin
 # UserMixin provides certain attributes and methods User model expects:
 # isAuthenticated, isActive, isAnonymous, get_id()
 
-
 class Usuario(db.Model, UserMixin):
     __tablename__ = "usuarios"
 
@@ -17,7 +16,7 @@ class Usuario(db.Model, UserMixin):
     nombres = db.Column(db.String(50))
     apellidos = db.Column(db.String(50))
 
-    # departamento = db.Column(db.Integer, db.ForeignKey('departamentos.id'), nullable=False)
+    departamento_id = db.Column(db.Integer, db.ForeignKey('departamentos.id')) #, nullable=False)
 
 
     def __repr__(self):
