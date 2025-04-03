@@ -53,32 +53,50 @@
             <label for="fecha_emision">Fecha de emisión:</label>
             <input type="date" name="fecha_emision" id="fecha_emision" value="{{reporte.fecha_emision.strftime('%Y-%m-%d')}}">
         </li>
+        {% if reporte.fecha_atencion %}
         <li>
-
+            <label for="fecha_atencion">Fecha de atencion:</label>
+            <input type="date" name="fecha_atencion" id="fecha_atencion" value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
+        </li>   
+        {% endif %}
+        {% if reporte.fecha_cierre %}
+        <li>
+            <label for="fecha_cierre">Fecha de cierre:</label>
+            <input type="date" name="fecha_cierre" id="fecha_cierre" value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
+        </li>   
+        {% endif %}
+        <li>
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo">
+                <option value="incidente">Incidente</option>
+                <option value="solicitud" 
+                    {% if reporte.tipo == 'solicitud' %}selected{% endif %}
+                    >Solicitud</option>
+            </select>
         </li>
         <li>
-
+            <label for="categoria">Categoria:</label>
+            <select name="categoria" id="categoria">
+                <option value="{{reporte.categoria}}">{{reporte.categoria | capitalize() }}</option>
+            </select>
         </li>
         <li>
-
+            <label for="estado">Estado:</label>
+            <select name="estado" id="estado">
+                <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
+            </select>
         </li>
         <li>
+            <!-- Solicitante -->
+            <!-- Departamente -->
+            <!-- Ubicacion -->
+            <!-- Equipo asociado -->
 
         </li>
     </ul>
 
 </div>
 
-<ul>
-    <h4>Iterar sobre objeto reporte</h4>
-    {% for key, value in keys.items() %}
-    <li>
-        {{ key }}
-        {{ value }}
-    </li>
-    {% endfor %}
-    
-</ul>
 <ul>
   <li>ID: {{ reporte.id }}</li>
   <li>Titulo: {{ reporte.titulo }}</li>
