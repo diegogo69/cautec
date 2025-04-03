@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Departamento: {{ departamento.nombre | capitalize() }}
+{% endblock %}
+
+
+{% block body %}
+
+<h2>{{ departamento.nombre | upper() }}</h2>
+
+<ul>
+  <li>Nombre: {{ departamento.nombre | capitalize() }}</li>
+  <li>Ubicacion: {{ departamento.ubicacion | capitalize() }}</li>
+  <li>Nombre_coordinador: {{ departamento.nombre_coordinador | capitalize() }}</li>
+  <li>Linea telefonica: {{ departamento.linea_telefonica | capitalize() }}</li>
+</ul>
+
+{% endblock %}
+

@@ -27,10 +27,15 @@ def ver_departamento(id):
     departamento = Departamento.query.get_or_404(id)
     # reporte.fecha_atencion = func.now()
     
-    forms = {}
+    form = CrearDepartamento(
+        nombre=departamento.nombre,
+        ubicacion=departamento.ubicacion,
+        nombre_coordinador=departamento.nombre_coordinador,
+        linea_telefonica=departamento.linea_telefonica,
+    )
     return render_template('departamentos/ver-departamento.html',
                            departamento=departamento, 
-                           forms=forms)
+                           form=form)
     
 
 @departamentos.route('/crear-departamento', methods=['GET', 'POST'])
