@@ -6,7 +6,7 @@ from flask_login import current_user
 from src.models.usuario import Usuario
 
 class RegistroForm(FlaskForm):
-  usuario = StringField('Username', validators=[DataRequired(),Length(min=3, max=20)])
+  usuario = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
 
   email = StringField('Email', validators=[DataRequired(), Email()])
 
@@ -17,9 +17,6 @@ class RegistroForm(FlaskForm):
   
   submit = SubmitField('Register')
   
-  # def validate_field(self, field):
-  #   if True:
-  #     raise ValidationError('Error message')
   def validate_username(self, username):
     #                                    username enter in the form
     user = Usuario.query.filter_by(username=username.data).first()
@@ -33,9 +30,9 @@ class RegistroForm(FlaskForm):
       raise ValidationError('That email is taken. Please choose a different one.')
   
   
-  
 class LoginForm(FlaskForm):
-  email = StringField('Email', validators=[DataRequired(), Email()])
+#   email = StringField('Email', validators=[DataRequired(), Email()])
+  usuario = StringField('Usuario', validators=[DataRequired(), Length(min=3, max=20)])
 
   password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=20)])
   remember = BooleanField('Remember me')
@@ -43,16 +40,14 @@ class LoginForm(FlaskForm):
 
 
 class UpdateAccountForm(FlaskForm):
-  usuario = StringField('Username', validators=[DataRequired(),Length(min=3, max=20)])
+  usuario = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
 
   email = StringField('Email', validators=[DataRequired(), Email()])
   picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
 
   submit = SubmitField('Update')
   
-  # def validate_field(self, field):
-  #   if True:
-  #     raise ValidationError('Error message')
+
   def validate_username(self, username):
     if username.data != current_user.username:
       #                                    username enter in the form

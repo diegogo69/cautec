@@ -43,7 +43,8 @@ def login():
     
     form = LoginForm()
     if form.validate_on_submit():
-        user = Usuario.query.filter_by(email=form.email.data).first()
+        user = Usuario.query.filter_by(usuario=form.usuario.data).first()
+
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             
