@@ -12,32 +12,27 @@
 <form action="{{ url_for('reportes.crear_reporte') }}" method="post">
   <ul>
     <li>
-      <label for="titulo">Titulo:</label>
-      <input type="text" name="titulo" id="titulo">
+        {{ form.titulo.label }}
+        {{ form.titulo }}
+        <!-- form.titulo(disabled='True') -->
     </li>
     <li>
-      <label for="descripcion">Descripcion:</label>
-      <textarea name="descripcion" id="descripcion" rows="2"></textarea>
+        {{ form.descripcion.label }}
+        {{ form.descripcion }}
     </li>
     <li>
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" id="tipo">
-            <!-- <option value="" disabled selected>Elije el tipo de reporte</option> -->
-            <option value="solicitud">Solicitud</option>
-            <option value="incidencia">Incidencia</option>
-        </select>
+        <!-- Cambiar por un input check -->
+        {{ form.tipo.label }}
+        {{ form.tipo }}
     </li>
     <li>
-        <label for="categoria">Categoria</label>
-        <select name="categoria" id="categoria">
-            <!-- <option value="" disabled selected>Elije una categoria</option> -->
-            <option value="software">Software</option>
-        </select>
+        {{ form.categoria.label }}
+        {{ form.categoria }}
     </li>
-    <!-- titulo, tipo, estado, categoria, descripcion, diagnostico,
-        accion, fecha_emision, fecha_atencion, fecha_cierre, resuelto -->
+    <li>
+        {{ form.submit }}
+    </li>
   </ul>
-  <button type="submit">Crear</button>
 </form>
 {% endblock %}
 
