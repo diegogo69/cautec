@@ -66,7 +66,7 @@ def crear_reporte():
 @login_required
 def editar_reporte(id):
     reporte = Reporte.query.get_or_404(id)
-    if reporte.id != current_user.id:
+    if reporte.usuario_id != current_user.id:
         abort(403)
     if request.method == 'POST':
         titulo = request.form['titulo']
@@ -93,7 +93,7 @@ def editar_reporte(id):
 def eliminar_reporte(id):
     if request.method == 'POST':
         reporte = Reporte.query.get_or_404(id)
-        if reporte.id != current_user.id:
+        if reporte.usuario_id != current_user.id:
             abort(403)
 
         db.session.delete(reporte)
@@ -133,7 +133,7 @@ def crear_comentario(reporte_id):
 def eliminar_comentario(id, reporte_id):
     if request.method == 'POST':
         comentario = Comentario.query.get_or_404(id)
-        if comentario.id != current_user.id:
+        if comentario.usuario_id != current_user.id:
             abort(403)
             
         db.session.delete(comentario)
