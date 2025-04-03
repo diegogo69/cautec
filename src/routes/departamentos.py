@@ -14,11 +14,10 @@ departamentos = Blueprint('departamentos', __name__, url_prefix='/departamentos'
 @departamentos.route('/ver-departamentos', methods=['GET'])
 @login_required
 def ver_departamentos():
-    print(current_user, current_user.id)
-
     departamentos = Departamento.query.all()
     
-    return render_template('departamentos/ver-departamentos.html', data={'departamentos': departamentos})
+    return render_template('departamentos/ver-departamentos.html',
+                           departamentos=departamentos)
 
 # from sqlalchemy.orm import asdict
 @departamentos.route('/departamento/<string:id>')

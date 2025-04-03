@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Ver departamentos
+{% endblock %}
+
+
+{% block body %}
+
+<h2>Separtamentos</h2>
+
+{% if departamentos %}
+
+<table>
+  <thead>
+    <tr>
+      <td>Nombre</td>
+      <td>Ubicacion</td>
+      <td>Nombre coordinador</td>
+      <td>Linea telefonica</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for departamento in departamentos %}
+        <tr>
+          <td>{{ departamento.nombre }}</td>
+          <td>{{ departamento.ubicacion }}</td>
+          <td>{{ departamento.nombre_coordinador }}</td>
+          <td>{{ departamento.linea_telefonica }}</td>
+
+          <td>
+            <button>
+                <a href="{{ url_for('departamentos.ver_departamento', id=departamento['id']) }}">Ver</a>
+            </button>
+          </td>
+
+          <td>
+            <button>
+                <a href="{{ url_for('departamentos.editar_departamento', id=departamento['id']) }}">Editar</a>
+                
+            </button>
+          </td>
+
+          <td>
+            <form action="{{ url_for('departamentos.eliminar_departamento', id=departamento['id']) }}" method="post">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+    {% endfor %}
+  
+  </tbody>
+</table>
+
+{% else %}
+  <p>No hay departamentos para mostrar</p>
+
+{% endif %}
+
+{% endblock %}
+
