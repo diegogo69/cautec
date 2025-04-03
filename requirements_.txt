@@ -1,7 +1,11 @@
 Flask
 !Flask-MySQL
-python-dotenv
-Flask-SQLAlchemy
+python-dotenv # Variables de entorno
+Flask-SQLAlchemy # Conexion a la base de datos
+Flask-WTF # Integrar formularios wtf con flask
+Flask-Bcrypt # Crear hash para contraseñas
+Flask-Login
+email-validator
 
 DEVELOPMENT
 black | formatter
