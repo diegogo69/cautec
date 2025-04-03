@@ -8,15 +8,15 @@
 {% block body %}
 
 <h2>Editar reporte</h2>
-<form action="{{ url_for('reportes.editar_reporte', id=data['reporte']['id']) }}" method="post">
+<form action="{{ url_for('reportes.editar_reporte', id=reporte.id) }}" method="post">
   <ul>
     <li>
       <label for="titulo">Titulo:</label>
-      <input type="text" name="titulo" id="titulo" value="{{ data['reporte']['titulo'] }}">
+      <input type="text" name="titulo" id="titulo" value="{{ reporte.titulo }}">
     </li>
     <li>
       <label for="descripcion">Descripcion:</label>
-      <textarea name="descripcion" id="descripcion" rows="2" >{{ data['reporte']['descripcion'] }}</textarea>
+      <textarea name="descripcion" id="descripcion" rows="2" >{{ reporte.descripcion }}</textarea>
     </li>
   </ul>
   <button type="submit">Editar</button>
