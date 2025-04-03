@@ -3,15 +3,17 @@ from flask import Blueprint, render_template
 errores = Blueprint('errores', __name__)
 
 
-@errores.app_errorhandler(404)
-def error_404(error):
-    return render_template('errores/404.html'), 404
-
-
 @errores.app_errorhandler(403)
 def error_403(error):
     return render_template('errores/403.html'), 403
 
+@errores.app_errorhandler(404)
+def error_404(error):
+    return render_template('errores/404.html'), 404
+
+@errores.app_errorhandler(405)
+def error_405(error):
+    return render_template('errores/405.html'), 405
 
 @errores.app_errorhandler(500)
 def error_500(error):
