@@ -22,6 +22,8 @@ def get_database_uri():
     password = os.getenv('DB_PASSWORD', None)
     host = os.getenv('DB_HOST', None)
     database = os.getenv('DB_DATABASE', None)
+    # a database must exist with that name in the MySQL server.
+    # Can a default one be created from the application?
 
     # Conectarse a una base de datos MySQL si se proveen las credenciales
     # O conectarse a una base de datos SQLite por defecto
