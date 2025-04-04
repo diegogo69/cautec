@@ -1,4 +1,4 @@
-import os
+import os, sys
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -44,10 +44,16 @@ def get_database_uri():
         database_uri = f'{dialect}://{username}:{password}@{host}/{database}'
 
         from sqlalchemy_utils import database_exists, create_database
-        if not database_exists(database_uri):
-            print(f'La base de datos {database} aun no ha sido creada')
-            create_database(database_uri)
-            print(f'La base de datos {database} fue creada con exito')
+        try:
+            if not database_exists(database_uri):
+                print(f'La base de datos {database} aun no ha sido creada')
+                create_database(database_uri)
+                print(f'La base de datos {database} fue creada con exito')
+        except Exception as e:
+            print('No se pudo establecer conexion con la base de datos. Verifica las credenciales')
+            print('Error: ', e)
+            sys.exit()
+        
     else:
         database_uri = 'sqlite:///cautec.db'
         print('Conexión a la base de datos fallida. Se utilizará una base de datos SQLite')
