@@ -55,3 +55,29 @@ def get_database_uri():
     return database_uri
 
 
+# Comprobar si hay usuarios registrados en la base de datos
+def primera_vez():
+    from src.models.usuario import Usuario
+    hay_usuarios = Usuario.query.first()
+
+    print('----- USUARIOS -----')
+    print(hay_usuarios)
+
+    if hay_usuarios:
+        print('Ya hay usuarios registrados')
+        return
+        
+    print('Aún no hay usuarios registrados')
+    tipos_usuario = ['admin', 'soporte', 'solicitante']
+    for tipo in tipos_usuario:
+        usuario = Usuario(
+            usuario=tipo,
+            password=bcrypt.generate_password_hash(tipo).decode('utf-8'),
+            tipo=tipo,
+        )
+
+        db.session.add(usuario)
+
+    db.session.commit()
+    print('Los usuarios por defecto has sido creados exitosamente')
+    return
