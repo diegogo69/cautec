@@ -6,6 +6,8 @@ Flask-WTF # Integrar formularios wtf con flask
 Flask-Bcrypt # Crear hash para contraseñas
 Flask-Login
 email-validator
+SQLAlchemy-Utils # Abstraccion de metodos utiles, como verificar la existencia de una base de datos, o crear una base de datos
 
-DEVELOPMENT
+
+#DEVELOPMENT
 black | formatter
