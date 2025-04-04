@@ -1,6 +1,6 @@
 from flask import Flask
 from src.config import Config
-from src.utils.db import db
+from src.utils.db import db, primera_vez
 from src.utils.auth import bcrypt, login_manager
 
 
@@ -25,7 +25,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     with app.app_context():
         db.create_all()
-
+        primera_vez()
 
     return app
 
