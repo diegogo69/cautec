@@ -6,39 +6,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAUTEC {% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-5.3.5-css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-5.3.5-css/bootstrap.min.css') }}"
+        type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
 </head>
 
 <body>
+    <!-- Header is in fixed position so it overlaps body -->
     <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-            <div class="container">
-                <a class="navbar-brand mr-4" href="/">CAUTEC</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+        <nav class="navbar navbar-expand-md bg-primary fixed-top" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <!-- Brand image -->
+                    <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
+                    <img src="{{ url_for('static', filename='images/ula_hogb.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                    Cautec
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <!-- Barra de navegacion si el usuario tiene sesión iniciada -->
                     {% if current_user.is_authenticated %}
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Inicio</a>
-                        <a class="nav-item nav-link" href="{{ url_for('reportes.ver_reportes') }}">Reportes</a>
-                        <a class="nav-item nav-link"
-                            href="{{ url_for('departamentos.ver_departamentos') }}">Departamentos</a>
-                    </div>
-                    <div class="navbar-nav ms-auto">
-                        <a class="nav-item nav-link" href="{{ url_for('usuarios.cuenta') }}">Cuenta</a>
-                        <a class="nav-item nav-link" href="{{ url_for('usuarios.logout') }}">Cerrar sesión</a>
-                    </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('main.index') }}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('reportes.ver_reportes') }}">Reportes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="{{ url_for('departamentos.ver_departamentos') }}">Departamentos</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('usuarios.cuenta') }}">Cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('usuarios.logout') }}">Cerrar sesión</a>
+                        </li>
+                    </ul>
+
                     <!-- Barra de navegación si no se ha iniciado sesión -->
                     {% else %}
-                    <div class="navbar-nav ms-auto">
-                        <a class="nav-item nav-link" href="{{ url_for('usuarios.registrarse') }}">Registrarse</a>
-                        <a class="nav-item nav-link" href="{{ url_for('usuarios.login') }}">Ingresar</a>
-                    </div>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('usuarios.login') }}">Ingresar</a>
+                            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('usuarios.registrarse') }}">Registrarse</a>
+                        </li>
+                    </ul>
                     {% endif %}
+                    <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li> -->
+                    <!-- <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li> -->
+                    <!-- <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form> -->
                 </div>
             </div>
         </nav>
