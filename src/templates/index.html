@@ -5,7 +5,16 @@
 {% endblock %}
 
 {% block body %}
-Bienvenido a CAUTEC
+
+<div class="row">
+    <div class="col-md-8">
+        <h1>Bienvenido a CAUTEC</h1>
+    </div>
+    <div class="col-md-4">
+        {% include "_notificaciones.html" %}
+    </div>
+
+</div>
 {% endblock %}
 
 

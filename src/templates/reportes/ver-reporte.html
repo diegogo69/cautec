@@ -1,117 +1,137 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Reporte: {{ reporte.titulo | upper() }}
+- Reporte: {{ reporte.titulo | upper() }}
 {% endblock %}
 
 
 {% block body %}
 
-<h2>{{ reporte.tipo | capitalize() }}</h2>
+<div class="container">
 
-<div>
-    <h3>{{ reporte.titulo }}</h3>
-    <p>{{ reporte.descripcion }}</p>
-    <span>{{ reporte.estado }}</span>
-    <span>Creado: {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</span> 
-    <span>Departamento</span>
-    <span>Reporte #{{ reporte.id }}</span>
-</div>
+    <section class="mb-4">
+        <h3>{{ reporte.titulo | capitalize() }} #{{ reporte.id }}</h3>
+        <p class="h5">{{ reporte.descripcion | capitalize() }}</p>
+    </section>
 
-<!-- Comentarios -->
-<div>
-    <ul>
-        {% if comentarios %}
-        {% for comentario in comentarios %}
-        <li class="comentario">
-            {{ comentario.comentario }}
-            {{ comentario.fecha }}
-            {{ comentario.usuario_id }}
-            <form action="{{ url_for('reportes.eliminar_comentario', id=comentario.id, reporte_id=reporte.id)}}" method="post">
-                <button type="submit">Eliminar comentario</button>
-            </form>
-        </li>
-        {% endfor %}
-        {% endif %}
-        
-    </ul>
-</div>
-<!-- Añadir comentario -->
-<div>
-    <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
-        <label for="crear_comentario">Crear comentario</label>
-        <textarea name="comentario" id="comentario" placeholder="Añade un comentario"></textarea>
-        <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
-        <button type="submit">Enviar</button>
-    </form>
-</div>
-
-<!-- Demás información -->
-<div>
-    <ul>
-        <li>
-            <label for="fecha_emision">Fecha de emisión:</label>
-            <input type="date" name="fecha_emision" id="fecha_emision" value="{{reporte.fecha_emision.strftime('%Y-%m-%d')}}">
+    <ul class="container">
+        <li class="row mb-2">
+            <div class="col-md-2">
+                <label class="form-label" for="fecha_emision">Fecha de emisión:</label>
+            </div>
+            <div class="col-md-4">
+                <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
+                    value="{{reporte.fecha_emision.strftime('%Y-%m-%d')}}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="estado">Estado:</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="estado" id="estado">
+                    <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
+                </select>
+            </div>
         </li>
         {% if reporte.fecha_atencion %}
-        <li>
-            <label for="fecha_atencion">Fecha de atencion:</label>
-            <input type="date" name="fecha_atencion" id="fecha_atencion" value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
-        </li>   
+        <div class="col-md-2">
+            <label class="form-label" for="fecha_atencion">Fecha de atencion:</label>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion"
+                value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
+        </div>
         {% endif %}
         {% if reporte.fecha_cierre %}
-        <li>
-            <label for="fecha_cierre">Fecha de cierre:</label>
-            <input type="date" name="fecha_cierre" id="fecha_cierre" value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
-        </li>   
+        <div class="col-md-2">
+            <label class="form-label" for="fecha_cierre">Fecha de cierre:</label>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre"
+                value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
+        </div>
         {% endif %}
-        <li>
-            <label for="tipo">Tipo:</label>
-            <select name="tipo" id="tipo">
-                <option value="incidente">Incidente</option>
-                <option value="solicitud" 
-                    {% if reporte.tipo == 'solicitud' %}selected{% endif %}
-                    >Solicitud</option>
-            </select>
+        <li class="row mb-2">
+            <div class="col-md-2">
+                <label class="form-label" for="tipo">Tipo:</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="tipo" id="tipo">
+                    <option value="incidente">Incidente</option>
+                    <option value="solicitud" {% if reporte.tipo=='solicitud' %}selected{% endif %}>Solicitud</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="categoria">Categoria:</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="categoria" id="categoria">
+                    <option value="{{reporte.categoria}}">{{reporte.categoria | capitalize() }}</option>
+                </select>
+            </div>
         </li>
-        <li>
-            <label for="categoria">Categoria:</label>
-            <select name="categoria" id="categoria">
-                <option value="{{reporte.categoria}}">{{reporte.categoria | capitalize() }}</option>
-            </select>
-        </li>
-        <li>
-            <label for="estado">Estado:</label>
-            <select name="estado" id="estado">
-                <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
-            </select>
-        </li>
-        <li>
-            <!-- Solicitante -->
-            <!-- Departamente -->
-            <!-- Ubicacion -->
-            <!-- Equipo asociado -->
 
+        <li class="row mb-2">
+            <div class="col-md-2">
+                <label class="form-label" for="departamento">Departamento:</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="departamento" id="departamento">
+                    {% if reporte.departamento_id %}
+                    <option value="{{ reporte.departamento_id }}">Departamento ID: {{ reporte.departamento_id }}
+                    </option>
+                    {% else %}
+                    <option value="">----------</option>
+                    {% endif %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="equipo">Equipo:</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="equipo" id="equipo">
+                    {% if reporte.equipo_id %}
+                    <option value="{{ reporte.equipo_id }}">Equipo ID: {{ reporte.departamento_id }}</option>
+                    {% else %}
+                    <option value="">----------</option>
+                    {% endif %}
+                </select>
+            </div>
         </li>
     </ul>
 
+    <!-- Comentarios -->
+    <hr>
+    <section>
+        <h4>Comentarios:</h4>
+        {% if comentarios %}
+        {% for comentario in comentarios %}
+        <div class="alert alert-dark alert-dismissible fade show">
+            {{ comentario.comentario }}
+            <button form="del-com-{{ comentario.id }}" type="submit" class="btn-close"></button>
+            <form id="del-com-{{ comentario.id }}"
+                action="{{ url_for('reportes.eliminar_comentario', id=comentario.id, reporte_id=reporte.id)}}"
+                method="post"></form>
+        </div>
+        <div class="row text-end">
+            <span>
+                {{ comentario.fecha }}
+            </span>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </section>
+    <!-- Añadir comentario -->
+    <section>
+        <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
+            <div class="form-floating">
+                <textarea class="form-control" name="comentario" id="comentario"
+                    placeholder="Añade un comentario"></textarea>
+                <label for="comentario">Añadir comentario</label>
+            </div>
+            <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
+            <button class="form-control btn btn-primary mt-2" type="submit">Enviar</button>
+        </form>
+    </section>
 </div>
 
-<ul>
-  <li>ID: {{ reporte.id }}</li>
-  <li>Titulo: {{ reporte.titulo }}</li>
-  <li>Descripcion: </li>
-  <li>Tipo: {{ reporte.tipo }}</li>
-  <li>Categoria: {{ reporte.categoria }}</li>
-  <li>Estado: {{ reporte.estado }}</li>
-  <li>Emitido: {{ reporte.fecha_emision }}</li> 
-  <li>Atendido: {{ reporte.fecha_atencion }}</li>
-  <li>Cerrado: {{ reporte.fecha_cierre }}</li>
-  <li>Diagnostico: {{ reporte.diagnostico }}</li>
-  <li>Accion: {{ reporte.accion }}</li>
-  <li>Resuelto: {{ reporte.resuelto }}</li>
-  <!-- <li>Usuario ID: {{ reporte.usuario }}</li> -->
-</ul>
-
 {% endblock %}
-

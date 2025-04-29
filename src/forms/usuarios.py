@@ -6,46 +6,46 @@ from flask_login import current_user
 from src.models.usuario import Usuario
 
 class RegistroForm(FlaskForm):
-  usuario = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
+  usuario = StringField('Nombre de usuario', validators=[DataRequired(), Length(min=3, max=20)])
 
-  email = StringField('Email', validators=[DataRequired(), Email()])
+  email = StringField('Correo', validators=[DataRequired(), Email()])
 
-  password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=20)])
+  password = PasswordField('Contraseña', validators=[DataRequired(), Length(min=3, max=20)])
   confirm_password = PasswordField(
-    'Confirm Password', validators=[DataRequired(), EqualTo('password'), Length(min=3, max=20)]
+    'Confirmar contraseña', validators=[DataRequired(), EqualTo('password'), Length(min=3, max=20)]
   )
   
-  submit = SubmitField('Register')
+  submit = SubmitField('Registrarse')
   
   def validate_username(self, username):
     #                                    username enter in the form
     user = Usuario.query.filter_by(username=username.data).first()
     if user:
-      raise ValidationError('That username is taken. Please choose a different one.')
+      raise ValidationError('El nombre de usuario ya está registrado. Elige uno diferente.')
 
   def validate_email(self, email):
     #                                    email enter in the form
     user = Usuario.query.filter_by(email=email.data).first()
     if user:
-      raise ValidationError('That email is taken. Please choose a different one.')
+      raise ValidationError('El correo ya está registrado. Elige uno diferente.')
   
   
 class LoginForm(FlaskForm):
 #   email = StringField('Email', validators=[DataRequired(), Email()])
   usuario = StringField('Usuario', validators=[DataRequired(), Length(min=3, max=20)])
 
-  password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=20)])
-  remember = BooleanField('Remember me')
-  submit = SubmitField('Login')
+  password = PasswordField('Contraseña', validators=[DataRequired(), Length(min=3, max=20)])
+  remember = BooleanField('Recordarme')
+  submit = SubmitField('Ingresar')
 
 
 class UpdateAccountForm(FlaskForm):
-  usuario = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
+  usuario = StringField('Usuario', validators=[DataRequired(), Length(min=3, max=20)])
 
-  email = StringField('Email', validators=[DataRequired(), Email()])
+  email = StringField('Correo', validators=[DataRequired(), Email()])
   picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
 
-  submit = SubmitField('Update')
+  submit = SubmitField('Actualizar')
   
 
   def validate_username(self, username):
@@ -53,31 +53,31 @@ class UpdateAccountForm(FlaskForm):
       #                                    username enter in the form
       user = Usuario.query.filter_by(username=username.data).first()
       if user:
-        raise ValidationError('That username is taken. Please choose a different one.')
+        raise ValidationError('El nombre de usuario ya está registrado. Elige uno diferente.')
 
   def validate_email(self, email):
     if email.data != current_user.email:
       #                                    email enter in the form
       user = Usuario.query.filter_by(email=email.data).first()
       if user:
-        raise ValidationError('That email is taken. Please choose a different one.')
+        raise ValidationError('El correo ya está registrado. Elige uno diferente.')
   
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField('Email',
+    email = StringField('Correo',
                         validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
+    submit = SubmitField('Restablecer contraseña')
 
     def validate_email(self, email):
         user = Usuario.query.filter_by(email=email.data).first()
         if user is None:
-            raise ValidationError('There is no account with that email. You must register first.')
+            raise ValidationError('El nombre de usuario no está registrado. Regístrate y crea una cuenta.')
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
+    password = PasswordField('Contraseña', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar contraseña',
                                      validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
+    submit = SubmitField('Restablecer contraseña')
     

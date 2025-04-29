@@ -4,6 +4,7 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
+from src.models.departamento import Departamento
 from src.models.comentario import Comentario
 from src.forms.reportes import CrearReporte
 from src import db
@@ -36,23 +37,33 @@ def ver_reporte(id):
 @login_required
 def crear_reporte():
     form = CrearReporte()
-
+    departamentos = Departamento.query.all()
     if request.method == 'POST':
         titulo = request.form['titulo']
         descripcion = request.form['descripcion']
         tipo = request.form['tipo']
         categoria = request.form['categoria']
+        departamento_id = 1
+        equipo_asociado = request.form['equipo_asociado']
+
+        departamento = Departamento.query.get(departamento_id)
+        if not departamento:
+            departamento_id = None
         
         reporte = Reporte(titulo=titulo, descripcion=descripcion, tipo=tipo, categoria=categoria,
-                          usuario_id=current_user.id)
+                          usuario_id=current_user.id,
+                          departamento_id=departamento_id,
+                        #   equipo_id=equipo_asociado
+                          )
         db.session.add(reporte)
         db.session.commit()
         
-        flash('Tu reporte ha sido registrado exitosamente!', 'message')
-        return redirect(url_for('reportes.crear_reporte'))
+        flash('Tu reporte ha sido registrado exitosamente!', 'success')
+        return redirect(url_for('reportes.ver_reportes'))
     
     elif request.method == 'GET':
-        return render_template('reportes/crear-reporte.html', form=form)
+        return render_template('reportes/crear-reporte.html',
+                               form=form, departamentos=departamentos)
 
 
 @reportes.route('/reporte/<int:id>/editar', methods=['GET', 'POST'])
@@ -71,7 +82,7 @@ def editar_reporte(id):
 
         db.session.commit()
         
-        flash(f'El reporte ID #{id} fue editado exitosamente!', 'message')
+        flash(f'El reporte ID #{id} fue editado exitosamente!', 'success')
         return redirect(url_for('reportes.ver_reportes'))
     
     elif request.method == 'GET':
@@ -90,7 +101,7 @@ def eliminar_reporte(id):
     db.session.delete(reporte)
     db.session.commit()
     
-    flash(f'El reporte ID #{id} se elimino exitosamente!', 'message')
+    flash(f'El reporte ID #{id} se elimino exitosamente!', 'success')
     return redirect(url_for('reportes.ver_reportes'))
 
 
@@ -104,7 +115,7 @@ def crear_comentario(reporte_id):
     db.session.add(comentario)
     db.session.commit()
 
-    flash("Tu comentario ha sido registrado exitosamente!", "message")
+    flash("Tu comentario se añadió exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte_id))
 
 
@@ -118,5 +129,5 @@ def eliminar_comentario(id, reporte_id):
     db.session.delete(comentario)
     db.session.commit()
     
-    flash(f'El comentario ID #{id} se elimino exitosamente!', 'message')
+    flash(f'El comentario ID #{id} se elimino exitosamente!', 'success')
     return redirect(url_for('reportes.ver_reporte', id=reporte_id))

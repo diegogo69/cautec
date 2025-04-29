@@ -1,38 +1,78 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Crear reporte
+- Crear reporte
 {% endblock %}
 
 
 {% block body %}
 
-<h2>Crear nuevo reporte</h2>
-                   
-<form action="{{ url_for('reportes.crear_reporte') }}" method="post">
-  <ul>
-    <li>
-        {{ form.titulo.label }}
-        {{ form.titulo }}
-        <!-- form.titulo(disabled='True') -->
-    </li>
-    <li>
-        {{ form.descripcion.label }}
-        {{ form.descripcion }}
-    </li>
-    <li>
-        <!-- Cambiar por un input check -->
-        {{ form.tipo.label }}
-        {{ form.tipo }}
-    </li>
-    <li>
-        {{ form.categoria.label }}
-        {{ form.categoria }}
-    </li>
-    <li>
-        {{ form.submit }}
-    </li>
-  </ul>
-</form>
-{% endblock %}
+<div class="container">
 
+    <form action="{{ url_for('reportes.crear_reporte') }}" method="post">
+        <fieldset class="form-group">
+            <legend>Crear nuevo reporte</legend>
+            <ul class="container">
+                <li class="row mb-2">
+                    {{ form.titulo.label(class='form-label') }}
+                    {{ form.titulo(class='form-control') }}
+                    <!-- form.titulo(disabled='True') -->
+                </li>
+                <li class="row mb-4">
+                    {{ form.descripcion.label(class='form-label') }}
+                    {{ form.descripcion(class='form-control') }}
+                </li>
+                <li class="row mb-4">
+                    <!-- Cambiar por un input check -->
+                    <div class="col-md-2">
+                        {{ form.tipo.label(class='form-label') }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.tipo(class='form-select') }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form.categoria.label(class='form-label') }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.categoria(class='form-select') }}
+                    </div>
+                </li>
+                <li class="row mb-4">
+                    <div class="col-md-2">
+                        <label class="form-label" for="departamento">Departamento:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" name="departamento" id="departamento">
+                            {% if departamentos %}
+                            {% for departamento in departamentos %}
+                            <option value="{{ departamento.id }}">{{ departamento.nombre | capitalize() }}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="">----------</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label" for="equipo_asociado">Equipo asociado:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" name="equipo_asociado" id="equipo_asociado">
+                            {% if equipos %}
+                            {% for equipo in equipos %}
+                            <option value="{{ equipo.codigo_bienes }}">{{ equipo.codigo_bienes | capitalize() }}
+                            </option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="">----------</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </li>
+                <li class="row">
+                    {{ form.submit(class='btn btn-primary') }}
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

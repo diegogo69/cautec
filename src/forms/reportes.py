@@ -3,10 +3,10 @@ from wtforms import StringField, SubmitField, TextAreaField, SelectField, Hidden
 from wtforms.validators import DataRequired
 
 class CrearReporte(FlaskForm):
-    titulo = StringField('titulo', validators=[DataRequired()])
-    descripcion = TextAreaField('descripcion', validators=[DataRequired()])
-    tipo = SelectField('Tipo', choices=['solicitud', 'incidencia'], validators=[DataRequired()])
-    categoria = SelectField('Categoria', choices=['software', 'hardware', 'Selecciona una categoria'])
+    titulo = StringField('Titulo:', validators=[DataRequired()])
+    descripcion = TextAreaField('Descripcion:', validators=[DataRequired()])
+    tipo = SelectField('Tipo:', choices=['solicitud', 'incidencia'], validators=[DataRequired()])
+    categoria = SelectField('Categoria:', choices=['software', 'hardware', 'Selecciona una categoria'])
     
     # estado = SelectField('Estado', choices=[('cpp', 'C++'), ('py', 'Python'), ('text', 'Plain Text')])
 

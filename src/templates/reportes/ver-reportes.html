@@ -1,62 +1,62 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Ver reportes
+- Ver reportes
 {% endblock %}
 
 
 {% block body %}
 
-<h2>Reportes</h2>
+<div class="row">
+    <div class="col-auto me-auto">
+        <h2>Reportes</h2>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary">
+            <a href="{{ url_for('reportes.crear_reporte') }}">Crear reporte</a>
+        </button>
+    </div>
+</div>
 
 {% if data['reportes'] %}
 
-<table>
-  <thead>
-    <tr>
-      <td>ID</td>
-      <td>Titulo</td>
-      <td>Descripcion</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </thead>
-  <tbody>
-    {% for reporte in data['reportes'] %}
+<table class="table">
+    <thead>
         <tr>
-          <td>{{ reporte['id'] }}</td>
-          <td>{{ reporte['titulo'] }}</td>
-          <td>{{ reporte['descripcion'] }}</td>
-
-          <td>
-            <button>
-                <a href="{{ url_for('reportes.ver_reporte', id=reporte['id']) }}">Ver</a>
-            </button>
-          </td>
-
-          <td>
-            <button>
-                <a href="{{ url_for('reportes.editar_reporte', id=reporte['id']) }}">Editar</a>
-                
-            </button>
-          </td>
-
-          <td>
-            <form action="{{ url_for('reportes.eliminar_reporte', id=reporte['id']) }}" method="post">
-              <button type="submit">Eliminar</button>
-            </form>
-          </td>
+            <th scope="col">ID</td>
+            <th scope="col">Titulo</td>
+            <th scope="col">Descripcion</td>
+            <td></td>
         </tr>
-    {% endfor %}
-  
-  </tbody>
+    </thead>
+    <tbody>
+        {% for reporte in data['reportes'] %}
+        <tr>
+            <th scope="row">{{ reporte['id'] }}</td>
+            <td>{{ reporte['titulo'] }}</td>
+            <td>{{ reporte['descripcion'] }}</td>
+
+            <td>
+                <button class="btn btn-sm btn-outline-info">
+                    <a href="{{ url_for('reportes.ver_reporte', id=reporte['id']) }}">Ver</a>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary">
+                    <a href="{{ url_for('reportes.editar_reporte', id=reporte['id']) }}">Editar</a>
+
+                </button>
+                <button class="btn btn-sm btn-outline-danger" form="del-{{ reporte.id }}" type="submit">Eliminar</button>
+            </td>
+            <form id="del-{{ reporte.id }}" action="{{ url_for('reportes.eliminar_reporte', id=reporte['id']) }}" method="post">
+            </form>
+        </tr>
+        {% endfor %}
+
+    </tbody>
 </table>
 
 {% else %}
-  <p>No hay reportes para mostrar</p>
+<p>No hay reportes para mostrar</p>
 
 {% endif %}
 
 {% endblock %}
-

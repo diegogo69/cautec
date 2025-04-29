@@ -2,6 +2,7 @@ Flask
 !Flask-MySQL
 python-dotenv # Variables de entorno
 Flask-SQLAlchemy # Conexion a la base de datos
+mysqlclient # conexion con mysql
 Flask-WTF # Integrar formularios wtf con flask
 Flask-Bcrypt # Crear hash para contraseñas
 Flask-Login

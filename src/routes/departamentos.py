@@ -54,9 +54,8 @@ def crear_departamento():
         db.session.add(departamento)
         db.session.commit()
         
-        flash('El departamento ha sido registrado exitosamente!', 'message')
-        
-        return redirect(url_for('departamentos.crear_departamento'))
+        flash('El departamento ha sido registrado exitosamente!', 'success')
+        return redirect(url_for('departamentos.ver_departamentos'))
     
     
     elif request.method == 'GET':
@@ -77,7 +76,7 @@ def editar_departamento(id):
 
         db.session.commit()
         
-        flash(f'El departamento ID #{id} fue editado exitosamente!', 'message')
+        flash(f'El departamento ID #{id} fue editado exitosamente!', 'success')
         return redirect(url_for('departamentos.ver_departamentos'))
     
     
@@ -101,7 +100,7 @@ def eliminar_departamento(id):
         db.session.delete(departamento)
         db.session.commit()
         
-        flash(f'El departamento ID #{id} se elimino exitosamente!', 'message')
+        flash(f'El departamento ID #{id} se elimino exitosamente!', 'success')
         return redirect(url_for('departamentos.ver_departamentos'))
     
     elif request.method == 'GET':

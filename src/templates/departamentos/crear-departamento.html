@@ -1,38 +1,49 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Crear departamento
+- Registrar departamento
 {% endblock %}
 
 
 {% block body %}
 
-<h2>Crear nuevo departamento</h2>
-                   
-<form action="{{ url_for('departamentos.crear_departamento') }}" method="post">
-  <ul>
-    <li>
-        {{ form.nombre.label }}
-        {{ form.nombre }}
-        <!-- form.titulo(disabled='True') -->
-    </li>
-    <li>
-        {{ form.ubicacion.label }}
-        {{ form.ubicacion }}
-    </li>
-    <li>
-        <!-- Cambiar por un input check -->
-        {{ form.nombre_coordinador.label }}
-        {{ form.nombre_coordinador }}
-    </li>
-    <li>
-        {{ form.linea_telefonica.label }}
-        {{ form.linea_telefonica }}
-    </li>
-    <li>
-        {{ form.submit }}
-    </li>
-  </ul>
+<div class="container">
+    <h2>Registrar nuevo departamento</h2>
+
+    <form action="{{ url_for('departamentos.crear_departamento') }}" method="post">
+        <ul class="container">
+            <li class="row mb-2">
+                <div class="col-md-2">
+                    {{ form.nombre.label(class='form-label') }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.nombre(class='form-control') }}
+                </div>
+                <div class="col-md-2">
+                    {{ form.ubicacion.label(class='form-label') }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.ubicacion(class='form-control') }}
+                </div>
+            </li>
+            <li class="row mb-2">
+                <div class="col-md-2">
+                    {{ form.nombre_coordinador.label(class='form-label') }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.nombre_coordinador(class='form-control') }}
+                </div>
+                <div class="col-md-2">
+                    {{ form.linea_telefonica.label(class='form-label') }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.linea_telefonica(class='form-control') }}
+                </div>
+            </li>
+            <li class="row">
+                {{ form.submit(class='btn btn-primary mt-2') }}
+            </li>
+        </ul>
+</div>
 </form>
 {% endblock %}
-

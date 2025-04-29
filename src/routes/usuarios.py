@@ -63,30 +63,24 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@usuarios.route("/account", methods=['GET', 'POST'])
+@usuarios.route("/cuenta", methods=['GET', 'POST'])
 @login_required
-def account():
+def cuenta():
     form = UpdateAccountForm()
     # ON POST METHOD AS SUMBIT FORM
     if form.validate_on_submit():
-        # if form.picture.data:
-        #     # Remove old pictore before updating. Might be optional to store all images
-        #     remove_picture(current_user.image_file)
-        #     picture_file = save_picture(form.picture.data)
-        #     current_user.image_file = picture_file
         current_user.usuario = form.usuario.data
         current_user.email = form.email.data
         db.session.commit()
 
         flash('Tu cuenta ha sido actualizada exitosamente!', 'success')
-        return redirect(url_for('usuarios.account'))
+        return redirect(url_for('usuarios.cuenta'))
     # Populate form with current user email and username
     elif request.method == 'GET':
         form.usuario.data = current_user.usuario
         form.email.data = current_user.email
     
-    # profile_img = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('usuarios/account.html', title='Account', form=form) #, profile_img=profile_img
+    return render_template('usuarios/cuenta.html', title='Account', form=form, usuario=current_user) #, profile_img=profile_img
 
 
 # PAGINATION PAGE FOR SPECIFIC USER POSTS
