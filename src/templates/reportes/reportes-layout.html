@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block sidebar %}
+<aside>
+    <nav class="d-flex flex-column flex-shrink-0 bg-light p-2" style="width: 240px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{{ url_for('reportes.crear_reporte') }}" class="nav-link">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    Crear reporte
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('reportes.ver_reportes') }}" class="nav-link">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Ver reportes
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+{% endblock sidebar %}

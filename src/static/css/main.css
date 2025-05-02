@@ -1,7 +1,8 @@
 body {
   background: #fafafa;
   /* color: #333333; */
-  padding-top: 5rem;
+  /* padding-top: 4rem; */
+  /* height: 100vh; */
 }
 
 /* h1, h2, h3, h4, h5, h6 {
@@ -12,6 +13,9 @@ body {
   background-color: #5f788a;
 }
 
+.site-header nav.navbar {
+    height: 4rem;
+}
 /* .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }

@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
 - Editar departamento
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 
 <h2>Editar departamento</h2>
 <form action="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}" method="post">
