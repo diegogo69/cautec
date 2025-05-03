@@ -29,7 +29,7 @@
                 <li>
                     <div class="form-label"></div>
                     <select class="form-select">
-                        <option selected>Elige un área</option>
+                        <option selected>Selecciona un área</option>
                         <option value="3">Aula</option>
                         <option value="2">Coordinación</option>
                         <option value="3">Cubiculo</option>
@@ -44,7 +44,7 @@
                 <li>
                     <div class="form-label"></div>
                     <select class="form-select">
-                        <option selected>Elige un departamento</option>
+                        <option selected>Selecciona un departamento</option>
                         <option value="1">Ingeniería</option>
                         <option value="2">Ciencias agrarias</option>
                         <option value="3">Química</option>
@@ -79,8 +79,23 @@
             </ul>
         </fieldset>
         <fieldset>
-            <legend>Descripción</legend>
+            <legend>Descripción del equipo</legend>
             <ul class="list-unstyled">
+                <li>
+                    <label for="" class="form-label">Tipo de dispositivo:</label>
+                    <select class="form-select">
+                        <option selected>Selecciona un tipo de dispositivo</option>
+                        <option value="2">Monitor</option>
+                        <option value="1">Raton</option>
+                        <option value="3">Teclado</option>
+                        <option value="3">CPU</option>
+                        <option value="3">Impresora</option>
+                    </select>                    
+                </li>
+                <li>
+                    <label for="" class="form-label">Chapa ULA:</label>
+                    <input type="text" name="" id="" class="form-control">
+                </li>
                 <li>
                     <label for="" class="form-label">Falla</label>
                     <select class="form-select">
@@ -95,6 +110,7 @@
                     <label for="" class="form-label">Fecha para visita:</label>
                     <!-- <input type="date" name="" id=""> -->
                     <input type="datetime-local" name="" id="">
+                    <div class="form-text">Selecciona una fecha y hora que te convenga para ser atendido por un asistente de soporte técnico</div>
                 </li>
             </ul>
         </fieldset>
