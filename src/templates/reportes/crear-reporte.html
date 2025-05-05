@@ -12,12 +12,12 @@
         <h2>Nuevo reporte</h2>
         <fieldset>
             <legend>Solicitante</legend>
-            <ul class="list-unstyled">
-                <li>
+            <ul class="list-unstyled row g-2">
+                <li class="col">
                     <label for="" class="form-label">Nombre:</label>
                     <input type="text" name="" id="" class="form-control">
                 </li>
-                <li>
+                <li class="col">
                     <label for="" class="form-label">Apellido:</label>
                     <input type="text" name="" id="" class="form-control">
                 </li>
@@ -25,9 +25,9 @@
         </fieldset>
         <fieldset>
             <legend>Ubicación</legend>
-            <ul class="list-unstyled">
-                <li>
-                    <div class="form-label"></div>
+            <ul class="list-unstyled row g-2 align-items-end">
+                <li class="col-6">
+                    <!-- <label for="" class="form-label">Área:</label> -->
                     <select class="form-select">
                         <option selected>Selecciona un área</option>
                         <option value="3">Aula</option>
@@ -41,8 +41,8 @@
                         <option value="2">Oficina</option>
                     </select>
                 </li>
-                <li>
-                    <div class="form-label"></div>
+                <li class="col-6">
+                    <!-- <label for="" class="form-label">:</label> -->
                     <select class="form-select">
                         <option selected>Selecciona un departamento</option>
                         <option value="1">Ingeniería</option>
@@ -50,7 +50,7 @@
                         <option value="3">Química</option>
                     </select>
                 </li> 
-                <li>
+                <li class="col">
                     <div class="form-label"></div>
                     <select class="form-select">
                         <option selected>Piso</option>
@@ -60,7 +60,7 @@
                         <option value="3">Planta baja</option>
                     </select>
                 </li>
-                <li>
+                <li class="col">
                     <div class="form-label"></div>
                     <select class="form-select">
                         <option selected>Torre</option>
@@ -72,16 +72,16 @@
                         <option value="3">F</option>
                     </select>
                 </li>
-                <li>
-                    <div class="form-label">Ext. telefónica:</div>
-                    <input type="text" name="" id="" class="form-control">
+                <li class="col row align-items-center">
+                    <label for="ext-telefonica" class="col-auto form-label m-0">Ext. telefónica:</label>
+                    <input type="text" name="" id="ext-telefonica" class="col form-control" placeholder="3311">
                 </li>
             </ul>
         </fieldset>
         <fieldset>
             <legend>Descripción del equipo</legend>
-            <ul class="list-unstyled">
-                <li>
+            <ul class="list-unstyled row g-2">
+                <li class="col-6">
                     <label for="" class="form-label">Tipo de dispositivo:</label>
                     <select class="form-select">
                         <option selected>Selecciona un tipo de dispositivo</option>
@@ -92,12 +92,12 @@
                         <option value="3">Impresora</option>
                     </select>                    
                 </li>
-                <li>
+                <li class="col-6">
                     <label for="" class="form-label">Chapa ULA:</label>
                     <input type="text" name="" id="" class="form-control">
                 </li>
-                <li>
-                    <label for="" class="form-label">Falla</label>
+                <li class="col">
+                    <label for="" class="form-label">Falla:</label>
                     <select class="form-select">
                         <option selected>Selecciona una falla</option>
                         <option value="2">No enciende</option>
@@ -106,14 +106,15 @@
                         <option value="3">Monitor no muestra imagen</option>
                     </select>
                 </li>
-                <li>
-                    <label for="" class="form-label">Fecha para visita:</label>
+                <li class="col-12">
+                    <label for="" class="form-label me-3">Fecha para visita:</label>
                     <!-- <input type="date" name="" id=""> -->
-                    <input type="datetime-local" name="" id="">
+                    <input type="datetime-local" name="" id="" class="p-2">
                     <div class="form-text">Selecciona una fecha y hora que te convenga para ser atendido por un asistente de soporte técnico</div>
                 </li>
             </ul>
         </fieldset>
+        <button type="submit" class="btn btn-primary w-100">Crear reporte</button>
     </form>
 </div>
 {% endblock %}
