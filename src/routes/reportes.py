@@ -9,6 +9,7 @@ from src.models.comentario import Comentario
 from src.forms.reportes import CrearReporte
 from src import db
 from sqlalchemy.sql import func
+from datetime import datetime
 
 
 reportes = Blueprint('reportes', __name__, url_prefix='/reportes',
@@ -36,25 +37,49 @@ def ver_reporte(id):
 @reportes.route('/crear-reporte', methods=['GET', 'POST'])
 @login_required
 def crear_reporte():
-    form = CrearReporte()
+    # form = CrearReporte()
     departamentos = Departamento.query.all()
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        descripcion = request.form['descripcion']
-        tipo = request.form['tipo']
-        categoria = request.form['categoria']
-        departamento_id = 1
-        equipo_asociado = request.form['equipo_asociado']
+        # titulo = request.form['titulo']
+        # descripcion = request.form['descripcion']
+        # tipo = request.form['tipo']
+        # categoria = request.form['categoria']
+        # departamento_id = 1
+        # equipo_asociado = request.form['equipo_asociado']
 
-        departamento = Departamento.query.get(departamento_id)
-        if not departamento:
-            departamento_id = None
-        
-        reporte = Reporte(titulo=titulo, descripcion=descripcion, tipo=tipo, categoria=categoria,
-                          usuario_id=current_user.id,
-                          departamento_id=departamento_id,
-                        #   equipo_id=equipo_asociado
-                          )
+        nombre_sol = request.form['nombre-sol'].strip()
+        apellido_sol = request.form['apellido-sol'].strip()
+
+        tipo_area = request.form['tipo-area'].strip()
+        nombre_area = request.form['nombre-area'].strip()
+        torre = request.form['torre'].strip()
+        piso = request.form['piso'].strip()
+        ext_telefonica = request.form['ext-telefonica'].strip()
+
+        tipo_dispositivo = request.form['tipo-dispositivo'].strip()
+        cod_bienes = request.form['cod-bienes'].strip()
+        falla = request.form['falla'].strip()
+        fecha_visita = request.form['fecha-visita'].strip()
+        print(fecha_visita) # 2025-05-05T12:12
+        visita = datetime.fromisoformat(fecha_visita)
+        print(visita) # 2025-05-05 12:12:00
+
+        nombre_solicitante = f'{nombre_sol} {apellido_sol}'
+
+        # departamento = Departamento.query.get(departamento_id)
+        # if not departamento:
+        #     departamento_id = None
+
+        reporte = Reporte(
+            nombre_solicitante=nombre_solicitante,
+            tipo_dispositivo=tipo_dispositivo,
+            cod_bienes_dispositvo=cod_bienes,
+            falla=falla,
+            fecha_visita=datetime.fromisoformat(fecha_visita), 
+            usuario_id=current_user.id,
+            # departamento_id=departamento_id,
+        )
+
         db.session.add(reporte)
         db.session.commit()
         
@@ -63,7 +88,7 @@ def crear_reporte():
     
     elif request.method == 'GET':
         return render_template('reportes/crear-reporte.html',
-                               form=form, departamentos=departamentos)
+                               departamentos=departamentos)
 
 
 @reportes.route('/reporte/<int:id>/editar', methods=['GET', 'POST'])
