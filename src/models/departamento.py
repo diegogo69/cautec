@@ -4,6 +4,7 @@ class Departamento(db.Model):
     __tablename__ = "departamentos"
 
     id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.String(20), nullable=False)
     nombre = db.Column(db.String(50), nullable=False)
     ubicacion = db.Column(db.String(200), nullable=False)
     nombre_coordinador = db.Column(db.String(100), nullable=False)
