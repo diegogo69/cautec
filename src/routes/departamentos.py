@@ -59,7 +59,7 @@ def crear_departamento():
         linea_telefonica = request.form["ext-telefonica"].strip()
         torre = request.form["torre"].strip()
         piso = request.form["piso"].strip()
-        ubicacion = f"{torre}, {piso}, {tipo_area} {nombre_area}"
+        ubicacion = f"Torre {torre}, piso {piso}, {tipo_area} {nombre_area}"
 
         departamento = Departamento(
             tipo=tipo_area,
