@@ -53,11 +53,11 @@ def crear_departamento():
         # nombre_coordinador = form.nombre_coordinador.data #request.form['nombre_coordinador']
         # linea_telefonica = form.linea_telefonica.data #request.form['linea_telefonica']
 
-        tipo_area = request.form["tipo-area"].strip()
-        nombre_area = request.form["nombre-area"].strip()
+        tipo_area = request.form["tipo-area"].strip().lower()
+        nombre_area = request.form["nombre-area"].strip().capitalize()
         nombre_coor = request.form["nombre-coor"].strip()
         linea_telefonica = request.form["ext-telefonica"].strip()
-        torre = request.form["torre"].strip()
+        torre = request.form["torre"].strip().upper()
         piso = request.form["piso"].strip()
         ubicacion = f"Torre {torre}, piso {piso}, {tipo_area} {nombre_area}"
 
@@ -71,7 +71,6 @@ def crear_departamento():
         db.session.add(departamento)
         db.session.commit()
 
-        departamentosToCsv()
         flash("El departamento ha sido registrado exitosamente!", "success")
         return redirect(url_for("departamentos.ver_departamentos"))
 
@@ -124,52 +123,3 @@ def eliminar_departamento(id):
 
     elif request.method == "GET":
         abort(403)
-
-
-# from json import JSONEncoder, JSONDecoder
-import csv
-
-
-def departamentosToCsv():
-    departamentos_lista = []
-    departamentos_db = Departamento.query.all()
-    print()
-    print(departamentos_db)
-
-    for dep in departamentos_db:
-        id = dep.id
-        tipo = dep.tipo
-        nombre = dep.nombre
-        ubicacion = dep.ubicacion
-        nombre_coordinador = dep.nombre_coordinador
-        linea_telefonica = dep.linea_telefonica
-
-        dep_diccionario = {
-            "id": id,
-            "tipo": tipo,
-            "nombre": nombre,
-            "ubicacion": ubicacion,
-            "nombre_coordinador": nombre_coordinador,
-            "linea_telefonica": linea_telefonica,
-        }
-
-        departamentos_lista.append(dep_diccionario)
-
-    with open("local/csv/departamentos.csv", "w") as file:
-        writer = csv.DictWriter(
-            file,
-            fieldnames=[
-                "id",
-                "tipo",
-                "nombre",
-                "ubicacion",
-                "nombre_coordinador",
-                "linea_telefonica",
-            ],
-        )
-
-        writer.writeheader()
-        for dep in departamentos_lista:
-            writer.writerow(dep)
-
-    file.close()
