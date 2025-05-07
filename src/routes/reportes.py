@@ -7,6 +7,7 @@ from src.models.reporte import Reporte
 from src.models.departamento import Departamento
 from src.models.comentario import Comentario
 from src.forms.reportes import CrearReporte
+from src.utils.departamentos import departamentos_json
 from src import db
 from sqlalchemy.sql import func
 from datetime import datetime
@@ -37,8 +38,6 @@ def ver_reporte(id):
 @reportes.route('/crear-reporte', methods=['GET', 'POST'])
 @login_required
 def crear_reporte():
-    # form = CrearReporte()
-    departamentos = Departamento.query.all()
     if request.method == 'POST':
         # titulo = request.form['titulo']
         # descripcion = request.form['descripcion']
@@ -87,8 +86,9 @@ def crear_reporte():
         return redirect(url_for('reportes.ver_reportes'))
     
     elif request.method == 'GET':
+        areas = departamentos_json()
         return render_template('reportes/crear-reporte.html',
-                               departamentos=departamentos)
+                               departamentos=areas)
 
 
 @reportes.route('/reporte/<int:id>/editar', methods=['GET', 'POST'])
