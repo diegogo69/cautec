@@ -4,9 +4,7 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
-from src.models.departamento import Departamento
 from src.models.comentario import Comentario
-from src.forms.reportes import CrearReporte
 from src.utils.departamentos import departamentos_json
 from src import db
 from sqlalchemy.sql import func
