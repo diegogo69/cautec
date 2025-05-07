@@ -75,14 +75,14 @@ def primera_vez():
         
     print('Aún no hay usuarios registrados')
     tipos_usuario = ['admin', 'soporte', 'solicitante']
-    for tipo in tipos_usuario:
-        usuario = Usuario(
-            usuario=tipo,
-            password=bcrypt.generate_password_hash(tipo).decode('utf-8'),
-            tipo=tipo,
+    for usuario in tipos_usuario:
+        nuevo_usuario = Usuario(
+            usuario=usuario,
+            password=bcrypt.generate_password_hash(usuario).decode('utf-8'),
+            tipo=usuario,
         )
 
-        db.session.add(usuario)
+        db.session.add(nuevo_usuario)
 
     db.session.commit()
     print('Los usuarios por defecto has sido creados exitosamente')
