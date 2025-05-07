@@ -1,5 +1,19 @@
 from src.models.departamento import Departamento
 
+
+AREAS_TIPOS = [
+    "aula",
+    "coordinación",
+    "cubiculo",
+    "dirección",
+    "departamento",
+    "dependencia",
+    "laboratorio",
+    "unidad",
+    "oficina",
+]
+
+
 def departamentos_json():
     departamentos_lista = []
     departamentos_db = Departamento.query.all()
@@ -30,6 +44,7 @@ def departamentos_json():
 
 def departamentosToCsv():
     import csv
+
     departamentos_lista = []
     departamentos_db = Departamento.query.all()
     print()
