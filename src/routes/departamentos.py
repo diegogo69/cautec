@@ -54,15 +54,17 @@ def crear_departamento():
         # linea_telefonica = form.linea_telefonica.data #request.form['linea_telefonica']
 
         tipo_area = request.form["tipo-area"].strip().lower()
-        nombre_area = request.form["nombre-area"].strip().capitalize()
+        nombre_area = request.form["nombre-area"].strip()
         nombre_coor = request.form["nombre-coor"].strip()
         linea_telefonica = request.form["ext-telefonica"].strip()
-        torre = request.form["torre"].strip().upper()
+        torre = request.form["torre"].strip().lower()
         piso = request.form["piso"].strip()
         ubicacion = f"Torre {torre}, piso {piso}, {tipo_area} {nombre_area}"
 
         departamento = Departamento(
             tipo=tipo_area,
+            torre=torre,
+            piso=piso,
             nombre=nombre_area,
             ubicacion=ubicacion,
             nombre_coordinador=nombre_coor,
@@ -123,3 +125,35 @@ def eliminar_departamento(id):
 
     elif request.method == "GET":
         abort(403)
+
+from flask import jsonify
+@departamentos.route("/query", methods=["GET"])
+@departamentos.route("/query/<string:torre>/<string:piso>/<string:tipo>", methods=["GET"])
+def query(torre='none', piso='none', tipo='none'):
+    deps = None
+
+    if torre != 'none' and piso != 'none' and tipo != 'none':
+        deps = Departamento.query.filter(
+            Departamento.torre == torre,
+            Departamento.piso == piso,
+            Departamento.tipo == tipo
+        ).all()
+
+    elif torre != 'none' and piso != 'none':
+        deps = Departamento.query.filter(
+            Departamento.torre == torre,
+            Departamento.piso == piso,
+        ).all()
+        Departamento.to_j
+
+    elif torre != 'none':
+        deps = Departamento.query.filter(
+            Departamento.torre == torre,
+        ).all()
+
+    else:
+        deps = Departamento.query.all()
+
+    # return jsonify(deps)
+    # return jsonify([dep.to_json() for dep in deps])
+    return [{'nombre': dep.nombre} for dep in deps]
