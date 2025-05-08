@@ -129,31 +129,24 @@ def eliminar_departamento(id):
 
 from flask import jsonify
 @departamentos.route("/query", methods=["GET"])
-@departamentos.route("/query/<string:torre>/<string:piso>/<string:tipo>", methods=["GET"])
-def query(torre='none', piso='none', tipo='none'):
-    deps = None
+# @departamentos.route("/query/<string:torre>/<string:piso>/<string:tipo>", methods=["GET"])
+# def query(torre='none', piso='none', tipo='none'):
+def query():
+    # Request args method
+    torre = request.args.get('torre')
+    piso = request.args.get('piso')
+    tipo = request.args.get('tipo')
 
-    if torre != 'none' and piso != 'none' and tipo != 'none':
-        deps = Departamento.query.filter(
-            Departamento.torre == torre,
-            Departamento.piso == piso,
-            Departamento.tipo == tipo
-        ).all()
+    # Crear un objeto de consula, aplicar filtros condicionalmente, y ejecutar la consulta
+    dep_query = Departamento.query # También válido
+    # dep_query = db.session.query(Departamento)
+    if torre != 'none':
+        dep_query = dep_query.filter(Departamento.torre == torre)
+    if piso != 'none':
+        dep_query = dep_query.filter(Departamento.piso == piso)
+    if tipo != 'none':
+        dep_query = dep_query.filter(Departamento.tipo == tipo)
+    
+    deps = dep_query.all()
 
-    elif torre != 'none' and piso != 'none':
-        deps = Departamento.query.filter(
-            Departamento.torre == torre,
-            Departamento.piso == piso,
-        ).all()
-
-    elif torre != 'none':
-        deps = Departamento.query.filter(
-            Departamento.torre == torre,
-        ).all()
-
-    else:
-        deps = Departamento.query.all()
-
-    # return jsonify(deps)
-    # return jsonify([dep.to_json() for dep in deps])
     return [{'nombre': dep.nombre} for dep in deps]

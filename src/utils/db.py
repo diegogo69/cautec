@@ -89,6 +89,10 @@ def crear_usuarios():
 def crear_departamentos():
     from src.utils.departamentos import TORRES, PISOS, AREAS_TIPOS
     from src.models.departamento import Departamento
+    
+    hay_departamentos = Departamento.query.first()
+    if hay_departamentos:
+        return
 
     print('Creando departamentos')
     for torre in TORRES:
@@ -107,8 +111,9 @@ def crear_departamentos():
                     # nombre_coordinador=nombre_coor,
                     # linea_telefonica=linea_telefonica,
                 )
-                db.session.add(departamento)
 
+                db.session.add(departamento)
+                
     db.session.commit()
     print('Departamentos creados exitosamente')
 
