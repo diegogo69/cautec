@@ -9,9 +9,12 @@ class Departamento(db.Model):
     tipo = db.Column(db.String(20), nullable=False)
     nombre = db.Column(db.String(50), nullable=False)
     ubicacion = db.Column(db.String(200), nullable=False)
-    nombre_coordinador = db.Column(db.String(100), nullable=False)
+    nombre_coordinador = db.Column(db.String(100)) #, nullable=False)
     linea_telefonica = db.Column(db.String(20))
 
 
     def __repr__(self):
         return f"Departamento('{self.nombre}')"
+
+    def get_piso_texto(self):
+        return self.piso if self.piso != '0' else 'planta baja'
