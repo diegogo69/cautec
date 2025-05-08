@@ -135,7 +135,6 @@
 
     const camposUbicacion = document.querySelector('#ubicacion-fieldset > ul');
     const tipoArea = camposUbicacion.querySelector('#tipo-area');
-    const nombreArea = camposUbicacion.querySelector('#nombre-area');
     const torreArea = camposUbicacion.querySelector('#torre');
     const pisoArea = camposUbicacion.querySelector('#piso');
 
@@ -165,7 +164,8 @@
 
                         areasSelect.appendChild(areaOpt);
                     }
-
+                    
+                    const nombreArea = camposUbicacion.querySelector('#nombre-area');
                     nombreArea.replaceWith(areasSelect)
                 })
         })

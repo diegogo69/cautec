@@ -59,7 +59,8 @@ def crear_departamento():
         linea_telefonica = request.form["ext-telefonica"].strip()
         torre = request.form["torre"].strip().lower()
         piso = request.form["piso"].strip()
-        ubicacion = f"Torre {torre}, piso {piso}, {tipo_area} {nombre_area}"
+        piso_texto = piso if piso != '0' else 'planta baja' 
+        ubicacion = f"Torre {torre}, piso {piso_texto}, {tipo_area} {nombre_area}"
 
         departamento = Departamento(
             tipo=tipo_area,
@@ -144,7 +145,6 @@ def query(torre='none', piso='none', tipo='none'):
             Departamento.torre == torre,
             Departamento.piso == piso,
         ).all()
-        Departamento.to_j
 
     elif torre != 'none':
         deps = Departamento.query.filter(
