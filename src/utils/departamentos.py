@@ -1,5 +1,20 @@
 from src.models.departamento import Departamento
 
+TORRES = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+]
+
+PISOS = [
+    '0',
+    '1',
+    '2',
+    '3',
+]
 
 AREAS_TIPOS = [
     "aula",
@@ -25,11 +40,10 @@ AREAS_TIPOS_PLURAL = {
     "oficina": "oficinas",
 }
 
-
 def departamentos_json():
     departamentos_db = Departamento.query.all()
 
-    # departamentos_lista = []
+    # Diccionario de listas por cada tipo de departamento
     dep_json = {}
 
     for tipo in AREAS_TIPOS:
@@ -38,28 +52,12 @@ def departamentos_json():
     for dep in departamentos_db:
 
         if dep.tipo not in dep_json.keys():
-            raise 'El area no es valida'
-        
-        id = dep.id
-        tipo = dep.tipo
-        nombre = dep.nombre
-        ubicacion = dep.ubicacion
-        nombre_coordinador = dep.nombre_coordinador
-        linea_telefonica = dep.linea_telefonica
+            raise Exception('El area no es valida')
 
-        dep_diccionario = {
-            "id": id,
-            "tipo": tipo,
-            "nombre": nombre,
-            "ubicacion": ubicacion,
-            "nombre_coordinador": nombre_coordinador,
-            "linea_telefonica": linea_telefonica,
-        }
-
-        dep_json[tipo].append(dep_diccionario)
-        # departamentos_lista.append(dep_diccionario)
+        dep_json[tipo].append(dep.to_dict())
 
     print()
+    print('Departamentos json')
     print(dep_json)
     return dep_json
 
