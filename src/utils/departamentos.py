@@ -13,14 +13,33 @@ AREAS_TIPOS = [
     "oficina",
 ]
 
+AREAS_TIPOS_PLURAL = {
+    "aula": "aulas",
+    "coordinación": "coordinaciones",
+    "cubiculo": "cubiculos",
+    "dirección": "direcciones",
+    "departamento": "departamentos",
+    "dependencia": "dependencias",
+    "laboratorio": "laboratorios",
+    "unidad": "unidades",
+    "oficina": "oficinas",
+}
+
 
 def departamentos_json():
-    departamentos_lista = []
     departamentos_db = Departamento.query.all()
-    print()
-    print(departamentos_db)
+
+    # departamentos_lista = []
+    dep_json = {}
+
+    for tipo in AREAS_TIPOS:
+        dep_json[tipo] = []
 
     for dep in departamentos_db:
+
+        if dep.tipo not in dep_json.keys():
+            raise 'El area no es valida'
+        
         id = dep.id
         tipo = dep.tipo
         nombre = dep.nombre
@@ -37,9 +56,12 @@ def departamentos_json():
             "linea_telefonica": linea_telefonica,
         }
 
-        departamentos_lista.append(dep_diccionario)
+        dep_json[tipo].append(dep_diccionario)
+        # departamentos_lista.append(dep_diccionario)
 
-    return departamentos_lista
+    print()
+    print(dep_json)
+    return dep_json
 
 
 def departamentosToCsv():
