@@ -3,11 +3,17 @@ from src import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from src.utils.auth import login_manager
 from src.models.usuario import Usuario
-from src.forms.usuarios import (RegistroForm, LoginForm, UpdateAccountForm,
-                                   RequestResetForm, ResetPasswordForm)
+from src.forms.usuarios import (
+    RegistroForm,
+    LoginForm,
+    UpdateAccountForm,
+    RequestResetForm,
+    ResetPasswordForm,
+)
+
 # from src.utils import save_picture, remove_picture, send_reset_email
 
-usuarios = Blueprint('usuarios', __name__)
+usuarios = Blueprint("usuarios", __name__)
 
 
 # Init login manager extension
@@ -18,52 +24,64 @@ def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 
-@usuarios.route("/registrarse", methods=['GET', 'POST'])
+@usuarios.route("/registrarse", methods=["GET", "POST"])
 def registrarse():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for("main.index"))
 
     form = RegistroForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        usuario = Usuario(usuario=form.usuario.data, email=form.email.data, password=hashed_password,
-                          tipo='solicitante')
-        db.session.add(usuario) # add query
-        db.session.commit() # commit changes
+        nombre_usuario = form.usuario.data.strip()
+        email = form.email.data.strip()
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        
+        nuevo_usuario = Usuario(
+            usuario=nombre_usuario,
+            email=email,
+            password=hashed_password,
+            tipo="solicitante"
+        )
+        
+        db.session.add(nuevo_usuario)  # add query
+        db.session.commit()  # commit changes
 
-        flash('Tu cuenta ha sido creada exitosamente! Ahora puedes ingresar', 'success')
-        return redirect(url_for('usuarios.login'))
-    return render_template('usuarios/registrarse.html', title='Register', form=form)
+        flash("Tu cuenta ha sido creada exitosamente! Ahora puedes ingresar", "success")
+        return redirect(url_for("usuarios.login"))
+    return render_template("usuarios/registrarse.html", title="Register", form=form)
 
 
-@usuarios.route("/login", methods=['GET', 'POST'])
+@usuarios.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    
+        return redirect(url_for("main.index"))
+
     form = LoginForm()
     if form.validate_on_submit():
-        user = Usuario.query.filter_by(usuario=form.usuario.data).first()
+        nombre_usuario = form.usuario.data.strip()
+        usuario = Usuario.query.filter_by(usuario=nombre_usuario).first()
 
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            
+        if usuario and bcrypt.check_password_hash(usuario.password, form.password.data):
+            login_user(usuario, remember=form.remember.data)
+
             # If next arg from previous attempt to acces a route without logged in. Redirect to that attempted route
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.index'))
+            next_page = request.args.get("next")
+            return redirect(next_page) if next_page else redirect(url_for("main.index"))
 
         else:
-            flash('No se ha podido ingresar. Por favor verifica el correo y la contraseña', 'danger')
-    return render_template('usuarios/login.html', title='Login', form=form)
+            flash(
+                "No se ha podido ingresar. Por favor verifica el correo y la contraseña",
+                "danger",
+            )
+    return render_template("usuarios/login.html", title="Login", form=form)
 
 
 @usuarios.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for("main.index"))
 
 
-@usuarios.route("/cuenta", methods=['GET', 'POST'])
+@usuarios.route("/cuenta", methods=["GET", "POST"])
 @login_required
 def cuenta():
     form = UpdateAccountForm()
@@ -73,14 +91,16 @@ def cuenta():
         current_user.email = form.email.data
         db.session.commit()
 
-        flash('Tu cuenta ha sido actualizada exitosamente!', 'success')
-        return redirect(url_for('usuarios.cuenta'))
+        flash("Tu cuenta ha sido actualizada exitosamente!", "success")
+        return redirect(url_for("usuarios.cuenta"))
     # Populate form with current user email and username
-    elif request.method == 'GET':
+    elif request.method == "GET":
         form.usuario.data = current_user.usuario
         form.email.data = current_user.email
-    
-    return render_template('usuarios/cuenta.html', title='Account', form=form, usuario=current_user) #, profile_img=profile_img
+
+    return render_template(
+        "usuarios/cuenta.html", title="Account", form=form, usuario=current_user
+    )  # , profile_img=profile_img
 
 
 # PAGINATION PAGE FOR SPECIFIC USER POSTS
@@ -95,9 +115,11 @@ def user_posts(username):
     # return render_template('usuarios/user_posts.html', posts=posts, user=user)
 
 
-@usuarios.route("/reset_password", methods=['GET', 'POST'])
+@usuarios.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
     pass
+
+
 #     if current_user.is_authenticated:
 #         return redirect(url_for('main.index'))
 #     form = RequestResetForm()
@@ -107,15 +129,17 @@ def reset_request():
 #             send_reset_email(user)
 #         except Exception as e:
 #             flash('Something went wrong, the email could not be sent. Try again later.', 'danger')
-#             return redirect(url_for('usuarios.login'))            
+#             return redirect(url_for('usuarios.login'))
 #         flash('An email has been sent with instructions to reset your password.', 'info')
 #         return redirect(url_for('usuarios.login'))
 #     return render_template('usuarios/reset_request.html', title='Reset Password', form=form)
 
 
-@usuarios.route("/reset_password/<token>", methods=['GET', 'POST'])
+@usuarios.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
     pass
+
+
 #     if current_user.is_authenticated:
 #         return redirect(url_for('main.index'))
 #     user = Usuario.verify_reset_token(token)
