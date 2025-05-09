@@ -124,53 +124,57 @@
         <button type="submit" class="btn btn-primary w-100">Crear reporte</button>
     </form>
 </div>
-
 <script>
-    
-    const SCRIPT_ROOT = {{ url_for("departamentos.query")|tojson }}
+    const SCRIPT_ROOT = {{ url_for("departamentos.query") | tojson }}
     // const SCRIPT_ROOT = {{ request.script_root|tojson }}
     console.log(SCRIPT_ROOT)
 
-    const areasJSON = {{ areas['nombres'] | tojson }};
-
     const camposUbicacion = document.querySelector('#ubicacion-fieldset > ul');
     const tipoArea = camposUbicacion.querySelector('#tipo-area');
+    const defAreaSelect = camposUbicacion.querySelector('#nombre-area');
     const torreArea = camposUbicacion.querySelector('#torre');
     const pisoArea = camposUbicacion.querySelector('#piso');
 
     const selects = camposUbicacion.querySelectorAll('select');
     selects.forEach(select => {
-        select.addEventListener('change', () => {
+        if (select.id == 'nombre-area') return;
+
+        select.addEventListener('change', async () => {
             const torre = torreArea.value || 'none';
             const piso = pisoArea.value || 'none';
             const tipo = tipoArea.value || 'none';
+
+            if (torre == 'none' && piso == 'none' && tipo == 'none') {
+                const areaSelect = camposUbicacion.querySelector('#nombre-area');
+                areaSelect.replaceWith(defAreaSelect)
+                return
+            }
+
             // const url = `${SCRIPT_ROOT}/${torre}/${piso}/${tipo}`;
             const url = `${SCRIPT_ROOT}?torre=${torre}&piso=${piso}&tipo=${tipo}`;
 
             console.log('fetching url: ' + url)
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    console.log('it works?')
+            const deps_consulta = await fetch(url);
+            const deps_json = await deps_consulta.json()
 
-                    const areasSelect = document.createElement('select');
-                    areasSelect.id = 'nombre-area'
-                    areasSelect.name = 'nombre-area'
-                    areasSelect.classList.add('form-select')
+            console.log(deps_json)
+            console.log('it works?')
 
-                    for (const area of data) {
-                        const areaOpt = document.createElement('option');
-                        areaOpt.value = area.nombre;
-                        areaOpt.textContent = area.nombre;
+            const newAreaSelect = document.createElement('select');
+            newAreaSelect.id = 'nombre-area'
+            newAreaSelect.name = 'nombre-area'
+            newAreaSelect.classList.add('form-select')
+            for (const area of deps_json) {
+                const areaOpt = document.createElement('option');
+                areaOpt.value = area.nombre;
+                areaOpt.textContent = area.nombre;
 
-                        areasSelect.appendChild(areaOpt);
-                    }
-                    
-                    const nombreArea = camposUbicacion.querySelector('#nombre-area');
-                    nombreArea.replaceWith(areasSelect)
-                })
+                newAreaSelect.appendChild(areaOpt);
+            }
+
+            const areaSelect = camposUbicacion.querySelector('#nombre-area');
+            areaSelect.replaceWith(newAreaSelect)
         })
-    });
+    })
 </script>
 {% endblock %}
