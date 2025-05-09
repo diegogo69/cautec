@@ -17,3 +17,6 @@ Cuando el interprete encuentra un import, el contexto de ejecución cambia al de
 
 ## Recuperar archivo de un commit anterior
 git checkout *commit_hash* -- *ruta/del/archivo*
+
+## Object.keys, values, items to iterate objects
+Verificar si el objeto está vacío Object.keys(deps_json).length === 0

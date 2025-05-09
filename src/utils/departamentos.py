@@ -50,11 +50,10 @@ def departamentos_json():
         dep_json[tipo] = []
 
     for dep in departamentos_db:
-
         if dep.tipo not in dep_json.keys():
             raise Exception('El area no es valida')
 
-        dep_json[tipo].append(dep.to_dict())
+        dep_json[dep.tipo].append(dep.to_dict())
 
     print()
     print('Departamentos json')

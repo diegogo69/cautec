@@ -2,6 +2,7 @@ from flask import Blueprint, flash, render_template, request, redirect, url_for,
 from flask_login import current_user, login_required
 from src.models.departamento import Departamento
 from src.forms.departamentos import CrearDepartamento
+from src.utils.departamentos import AREAS_TIPOS
 from src import db
 from sqlalchemy.sql import func
 
@@ -127,7 +128,6 @@ def eliminar_departamento(id):
     elif request.method == "GET":
         abort(403)
 
-from flask import jsonify
 @departamentos.route("/query", methods=["GET"])
 # @departamentos.route("/query/<string:torre>/<string:piso>/<string:tipo>", methods=["GET"])
 # def query(torre='none', piso='none', tipo='none'):
@@ -147,6 +147,7 @@ def query():
     if tipo != 'none':
         dep_query = dep_query.filter(Departamento.tipo == tipo)
     
+    # deps = dep_query.order_by(Departamento.tipo).all()
     deps = dep_query.all()
-
-    return [{'nombre': dep.nombre} for dep in deps]
+    
+    return [dep.to_dict() for dep in deps]
