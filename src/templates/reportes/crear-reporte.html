@@ -127,11 +127,10 @@
 <script>
     const SCRIPT_ROOT = {{ url_for("departamentos.query") | tojson }}
     // const SCRIPT_ROOT = {{ request.script_root|tojson }}
-    console.log(SCRIPT_ROOT)
 
     const camposUbicacion = document.querySelector('#ubicacion-fieldset > ul');
-    const tipoArea = camposUbicacion.querySelector('#tipo-area');
     const defAreaSelect = camposUbicacion.querySelector('#nombre-area');
+    const tipoArea = camposUbicacion.querySelector('#tipo-area');
     const torreArea = camposUbicacion.querySelector('#torre');
     const pisoArea = camposUbicacion.querySelector('#piso');
 
@@ -150,20 +149,16 @@
                 return
             }
 
-            // const url = `${SCRIPT_ROOT}/${torre}/${piso}/${tipo}`;
             const url = `${SCRIPT_ROOT}?torre=${torre}&piso=${piso}&tipo=${tipo}`;
 
-            console.log('fetching url: ' + url)
             const deps_consulta = await fetch(url);
             const deps_json = await deps_consulta.json()
-
-            console.log(deps_json)
-            console.log('it works?')
 
             const newAreaSelect = document.createElement('select');
             newAreaSelect.id = 'nombre-area'
             newAreaSelect.name = 'nombre-area'
             newAreaSelect.classList.add('form-select')
+
             for (const area of deps_json) {
                 const areaOpt = document.createElement('option');
                 areaOpt.value = area.nombre;
