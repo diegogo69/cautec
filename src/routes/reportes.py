@@ -2,7 +2,8 @@ from flask import Blueprint, flash, render_template, request, redirect, url_for,
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
-from src.utils.departamentos import departamentos_json, AREAS_TIPOS
+from src.utils.departamentos import departamentos_json, AREAS_TIPOS, AREAS_TORRES, AREAS_PISOS
+from src.utils.reportes import TIPOS_DISPOSITIVOS, FALLAS_DISPOSITIVOS
 from src import db
 from sqlalchemy.sql import func
 from datetime import datetime
@@ -88,7 +89,18 @@ def crear_reporte():
         areas = {}
         areas["nombres"] = departamentos_json()
         areas["tipos"] = AREAS_TIPOS
-        return render_template("reportes/crear-reporte.html", areas=areas)
+        areas['torres'] = AREAS_TORRES
+        areas['pisos'] = AREAS_PISOS
+
+        dispositivos = {}
+        dispositivos['tipos'] = TIPOS_DISPOSITIVOS
+        dispositivos['fallas'] = FALLAS_DISPOSITIVOS
+
+        return render_template("reportes/crear-reporte.html",
+                               areas=areas,
+                               dispositivos=dispositivos,
+                               enumerate=enumerate
+                            )
 
 
 @reportes.route("/reporte/<int:id>/editar", methods=["GET", "POST"])

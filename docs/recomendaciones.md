@@ -20,3 +20,24 @@ git checkout *commit_hash* -- *ruta/del/archivo*
 
 ## Object.keys, values, items to iterate objects
 Verificar si el objeto está vacío Object.keys(deps_json).length === 0
+
+## Usando enumerate()
+Iterar sobre los elementos de una lista y sus indices, utilizando la funcion de python enumerate.
+
+for index, item in enumerate(list, start=0)
+
+el parametro start indica a partir de qué número se comienza a contar.
+
+mas legible que for index in range(len(list))
+
+## Using functions within templates
+Functions can be pass to templates just as with variables, using render template, and be called within it using jinja syntax
+
+Like with enumerate in crear-reporte.html. Enumerate being the built-in python function.
+
+render_template('template.html', enumerate=enumerate)
+
+Another approach would be to make the function global to all jinja templates using context_processor decorator
+
+@app.context_processor
+def fn_available(_in_all_templates)
