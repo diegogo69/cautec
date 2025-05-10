@@ -1,6 +1,6 @@
 from src.models.departamento import Departamento
 
-TORRES = [
+AREAS_TORRES = [
     'a',
     'b',
     'c',
@@ -9,7 +9,7 @@ TORRES = [
     'f',
 ]
 
-PISOS = [
+AREAS_PISOS = [
     '0',
     '1',
     '2',
@@ -55,9 +55,6 @@ def departamentos_json():
 
         dep_json[dep.tipo].append(dep.to_dict())
 
-    print()
-    print('Departamentos json')
-    print(dep_json)
     return dep_json
 
 

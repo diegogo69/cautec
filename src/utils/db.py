@@ -87,7 +87,7 @@ def crear_usuarios():
 
 
 def crear_departamentos():
-    from src.utils.departamentos import TORRES, PISOS, AREAS_TIPOS
+    from src.utils.departamentos import AREAS_TORRES, AREAS_PISOS, AREAS_TIPOS
     from src.models.departamento import Departamento
     
     hay_departamentos = Departamento.query.first()
@@ -95,8 +95,8 @@ def crear_departamentos():
         return
 
     print('Creando departamentos')
-    for torre in TORRES:
-        for piso in PISOS:
+    for torre in AREAS_TORRES:
+        for piso in AREAS_PISOS:
             for tipo in AREAS_TIPOS:
                 nombre = f'{tipo.capitalize()} {torre.upper()}{piso}'
                 piso_texto = piso if piso != '0' else 'planta baja' 
