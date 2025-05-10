@@ -25,21 +25,42 @@
         </fieldset>
         <fieldset id="ubicacion-fieldset">
             <legend>Ubicación</legend>
-            <ul class="list-unstyled row g-2 align-items-end">
-                <li class="col-6">
-                    <!-- <label for="tipo-area" class="form-label">Área:</label> -->
+            <p>Selecciona tu área de trabajo</p>
+            <ul class="list-unstyled row g-3 align-items-end">
+                <li class="col-4">
+                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
+                    <select name="torre" id="torre" class="col form-select">
+                        <option value="" selected>Seleccionar torre</option>
+                        {% for torre in areas['torres'] %}
+                        <option value="{{ torre }}">{{ torre|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-4">
+                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
+                    <select name="piso" id="piso" class="col form-select">
+                        <option value="" selected>Seleccionar piso</option>
+                        {% for piso in areas['pisos'] %}
+                        {% if piso == '0' %}
+                        <option value="{{ piso }}">Planta baja</option>
+                        {% else %}
+                        <option value="{{ piso }}">{{ piso }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-4">
+                    <label for="tipo-area" class="col-auto form-label m-0">Tipo de área:</label>
                     <select name="tipo-area" id="tipo-area" class="form-select">
-                        <option value="" selected>Selecciona un área</option>
+                        <option value="" selected>Seleccionar tipo de área</option>
                         {% for tipo in areas['tipos'] %}
                         <option value="{{ tipo }}">{{ tipo|capitalize }}</option>
                         {% endfor %}
                     </select>
                 </li>
-                <li class="col-6">
-                    <!-- <label for="nombre-area" class="form-label">:</label> -->
-
+                <li class="col-8">
+                    <label for="nombre-area" class="col-auto form-label m-0">Área de trabajo:</label>
                     <!-- Todas las areas juntas -->
-
                     <select name="nombre-area" id="nombre-area" class="form-select">
                         <option value="" selected>Selecciona tu área de trabajo</option>
                         {% for tipo, tipo_areas in areas['nombres'].items() %}
@@ -55,31 +76,9 @@
                     </select>
 
                 </li>
-                <li class="col-4 row align-items-center mt-3">
-                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
-                    <select name="torre" id="torre" class="col form-select">
-                        <option value="" selected>Seleccionar torre</option>
-                        <option value="a">A</option>
-                        <option value="b">B</option>
-                        <option value="c">C</option>
-                        <option value="d">D</option>
-                        <option value="e">E</option>
-                        <option value="f">F</option>
-                    </select>
-                </li>
-                <li class="col-4 row align-items-center mt-3">
-                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
-                    <select name="piso" id="piso" class="col form-select">
-                        <option value="" selected>Seleccionar piso</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="0">Planta baja</option>
-                    </select>
-                </li>
-                <li class="col-4 row align-items-center mt-3">
-                    <label for="ext-telefonica" class="col-auto form-label m-0">Ext. telefónica:</label>
-                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="col form-control"
+                <li class="col-4">
+                    <label for="ext-telefonica" class="form-label m-0">Ext. telefónica:</label>
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control"
                         placeholder="3311">
                 </li>
             </ul>
@@ -91,11 +90,9 @@
                     <label for="tipo-dispositivo" class="form-label">Tipo de dispositivo:</label>
                     <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select">
                         <option selected>Selecciona un tipo de dispositivo</option>
-                        <option value="2">Monitor</option>
-                        <option value="1">Raton</option>
-                        <option value="3">Teclado</option>
-                        <option value="3">CPU</option>
-                        <option value="3">Impresora</option>
+                        {% for index, tipo in enumerate(dispositivos['tipos']) %}
+                        <option value="{{ index }}">{{ tipo|capitalize }}</option>
+                        {% endfor %}
                     </select>
                 </li>
                 <li class="col-6">
@@ -107,10 +104,9 @@
                     <label for="falla" class="form-label">Falla:</label>
                     <select name="falla" id="falla" class="form-select">
                         <option selected>Selecciona una falla</option>
-                        <option value="2">No enciende</option>
-                        <option value="1">Se apaga</option>
-                        <option value="3">Se queda pegada</option>
-                        <option value="3">Monitor no muestra imagen</option>
+                        {% for index, falla in enumerate(dispositivos['fallas']) %}
+                        <option value="{{ index }}">{{ falla|capitalize }}</option>
+                        {% endfor %}
                     </select>
                 </li>
                 <li class="col-12">
