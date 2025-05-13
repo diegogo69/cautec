@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-5.3.5-css/bootstrap.min.css') }}"
         type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
+    {% block link_css %}{% endblock %}
 </head>
 
-<body class="d-flex flex-column vh-100">
+<body class="d-flex flex-column" style="height: 100vh;">
     <!-- Header is in fixed position so it overlaps body -->
     <header class="site-header">
         <nav class="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
@@ -19,7 +20,8 @@
                 <a class="navbar-brand" href="/">
                     <!-- Brand image -->
                     <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
-                    <img src="{{ url_for('static', filename='images/ula_hogb.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                    <img src="{{ url_for('static', filename='images/ula_hogb.png') }}" alt="Logo" width="30" height="24"
+                        class="d-inline-block align-text-top">
                     Cautec
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
@@ -66,10 +68,13 @@
         </nav>
     </header>
 
-    <main class="flex-grow-1 d-flex flex-row">
-        {% include "sidebar.html" %}
-        
-        {% block content %}{% endblock content %}
+    <main class="flex-grow-1 d-flex">
+        <aside>
+            {% include "sidebar.html" %}
+        </aside>
+        <div class="flex-grow-1">
+            {% block content %}{% endblock content %}
+        </div>
     </main>
 
     <footer></footer>

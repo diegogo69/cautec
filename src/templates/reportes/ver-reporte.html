@@ -1,137 +1,141 @@
 {% extends 'layout.html' %}
 
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reporte-card.css') }}">
+{% endblock link_css %}
+
 {% block title %}
 - Reporte: {{ reporte.titulo | upper() }}
 {% endblock %}
 
-
 {% block content %}
+<div class="container-fluid py-2">
+    <h2 class="text-center">Reporte #{{ reporte.id }}</h2>
+    <div class="row">
+        <div class="col-8">
+            <div class="reporte-card">
+                <div class="reporte-header">
+                    <div class=""><strong>Dispositivo:</strong> {{ reporte.tipo_dispositivo | capitalize }}</div>
+                    <div class="">Reporte #{{ reporte.id }}</div>
+                </div>
+                <div class="reporte-body">
+                    <p class="m-0"><strong>Falla:</strong> {{ reporte.falla | capitalize }}</p>
+                </div>
+                <div class="reporte-footer">
+                    <div><strong>Creado:</strong> {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</div>
+                    <div><strong>Estado:</strong> {{ reporte.estado | capitalize }}</div>
+                    <div><strong>Ubicación:</strong> {{ departamento.nombre }}. Torre
+                        {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}
+                    </div>
+                </div>
+            </div>
 
-<div class="container">
+            <!-- Comentarios -->
+            {% if comentarios %}
+            <hr>
+            <section>
+                <h4>Comentarios:</h4>
+                {% for comentario in comentarios %}
+                <div class="reporte-comentario">
+                    {{ comentario.comentario }}
+                </div>
+                <div>
+                    <span>
+                        {{ comentario.fecha }}
+                    </span>
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
 
-    <section class="mb-4">
-        <h3>{{ reporte.titulo | capitalize() }} #{{ reporte.id }}</h3>
-        <p class="h5">{{ reporte.descripcion | capitalize() }}</p>
-    </section>
-
-    <ul class="container">
-        <li class="row mb-2">
-            <div class="col-md-2">
-                <label class="form-label" for="fecha_emision">Fecha de emisión:</label>
-            </div>
-            <div class="col-md-4">
-                <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
-                    value="{{reporte.fecha_emision.strftime('%Y-%m-%d')}}">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label" for="estado">Estado:</label>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="estado" id="estado">
-                    <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
-                </select>
-            </div>
-        </li>
-        {% if reporte.fecha_atencion %}
-        <div class="col-md-2">
-            <label class="form-label" for="fecha_atencion">Fecha de atencion:</label>
+            <!-- Añadir comentario -->
+            <section>
+                <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
+                    <div class="form-floating">
+                        <textarea class="form-control" name="comentario" id="comentario"
+                            placeholder="Añade un comentario"></textarea>
+                        <label for="comentario">Añadir comentario</label>
+                    </div>
+                    <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
+                    <button class="form-control btn btn-primary mt-2" type="submit">Enviar</button>
+                </form>
+            </section>
         </div>
-        <div class="col-md-4">
-            <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion"
-                value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
-        </div>
-        {% endif %}
-        {% if reporte.fecha_cierre %}
-        <div class="col-md-2">
-            <label class="form-label" for="fecha_cierre">Fecha de cierre:</label>
-        </div>
-        <div class="col-md-4">
-            <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre"
-                value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
-        </div>
-        {% endif %}
-        <li class="row mb-2">
-            <div class="col-md-2">
-                <label class="form-label" for="tipo">Tipo:</label>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="tipo" id="tipo">
-                    <option value="incidente">Incidente</option>
-                    <option value="solicitud" {% if reporte.tipo=='solicitud' %}selected{% endif %}>Solicitud</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label" for="categoria">Categoria:</label>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="categoria" id="categoria">
-                    <option value="{{reporte.categoria}}">{{reporte.categoria | capitalize() }}</option>
-                </select>
-            </div>
-        </li>
-
-        <li class="row mb-2">
-            <div class="col-md-2">
-                <label class="form-label" for="departamento">Departamento:</label>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="departamento" id="departamento">
-                    {% if reporte.departamento_id %}
-                    <option value="{{ reporte.departamento_id }}">Departamento ID: {{ reporte.departamento_id }}
-                    </option>
-                    {% else %}
-                    <option value="">----------</option>
+        <div class="col-4">
+            <form action="#">
+                <fieldset>
+                    <h5>Reporte</h5>
+                    <div class="">
+                        <label class="form-label" for="estado">Estado:</label>
+                        <select class="form-select" name="estado" id="estado">
+                            <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label class="form-label" for="fecha_emision">Creado:</label>
+                        <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
+                            value="{{ reporte.fecha_emision.strftime('%Y-%m-%d') }}">
+                    </div>
+                    <div class="">
+                        <label class="form-label" for="fecha_visita">Fecha para visita:</label>
+                        <input class="form-control" type="date" name="fecha_visita" id="fecha_visita"
+                            value="{{ reporte.fecha_visita.strftime('%Y-%m-%d') }}">
+                    </div>
+                    {% if reporte.fecha_atencion %}
+                    <div class="">
+                        <label class="form-label" for="fecha_atencion">Atendido:</label>
+                        <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion"
+                            value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
+                    </div>
                     {% endif %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label" for="equipo">Equipo:</label>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" name="equipo" id="equipo">
-                    {% if reporte.equipo_id %}
-                    <option value="{{ reporte.equipo_id }}">Equipo ID: {{ reporte.departamento_id }}</option>
-                    {% else %}
-                    <option value="">----------</option>
+                    {% if reporte.fecha_cierre %}
+                    <div class="">
+                        <label class="form-label" for="fecha_cierre">Resuelto:</label>
+                        <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre"
+                            value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
+                    </div>
                     {% endif %}
-                </select>
-            </div>
-        </li>
-    </ul>
+                </fieldset>
 
-    <!-- Comentarios -->
-    <hr>
-    <section>
-        <h4>Comentarios:</h4>
-        {% if comentarios %}
-        {% for comentario in comentarios %}
-        <div class="alert alert-dark alert-dismissible fade show">
-            {{ comentario.comentario }}
-            <button form="del-com-{{ comentario.id }}" type="submit" class="btn-close"></button>
-            <form id="del-com-{{ comentario.id }}"
-                action="{{ url_for('reportes.eliminar_comentario', id=comentario.id, reporte_id=reporte.id)}}"
-                method="post"></form>
+                <fieldset>
+                    <h5>Solicitante</h5>
+                    <div>
+                        <label class="form-label" for="solicitante">Usuario solicitante:</label>
+                        <input class="form-control" type="text" name="solicitante" id=""
+                            value="{{ reporte.nombre_solicitante }}">
+                    </div>
+                    <div>
+                        <label class="form-label" for="departamento">Departamento:</label>
+                        <input class="form-control" type="text" name="departamento" id=""
+                            value="{{ departamento.nombre }}">
+                    </div>
+                    <div>
+                        <label class="form-label" for="ubicacion">Ubicación:</label>
+                        <input class="form-control" type="text" name="ubicacion" id=""
+                            value="Torre {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <h5>Dispositivo</h5>
+                    <div>
+                        <label class="form-label" for="cod_bienes">Chapa ULA:</label>
+                        <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
+                            value="{{ reporte.cod_bienes_dispositvo }}">
+                    </div>
+                    <div>
+                        <label class="form-label" for="tipo">Tipo:</label>
+                        <input class="form-control" type="text" name="tipo" id="tipo"
+                            value="{{ reporte.tipo_dispositivo | capitalize }}">
+                    </div>
+                    <div>
+                        <label class="form-label" for="falla">Falla:</label>
+                        <input class="form-control" type="text" name="falla" id="falla"
+                            value="{{ reporte.falla | capitalize }}">
+                    </div>
+                </fieldset>
+            </form>
         </div>
-        <div class="row text-end">
-            <span>
-                {{ comentario.fecha }}
-            </span>
-        </div>
-        {% endfor %}
-        {% endif %}
-    </section>
-    <!-- Añadir comentario -->
-    <section>
-        <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
-            <div class="form-floating">
-                <textarea class="form-control" name="comentario" id="comentario"
-                    placeholder="Añade un comentario"></textarea>
-                <label for="comentario">Añadir comentario</label>
-            </div>
-            <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
-            <button class="form-control btn btn-primary mt-2" type="submit">Enviar</button>
-        </form>
-    </section>
+    </div>
 </div>
-
-{% endblock %}
+    {% endblock %}
