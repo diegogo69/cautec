@@ -1,3 +1,10 @@
+ESTADOS_REPORTE = [
+    'nuevo',
+    'pendiente',
+    'en proceso',
+    'cerrado',
+]
+
 TIPOS_DISPOSITIVOS = [
     "monitor",
     "mouse",
