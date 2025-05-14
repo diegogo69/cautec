@@ -26,3 +26,6 @@ Ubicate en la carpeta del proyecto y ejecuta el siguiente comando desde la termi
 `flask run`   
 
 Para ejecutarlo en modo depuración utiliza `flask run --debug`
+
+## Abrela en tu navegador
+Ingresa en la siguiente dirección en tu navegador **http://127.0.0.1:5000** y voilá
