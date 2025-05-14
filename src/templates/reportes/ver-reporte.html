@@ -26,7 +26,7 @@
                 <div class="reporte-footer">
                     <div><strong>Creado:</strong> {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</div>
                     <div><strong>Estado:</strong> {{ reporte.estado | capitalize }}</div>
-                    <div><strong>Ubicación:</strong> {{ departamento.nombre }}. Torre
+                    <div><strong>Ubicación:</strong> {{ departamento.nombre }}. Edificio
                         {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}
                     </div>
                 </div>
@@ -66,12 +66,17 @@
         <!-- Columna lateral. Datos de reporte -->
         <div class="h-100 col-4 overflow-y-auto">
             <form action="#">
-                <fieldset>
+                <section>
                     <h5>Reporte</h5>
                     <div>
                         <label class="form-label" for="estado">Estado:</label>
                         <select class="form-select" name="estado" id="estado">
-                            <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
+                            {% for estado in reporte['estados'] %}
+                                <option value="{{ estado }}" {% if estado == reporte.estado %} selected {% endif %}>
+                                    {{ estado | capitalize() }}
+                                </option>
+                            {% endfor %}
+                            
                         </select>
                     </div>
                     <div>
@@ -81,8 +86,9 @@
                     </div>
                     <div>
                         <label class="form-label" for="fecha_visita">Fecha para visita:</label>
-                        <input class="form-control" type="date" name="fecha_visita" id="fecha_visita"
-                            value="{{ reporte.fecha_visita.strftime('%Y-%m-%d') }}">
+                        <!-- 2022-07-31T22:00 -->
+                        <input class="form-control" type="datetime-local" name="fecha_visita" id="fecha_visita"
+                            value="{{ reporte.fecha_visita.strftime('%Y-%m-%d %H:%M') }}">
                     </div>
                     {% if reporte.fecha_atencion %}
                     <div>
@@ -98,9 +104,9 @@
                             value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
                     </div>
                     {% endif %}
-                </fieldset>
+                </section>
 
-                <fieldset>
+                <section>
                     <h5>Solicitante</h5>
                     <div>
                         <label class="form-label" for="solicitante">Usuario solicitante:</label>
@@ -115,17 +121,12 @@
                     <div>
                         <label class="form-label" for="ubicacion">Ubicación:</label>
                         <input class="form-control" type="text" name="ubicacion" id=""
-                            value="Torre {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
+                            value="Edificio {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
                     </div>
-                </fieldset>
+                </section>
 
-                <fieldset>
+                <section>
                     <h5>Dispositivo</h5>
-                    <div>
-                        <label class="form-label" for="cod_bienes">Chapa ULA:</label>
-                        <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
-                            value="{{ reporte.cod_bienes_dispositvo }}">
-                    </div>
                     <div>
                         <label class="form-label" for="tipo">Tipo:</label>
                         <input class="form-control" type="text" name="tipo" id="tipo"
@@ -136,7 +137,12 @@
                         <input class="form-control" type="text" name="falla" id="falla"
                             value="{{ reporte.falla | capitalize }}">
                     </div>
-                </fieldset>
+                    <div>
+                        <label class="form-label" for="cod_bienes">Chapa ULA:</label>
+                        <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
+                            value="{{ reporte.cod_bienes_dispositvo }}">
+                    </div>
+                </section>
             </form>
         </div>
     </div>

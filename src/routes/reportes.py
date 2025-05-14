@@ -4,7 +4,7 @@ from src.models.reporte import Reporte
 from src.models.comentario import Comentario
 from src.models.departamento import Departamento
 from src.utils.departamentos import departamentos_json, AREAS_TIPOS, AREAS_TORRES, AREAS_PISOS
-from src.utils.reportes import TIPOS_DISPOSITIVOS, FALLAS_DISPOSITIVOS
+from src.utils.reportes import TIPOS_DISPOSITIVOS, FALLAS_DISPOSITIVOS, ESTADOS_REPORTE
 from src import db
 from sqlalchemy.sql import func
 from datetime import datetime
@@ -31,6 +31,7 @@ def ver_reporte(id):
     comentarios = Comentario.query.filter_by(reporte_id=id).all()
     reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
     reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+    reporte.estados = ESTADOS_REPORTE
 
     return render_template(
         "reportes/ver-reporte.html",
