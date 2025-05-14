@@ -1,0 +1,44 @@
+.reporte-card {
+    background-color: #fff;
+    padding: .6rem;
+    border: 3px solid #d1d5db;
+    border-radius: .3rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    color: #3f3f46;
+}
+
+.reporte-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 900;
+}
+
+.reporte-header > div:first-child {
+    font-size: 1.3rem;
+}
+
+.reporte-header > div:last-child {
+    font-size: 1.2rem;
+    /* font-weight: 900; */
+}
+
+.reporte-body > p:first-child {
+    font-size: 1.1rem;
+    /* font-weight: 900; */
+}
+
+.reporte-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+}
+
+.reporte-comentario {
+    background-color: #fdfdfd;
+    padding: .6rem;
+    color: #52525b;
+    border: 3px solid #d1d5db;
+    border-radius: .3rem;
+}

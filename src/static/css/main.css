@@ -12,7 +12,13 @@ body {
   background-color: #5f788a;
 }
 
+/* 
 .site-header nav.navbar {
+    height: 4rem;
+}
+*/
+
+header.site-header {
     height: 4rem;
 }
 /* .site-header .navbar-nav .nav-link {
