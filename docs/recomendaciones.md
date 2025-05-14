@@ -60,3 +60,31 @@ newlist = [x.upper() for x in fruits]
 The expression can also contain conditions, not like a filter, but as a way to manipulate the outcome:
 
 newlist = [x if x != "banana" else "orange" for x in fruits]
+
+## Generar requirements.txt
+pip freeze > requirements.txt
+
+## Instalar dependencias desde requirements.txt
+pip install -r requirements.txt
+
+
+## Instalar flask
+Ejecuta el siguiente comando para instalar Flask   
+`pip install Flask`  
+
+
+Variable Rules
+variable sections to a URL by marking sections with <variable_name> or <converter:variable_name>
+
+string:  any text without a slash
+int: positive integers
+float: floating point values
+path: like string but also accepts slashes
+uuid: accepts UUID strings
+
+
+Install Flask-MySQLdb
+First, you may need to install some dependencies for mysqlclient if you don't already have them, see [here](https://github.com/PyMySQL/mysqlclient#install).
+
+Second, install Flask-MySQLdb:
+pip install flask-mysqldb
