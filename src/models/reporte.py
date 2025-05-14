@@ -21,10 +21,10 @@ class Reporte(db.Model):
     resuelto = db.Column(db.Boolean(False), default=False)
 
     nombre_solicitante = db.Column(db.String(50))
-    tipo_dispositivo = db.Column(db.String(20))
-    cod_bienes_dispositvo = db.Column(db.String(50))
-    falla = db.Column(db.String(180))
     fecha_visita = db.Column(db.DateTime(timezone=True))
+    cod_bienes_dispositvo = db.Column(db.String(50))
+    tipo_dispositivo_id = db.Column(db.String(20))
+    falla_id = db.Column(db.String(180))
     
 
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)

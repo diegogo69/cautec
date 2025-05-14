@@ -2,6 +2,7 @@ from flask import Blueprint, flash, render_template, request, redirect, url_for,
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
+from src.models.departamento import Departamento
 from src.utils.departamentos import departamentos_json, AREAS_TIPOS, AREAS_TORRES, AREAS_PISOS
 from src.utils.reportes import TIPOS_DISPOSITIVOS, FALLAS_DISPOSITIVOS
 from src import db
@@ -26,11 +27,15 @@ def ver_reportes():
 @login_required
 def ver_reporte(id):
     reporte = Reporte.query.get_or_404(id)
-    comentarios = Comentario.query.filter_by(reporte_id=id)  # .first()
+    departamento = Departamento.query.get_or_404(reporte.departamento_id)
+    comentarios = Comentario.query.filter_by(reporte_id=id).all()
+    reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
+    reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
 
     return render_template(
         "reportes/ver-reporte.html",
         reporte=reporte,
+        departamento=departamento,
         comentarios=comentarios,
     )
 
@@ -50,7 +55,7 @@ def crear_reporte():
         apellido_sol = request.form["apellido-sol"].strip()
 
         tipo_area = request.form["tipo-area"].strip()
-        nombre_area = request.form["nombre-area"].strip()
+        reporte_area = request.form["nombre-area"].strip()
         torre = request.form["torre"].strip()
         piso = request.form["piso"].strip()
         ext_telefonica = request.form["ext-telefonica"].strip()
@@ -71,12 +76,12 @@ def crear_reporte():
 
         reporte = Reporte(
             nombre_solicitante=nombre_solicitante,
-            tipo_dispositivo=tipo_dispositivo,
+            tipo_dispositivo_id=tipo_dispositivo,
             cod_bienes_dispositvo=cod_bienes,
-            falla=falla,
+            falla_id=falla,
             fecha_visita=datetime.fromisoformat(fecha_visita),
             usuario_id=current_user.id,
-            # departamento_id=departamento_id,
+            departamento_id=reporte_area,
         )
 
         db.session.add(reporte)
@@ -87,7 +92,7 @@ def crear_reporte():
 
     elif request.method == "GET":
         areas = {}
-        areas["nombres"] = departamentos_json()
+        areas["areas"] = departamentos_json()
         areas["tipos"] = AREAS_TIPOS
         areas['torres'] = AREAS_TORRES
         areas['pisos'] = AREAS_PISOS

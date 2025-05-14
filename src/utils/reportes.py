@@ -4,6 +4,9 @@ TIPOS_DISPOSITIVOS = [
     "teclado",
     "cpu",
     "impresora",
+    "escáner",
+    "cornetas",
+    "regulador de voltaje",
 ]
 
 FALLAS_DISPOSITIVOS = [

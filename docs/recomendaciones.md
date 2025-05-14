@@ -41,3 +41,22 @@ Another approach would be to make the function global to all jinja templates usi
 
 @app.context_processor
 def fn_available(_in_all_templates)
+
+
+## List comprehensions
+List comprehension offers a shorter syntax when you want to create a new list based on the values of an existing list.
+The iterable can be any iterable object, like a list, tuple, set etc. 
+
+newlist = [expression for item in iterable if condition == True]
+
+The condition is optional and can be omitted:
+
+newlist = [x for x in fruits]
+
+The expression is the current item in the iteration, but it is also the outcome, which you can manipulate before it ends up like a list item in the new list:
+
+newlist = [x.upper() for x in fruits]
+
+The expression can also contain conditions, not like a filter, but as a way to manipulate the outcome:
+
+newlist = [x if x != "banana" else "orange" for x in fruits]
