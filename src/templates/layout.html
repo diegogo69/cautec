@@ -12,8 +12,7 @@
     {% block link_css %}{% endblock %}
 </head>
 
-<body class="d-flex flex-column" style="height: 100vh;">
-    <!-- Header is in fixed position so it overlaps body -->
+<body class="d-flex flex-column" style="min-height: 100vh;">
     <header class="site-header">
         <nav class="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
@@ -68,16 +67,10 @@
         </nav>
     </header>
 
-    <main class="flex-grow-1 d-flex">
-        <aside>
+    <main class="flex-grow-1 d-flex ">
             {% include "sidebar.html" %}
-        </aside>
-        <div class="flex-grow-1">
             {% block content %}{% endblock content %}
-        </div>
     </main>
-
-    <footer></footer>
 
     <script src="{{ url_for('static', filename='js/bootstrap-5.3.5-js/bootstrap.bundle.min.js') }}"></script>
 </body>
