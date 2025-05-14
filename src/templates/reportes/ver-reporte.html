@@ -11,8 +11,8 @@
 {% block content %}
 <div class="container-fluid py-2">
     <h2 class="text-center">Reporte #{{ reporte.id }}</h2>
-    <div class="row">
-        <div class="col-8">
+    <div class="row" style="height: calc(100vh - 8rem);">
+        <div class="h-100 col-8 d-flex flex-column">
             <div class="reporte-card">
                 <div class="reporte-header">
                     <div class=""><strong>Dispositivo:</strong> {{ reporte.tipo_dispositivo | capitalize }}</div>
@@ -33,7 +33,7 @@
             <!-- Comentarios -->
             {% if comentarios %}
             <hr>
-            <section>
+            <section class="overflow-y-auto">
                 <h4>Comentarios:</h4>
                 {% for comentario in comentarios %}
                 <div class="reporte-comentario">
@@ -49,7 +49,7 @@
             {% endif %}
 
             <!-- Añadir comentario -->
-            <section>
+            <section class="mt-auto">
                 <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
                     <div class="form-floating">
                         <textarea class="form-control" name="comentario" id="comentario"
@@ -61,7 +61,7 @@
                 </form>
             </section>
         </div>
-        <div class="col-4">
+        <div class="h-100 col-4 overflow-y-auto">
             <form action="#">
                 <fieldset>
                     <h5>Reporte</h5>
