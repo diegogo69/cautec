@@ -65,9 +65,6 @@ def crear_reporte():
         cod_bienes = request.form["cod-bienes"].strip()
         falla = request.form["falla"].strip()
         fecha_visita = request.form["fecha-visita"].strip()
-        print(fecha_visita)  # 2025-05-05T12:12
-        visita = datetime.fromisoformat(fecha_visita)
-        print(visita)  # 2025-05-05 12:12:00
 
         nombre_solicitante = f"{nombre_sol} {apellido_sol}"
 
@@ -107,6 +104,33 @@ def crear_reporte():
                                dispositivos=dispositivos,
                                enumerate=enumerate
                             )
+
+@reportes.route("/reporte/<int:id>/actualizar", methods=["POST"])
+@login_required
+def actualizar_reporte(id):
+    reporte = Reporte.query.get_or_404(id)
+    if reporte.usuario_id != current_user.id:
+        abort(403)
+
+    estado = request.form["estado"]
+    # fecha_emision = request.form["fecha_emision"]
+    fecha_visita = request.form["fecha_visita"] # 2025-05-25T12:12
+    # fecha_atencion = request.form["fecha_atencion"]
+    # fecha_cierre = request.form["fecha_cierre"]
+    # solicitante = request.form["solicitante"]
+    # departamento = request.form["departamento"]
+    # ubicacion = request.form["ubicacion"]
+    # tipo = request.form["tipo"]
+    # falla = request.form["falla"]
+    # cod_bienes = request.form["cod_bienes"]
+
+    reporte.estado = estado
+    reporte.fecha_visita = datetime.fromisoformat(fecha_visita)
+    
+    db.session.commit()
+
+    flash(f"El reporte ID #{id} fue actualizado exitosamente!", "success")
+    return redirect(url_for("reportes.ver_reporte", id=reporte.id))
 
 
 @reportes.route("/reporte/<int:id>/editar", methods=["GET", "POST"])
