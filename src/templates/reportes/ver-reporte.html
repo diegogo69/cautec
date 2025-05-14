@@ -12,7 +12,9 @@
 <div class="container-fluid py-2">
     <h2 class="text-center">Reporte #{{ reporte.id }}</h2>
     <div class="row" style="height: calc(100vh - 8rem);">
+        <!-- Columna principal. Vista de reporte y comentarios -->
         <div class="h-100 col-8 d-flex flex-column">
+            <!-- Reporte card -->
             <div class="reporte-card">
                 <div class="reporte-header">
                     <div class=""><strong>Dispositivo:</strong> {{ reporte.tipo_dispositivo | capitalize }}</div>
@@ -61,35 +63,36 @@
                 </form>
             </section>
         </div>
+        <!-- Columna lateral. Datos de reporte -->
         <div class="h-100 col-4 overflow-y-auto">
             <form action="#">
                 <fieldset>
                     <h5>Reporte</h5>
-                    <div class="">
+                    <div>
                         <label class="form-label" for="estado">Estado:</label>
                         <select class="form-select" name="estado" id="estado">
                             <option value="{{reporte.estado}}">{{reporte.estado | capitalize() }}</option>
                         </select>
                     </div>
-                    <div class="">
+                    <div>
                         <label class="form-label" for="fecha_emision">Creado:</label>
                         <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
                             value="{{ reporte.fecha_emision.strftime('%Y-%m-%d') }}">
                     </div>
-                    <div class="">
+                    <div>
                         <label class="form-label" for="fecha_visita">Fecha para visita:</label>
                         <input class="form-control" type="date" name="fecha_visita" id="fecha_visita"
                             value="{{ reporte.fecha_visita.strftime('%Y-%m-%d') }}">
                     </div>
                     {% if reporte.fecha_atencion %}
-                    <div class="">
+                    <div>
                         <label class="form-label" for="fecha_atencion">Atendido:</label>
                         <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion"
                             value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
                     </div>
                     {% endif %}
                     {% if reporte.fecha_cierre %}
-                    <div class="">
+                    <div>
                         <label class="form-label" for="fecha_cierre">Resuelto:</label>
                         <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre"
                             value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
