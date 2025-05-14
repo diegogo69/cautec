@@ -1,78 +1,171 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
 - Crear reporte
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 
-<div class="container">
-
+<div class="container-fluid flex-grow-1 py-2">
     <form action="{{ url_for('reportes.crear_reporte') }}" method="post">
-        <fieldset class="form-group">
-            <legend>Crear nuevo reporte</legend>
-            <ul class="container">
-                <li class="row mb-2">
-                    {{ form.titulo.label(class='form-label') }}
-                    {{ form.titulo(class='form-control') }}
-                    <!-- form.titulo(disabled='True') -->
+        <h2>Nuevo reporte</h2>
+        <fieldset>
+            <legend>Solicitante</legend>
+            <ul class="list-unstyled row g-2">
+                <li class="col">
+                    <label for="nombre-sol" class="form-label">Nombre:</label>
+                    <input type="text" name="nombre-sol" id="nombre-sol" class="form-control" placeholder="María">
                 </li>
-                <li class="row mb-4">
-                    {{ form.descripcion.label(class='form-label') }}
-                    {{ form.descripcion(class='form-control') }}
-                </li>
-                <li class="row mb-4">
-                    <!-- Cambiar por un input check -->
-                    <div class="col-md-2">
-                        {{ form.tipo.label(class='form-label') }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form.tipo(class='form-select') }}
-                    </div>
-                    <div class="col-md-2">
-                        {{ form.categoria.label(class='form-label') }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form.categoria(class='form-select') }}
-                    </div>
-                </li>
-                <li class="row mb-4">
-                    <div class="col-md-2">
-                        <label class="form-label" for="departamento">Departamento:</label>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select" name="departamento" id="departamento">
-                            {% if departamentos %}
-                            {% for departamento in departamentos %}
-                            <option value="{{ departamento.id }}">{{ departamento.nombre | capitalize() }}</option>
-                            {% endfor %}
-                            {% else %}
-                            <option value="">----------</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label" for="equipo_asociado">Equipo asociado:</label>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select" name="equipo_asociado" id="equipo_asociado">
-                            {% if equipos %}
-                            {% for equipo in equipos %}
-                            <option value="{{ equipo.codigo_bienes }}">{{ equipo.codigo_bienes | capitalize() }}
-                            </option>
-                            {% endfor %}
-                            {% else %}
-                            <option value="">----------</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                </li>
-                <li class="row">
-                    {{ form.submit(class='btn btn-primary') }}
+                <li class="col">
+                    <label for="apellido-sol" class="form-label">Apellido:</label>
+                    <input type="text" name="apellido-sol" id="apellido-sol" class="form-control" placeholder="Morales">
                 </li>
             </ul>
         </fieldset>
+        <fieldset id="ubicacion-fieldset">
+            <legend>Ubicación</legend>
+            <p>Selecciona tu área de trabajo</p>
+            <ul class="list-unstyled row g-3 align-items-end">
+                <li class="col-4">
+                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
+                    <select name="torre" id="torre" class="col form-select">
+                        <option value="" selected>Seleccionar torre</option>
+                        {% for torre in areas['torres'] %}
+                        <option value="{{ torre }}">{{ torre|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-4">
+                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
+                    <select name="piso" id="piso" class="col form-select">
+                        <option value="" selected>Seleccionar piso</option>
+                        {% for piso in areas['pisos'] %}
+                        {% if piso == '0' %}
+                        <option value="{{ piso }}">Planta baja</option>
+                        {% else %}
+                        <option value="{{ piso }}">{{ piso }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-4">
+                    <label for="tipo-area" class="col-auto form-label m-0">Tipo de área:</label>
+                    <select name="tipo-area" id="tipo-area" class="form-select">
+                        <option value="" selected>Seleccionar tipo de área</option>
+                        {% for tipo in areas['tipos'] %}
+                        <option value="{{ tipo }}">{{ tipo|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-8">
+                    <label for="nombre-area" class="col-auto form-label m-0">Área de trabajo:</label>
+                    <!-- Todas las areas juntas -->
+                    <select name="nombre-area" id="nombre-area" class="form-select">
+                        <option value="" selected>Selecciona tu área de trabajo</option>
+                        {% for tipo, lista_areas in areas['areas'].items() %}
+                        {% if lista_areas %}
+                        <optgroup label="{{ tipo | capitalize }}">
+                            {% for area in lista_areas %}
+                            <option value="{{ area['id'] }}">{{ tipo | capitalize }} de {{ area['nombre'] | capitalize }}
+                            </option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+
+                </li>
+                <li class="col-4">
+                    <label for="ext-telefonica" class="form-label m-0">Ext. telefónica:</label>
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control"
+                        placeholder="3311">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Descripción del equipo</legend>
+            <ul class="list-unstyled row g-2">
+                <li class="col-6">
+                    <label for="tipo-dispositivo" class="form-label">Tipo de dispositivo:</label>
+                    <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select">
+                        <option selected>Selecciona un tipo de dispositivo</option>
+                        {% for index, tipo in enumerate(dispositivos['tipos']) %}
+                        <option value="{{ index }}">{{ tipo|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-6">
+                    <label for="cod-bienes" class="form-label">Chapa ULA:</label>
+                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control"
+                        placeholder="2-80124-34011">
+                </li>
+                <li class="col">
+                    <label for="falla" class="form-label">Falla:</label>
+                    <select name="falla" id="falla" class="form-select">
+                        <option selected>Selecciona una falla</option>
+                        {% for index, falla in enumerate(dispositivos['fallas']) %}
+                        <option value="{{ index }}">{{ falla|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-12">
+                    <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
+                    <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2">
+                    <div class="form-text">Selecciona una fecha y hora que te convenga para que uno de nuestros técnicos
+                        de soporte visite tu área de trabajo</div>
+                </li>
+            </ul>
+        </fieldset>
+        <button type="submit" class="btn btn-primary w-100">Crear reporte</button>
     </form>
 </div>
+<script>
+    const SCRIPT_ROOT = {{ url_for("departamentos.query") | tojson }}
+    // const SCRIPT_ROOT = {{ request.script_root|tojson }}
+
+    const camposUbicacion = document.querySelector('#ubicacion-fieldset > ul');
+    const defAreaSelect = camposUbicacion.querySelector('#nombre-area');
+    const tipoArea = camposUbicacion.querySelector('#tipo-area');
+    const torreArea = camposUbicacion.querySelector('#torre');
+    const pisoArea = camposUbicacion.querySelector('#piso');
+
+    const selects = camposUbicacion.querySelectorAll('select');
+    selects.forEach(select => {
+        if (select.id == 'nombre-area') return;
+
+        select.addEventListener('change', async () => {
+            const torre = torreArea.value || 'none';
+            const piso = pisoArea.value || 'none';
+            const tipo = tipoArea.value || 'none';
+
+            if (torre == 'none' && piso == 'none' && tipo == 'none') {
+                const areaSelect = camposUbicacion.querySelector('#nombre-area');
+                areaSelect.replaceWith(defAreaSelect)
+                return
+            }
+
+            const url = `${SCRIPT_ROOT}?torre=${torre}&piso=${piso}&tipo=${tipo}`;
+
+            const deps_consulta = await fetch(url);
+            const deps_json = await deps_consulta.json()
+
+            const newAreaSelect = document.createElement('select');
+            newAreaSelect.id = 'nombre-area'
+            newAreaSelect.name = 'nombre-area'
+            newAreaSelect.classList.add('form-select')
+
+            for (const area of deps_json) {
+                const areaOpt = document.createElement('option');
+                areaOpt.value = area.id;
+                areaOpt.textContent = area.nombre;
+
+                newAreaSelect.appendChild(areaOpt);
+            }
+
+            const areaSelect = camposUbicacion.querySelector('#nombre-area');
+            areaSelect.replaceWith(newAreaSelect)
+        })
+    })
+</script>
 {% endblock %}

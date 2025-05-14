@@ -2,7 +2,6 @@ import os, sys
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
-
 from src.utils.auth import bcrypt
 
 # db = MySQL()
@@ -61,8 +60,7 @@ def get_database_uri():
     return database_uri
 
 
-# Comprobar si hay usuarios registrados en la base de datos
-def primera_vez():
+def crear_usuarios():
     from src.models.usuario import Usuario
     hay_usuarios = Usuario.query.first()
 
@@ -75,15 +73,53 @@ def primera_vez():
         
     print('Aún no hay usuarios registrados')
     tipos_usuario = ['admin', 'soporte', 'solicitante']
-    for tipo in tipos_usuario:
-        usuario = Usuario(
-            usuario=tipo,
-            password=bcrypt.generate_password_hash(tipo).decode('utf-8'),
-            tipo=tipo,
+    for usuario in tipos_usuario:
+        nuevo_usuario = Usuario(
+            usuario=usuario,
+            password=bcrypt.generate_password_hash(usuario).decode('utf-8'),
+            tipo=usuario,
         )
 
-        db.session.add(usuario)
+        db.session.add(nuevo_usuario)
 
     db.session.commit()
     print('Los usuarios por defecto has sido creados exitosamente')
+
+
+def crear_departamentos():
+    from src.utils.departamentos import AREAS_TORRES, AREAS_PISOS, AREAS_TIPOS
+    from src.models.departamento import Departamento
+    
+    hay_departamentos = Departamento.query.first()
+    if hay_departamentos:
+        return
+
+    print('Creando departamentos')
+    for torre in AREAS_TORRES:
+        for piso in AREAS_PISOS:
+            for tipo in AREAS_TIPOS:
+                nombre = f'{tipo.capitalize()} {torre.upper()}{piso}'
+                piso_texto = piso if piso != '0' else 'planta baja' 
+                ubicacion = f"Torre {torre}, piso {piso_texto}, {tipo} {nombre}"
+
+                departamento = Departamento(
+                    tipo=tipo,
+                    torre=torre,
+                    piso=piso,
+                    nombre=nombre,
+                    ubicacion=ubicacion,
+                    # nombre_coordinador=nombre_coor,
+                    # linea_telefonica=linea_telefonica,
+                )
+
+                db.session.add(departamento)
+                
+    db.session.commit()
+    print('Departamentos creados exitosamente')
+
+
+# Comprobar si hay usuarios registrados en la base de datos
+def primera_vez():
+    crear_usuarios()
+    crear_departamentos()
     return

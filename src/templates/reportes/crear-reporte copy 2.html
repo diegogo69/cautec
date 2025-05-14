@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+- Crear reporte
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid flex-grow-1 py-2">
+    <form action="{{ url_for('reportes.crear_reporte') }}" method="post">
+        <h2>Nuevo reporte</h2>
+        <fieldset>
+            <legend>Solicitante</legend>
+            <ul class="list-unstyled row g-2">
+                <li class="col">
+                    <label for="nombre-sol" class="form-label">Nombre:</label>
+                    <input type="text" name="nombre-sol" id="nombre-sol" class="form-control" placeholder="María">
+                </li>
+                <li class="col">
+                    <label for="apellido-sol" class="form-label">Apellido:</label>
+                    <input type="text" name="apellido-sol" id="apellido-sol" class="form-control" placeholder="Morales">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Ubicación</legend>
+            <ul class="list-unstyled row g-2 align-items-end">
+                <li class="col-6">
+                    <!-- <label for="tipo-area" class="form-label">Área:</label> -->
+                    <select name="tipo-area" id="tipo-area" class="form-select">
+                        <option selected disabled>Selecciona un área</option>
+                        {% for tipo in areas['tipos'] %}
+                            <option value="{{ tipo }}">{{ tipo|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="col-6">
+                    <!-- Todas las areas juntas -->
+                    
+                    <select name="nombre-area" id="nombre-area" class="form-select">
+                        <option selected disabled>Selecciona tu área de trabajo</option>
+                        {% for tipo, tipo_areas in areas['nombres'].items() %}
+                            {% if tipo_areas %}
+                            <optgroup label="{{ tipo | capitalize }}">
+                                {% for area in tipo_areas %}
+                                    <option value="{{ area }}">{{ tipo | capitalize }} de {{ area['nombre'] | capitalize }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    
+                </li>
+                <li class="col-4 row align-items-center mt-3">
+                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
+                    <select name="torre" id="torre" class="col form-select">
+                        <option selected>Seleccionar torre</option>
+                        <option value="1">A</option>
+                        <option value="2">B</option>
+                        <option value="3">C</option>
+                        <option value="3">D</option>
+                        <option value="3">E</option>
+                        <option value="3">F</option>
+                    </select>
+                </li>
+                <li class="col-4 row align-items-center mt-3">
+                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
+                    <select name="piso" id="piso" class="col form-select">
+                        <option selected>Seleccionar piso</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="1">3</option>
+                        <option value="3">Planta baja</option>
+                    </select>
+                </li>
+                <li class="col-4 row align-items-center mt-3">
+                    <label for="ext-telefonica" class="col-auto form-label m-0">Ext. telefónica:</label>
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="col form-control"
+                        placeholder="3311">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Descripción del equipo</legend>
+            <ul class="list-unstyled row g-2">
+                <li class="col-6">
+                    <label for="tipo-dispositivo" class="form-label">Tipo de dispositivo:</label>
+                    <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select">
+                        <option selected>Selecciona un tipo de dispositivo</option>
+                        <option value="2">Monitor</option>
+                        <option value="1">Raton</option>
+                        <option value="3">Teclado</option>
+                        <option value="3">CPU</option>
+                        <option value="3">Impresora</option>
+                    </select>
+                </li>
+                <li class="col-6">
+                    <label for="cod-bienes" class="form-label">Chapa ULA:</label>
+                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control"
+                        placeholder="2-80124-34011">
+                </li>
+                <li class="col">
+                    <label for="falla" class="form-label">Falla:</label>
+                    <select name="falla" id="falla" class="form-select">
+                        <option selected>Selecciona una falla</option>
+                        <option value="2">No enciende</option>
+                        <option value="1">Se apaga</option>
+                        <option value="3">Se queda pegada</option>
+                        <option value="3">Monitor no muestra imagen</option>
+                    </select>
+                </li>
+                <li class="col-12">
+                    <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
+                    <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2">
+                    <div class="form-text">Selecciona una fecha y hora que te convenga para que uno de nuestros técnicos
+                        de soporte visite tu área de trabajo</div>
+                </li>
+            </ul>
+        </fieldset>
+        <button type="submit" class="btn btn-primary w-100">Crear reporte</button>
+    </form>
+</div>
+{% endblock %}

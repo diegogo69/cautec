@@ -1,0 +1,54 @@
+<aside>
+    <nav class="d-flex flex-column flex-shrink-0 bg-light p-2 pe-0" style="width:max-content;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    Home
+                </a>
+            </li> -->
+            <li class="nav-item">
+                Reportes
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('reportes.crear_reporte') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    Crear reporte
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('reportes.ver_reportes') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Ver reportes
+                </a>
+            </li>
+    
+            <li class="nav-item">
+                Departamentos
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('departamentos.crear_departamento') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    Crear departamento
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('departamentos.ver_departamentos') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Ver departamentos
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+

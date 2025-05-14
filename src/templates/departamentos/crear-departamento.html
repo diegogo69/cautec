@@ -1,49 +1,73 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% block title %}
 - Registrar departamento
 {% endblock %}
 
 
-{% block body %}
+{% block content %}
 
-<div class="container">
-    <h2>Registrar nuevo departamento</h2>
-
+<div class="container-fluid flex-grow-1 py-2">
     <form action="{{ url_for('departamentos.crear_departamento') }}" method="post">
-        <ul class="container">
-            <li class="row mb-2">
-                <div class="col-md-2">
-                    {{ form.nombre.label(class='form-label') }}
-                </div>
-                <div class="col-md-4">
-                    {{ form.nombre(class='form-control') }}
-                </div>
-                <div class="col-md-2">
-                    {{ form.ubicacion.label(class='form-label') }}
-                </div>
-                <div class="col-md-4">
-                    {{ form.ubicacion(class='form-control') }}
-                </div>
-            </li>
-            <li class="row mb-2">
-                <div class="col-md-2">
-                    {{ form.nombre_coordinador.label(class='form-label') }}
-                </div>
-                <div class="col-md-4">
-                    {{ form.nombre_coordinador(class='form-control') }}
-                </div>
-                <div class="col-md-2">
-                    {{ form.linea_telefonica.label(class='form-label') }}
-                </div>
-                <div class="col-md-4">
-                    {{ form.linea_telefonica(class='form-control') }}
-                </div>
-            </li>
-            <li class="row">
-                {{ form.submit(class='btn btn-primary mt-2') }}
-            </li>
-        </ul>
+        <h2>Nueva área</h2>
+        <fieldset>
+            <!-- <legend>Ubicación</legend> -->
+            <ul class="list-unstyled row g-3">
+                <li class="col-4">
+                    <label for="tipo-area" class="form-label">Tipo de área:</label>
+                    <select name="tipo-area" id="tipo-area" class="form-select">
+                        <option value="" selected>Selecciona un tipo de área</option>
+                        <option value="aula">Aula</option>
+                        <option value="coordinación">Coordinación</option>
+                        <option value="cubiculo">Cubiculo</option>
+                        <option value="dirección">Dirección</option>
+                        <option value="departamento">Departamento</option>
+                        <option value="dependencia">Dependencia</option>
+                        <option value="laboratorio">Laboratorio</option>
+                        <option value="unidad">Unidad</option>
+                        <option value="oficina">Oficina</option>
+                    </select>
+                    
+                </li>
+                <li class="col-8">
+                    <label for="nombre-area" class="form-label">Nombre del área:</label>
+                    <input type="text" name="nombre-area" id="nombre-area" class="form-control" placeholder="Servicios generales">
+                </li>
+                <li class="col-12">
+                    <label for="nombre-coor" class="form-label">Nommbre del coordinador:</label>
+                    <input type="text" name="nombre-coor" id="nombre-coor" class="form-control" placeholder="José Morales">
+                    <div class="form-text">Ingresa el nombre del coordinador o persona encargada del área</div>
+                </li>
+                <li class="col-4">
+                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
+                    <select name="torre" id="torre" class="col form-select">
+                        <option value="" selected>Seleccionar torre</option>
+                        <option value="a">A</option>
+                        <option value="b">B</option>
+                        <option value="c">C</option>
+                        <option value="d">D</option>
+                        <option value="e">E</option>
+                        <option value="f">F</option>
+                    </select>
+                </li> 
+                <li class="col-4">
+                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
+                    <select name="piso" id="piso" class="col form-select">
+                        <option value="" selected>Seleccionar piso</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="0">Planta baja</option>
+                    </select>
+                </li>
+                <li class="col-4">
+                    <label for="ext-telefonica" class="col-auto form-label m-0">Ext. telefónica:</label>
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="col form-control" placeholder="3311">
+                </li>
+            </ul>
+        </fieldset>
+        <!-- <input type="hidden" name="csrf_token" value="{ csrf_token() }"> -->
+        <button type="submit" class="btn btn-primary w-100">Registrar área</button>
+    </form>
 </div>
-</form>
 {% endblock %}

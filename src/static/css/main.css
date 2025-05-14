@@ -1,18 +1,27 @@
 body {
   background: #fafafa;
-  color: #333333;
-  margin-top: 5rem;
+  /* color: #333333; */
+  /* height: 100vh; */
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* h1, h2, h3, h4, h5, h6 {
   color: #444444;
-}
+} */
 
 .bg-steel {
   background-color: #5f788a;
 }
 
-.site-header .navbar-nav .nav-link {
+/* 
+.site-header nav.navbar {
+    height: 4rem;
+}
+*/
+
+header.site-header {
+    height: 4rem;
+}
+/* .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }
 
@@ -22,7 +31,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-header .navbar-nav .nav-link.active {
   font-weight: 500;
-}
+} */
+
+.site-header .navbar-brand img {
+    width: 5rem;
+    height: auto;
+    margin-right: .2rem;
+  }
 
 .content-section {
   background: #ffffff;

@@ -6,11 +6,12 @@ class Reporte(db.Model):
     __tablename__ = "reportes"
 
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.String(20), nullable=False)
+
+    # titulo = db.Column(db.String(100), nullable=False)
+    # tipo = db.Column(db.String(20), nullable=False)
     estado = db.Column(db.String(20), nullable=False, default='pendiente')
-    categoria = db.Column(db.String(20))
-    descripcion = db.Column(db.Text, nullable=False)
+    # categoria = db.Column(db.String(20))
+    # descripcion = db.Column(db.Text, nullable=False)
     diagnostico = db.Column(db.Text)
     accion = db.Column(db.Text)
     fecha_emision = db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -18,6 +19,13 @@ class Reporte(db.Model):
     fecha_atencion = db.Column(db.DateTime)
     fecha_cierre = db.Column(db.DateTime)
     resuelto = db.Column(db.Boolean(False), default=False)
+
+    nombre_solicitante = db.Column(db.String(50))
+    fecha_visita = db.Column(db.DateTime(timezone=True))
+    cod_bienes_dispositvo = db.Column(db.String(50))
+    tipo_dispositivo_id = db.Column(db.String(20))
+    falla_id = db.Column(db.String(180))
+    
 
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     departamento_id = db.Column(db.Integer, db.ForeignKey('departamentos.id'))
