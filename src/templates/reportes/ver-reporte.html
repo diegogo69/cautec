@@ -65,7 +65,7 @@
         </div>
         <!-- Columna lateral. Datos de reporte -->
         <div class="h-100 col-4 overflow-y-auto">
-            <form action="#">
+            <form action="{{ url_for('reportes.actualizar_reporte', id=reporte.id) }}" method="post">
                 <section>
                     <h5>Reporte</h5>
                     <div>
@@ -110,17 +110,17 @@
                     <h5>Solicitante</h5>
                     <div>
                         <label class="form-label" for="solicitante">Usuario solicitante:</label>
-                        <input class="form-control" type="text" name="solicitante" id=""
+                        <input class="form-control" type="text" name="solicitante" id="solicitante"
                             value="{{ reporte.nombre_solicitante }}">
                     </div>
                     <div>
                         <label class="form-label" for="departamento">Departamento:</label>
-                        <input class="form-control" type="text" name="departamento" id=""
+                        <input class="form-control" type="text" name="departamento" id="departamento"
                             value="{{ departamento.nombre }}">
                     </div>
                     <div>
                         <label class="form-label" for="ubicacion">Ubicación:</label>
-                        <input class="form-control" type="text" name="ubicacion" id=""
+                        <input class="form-control" type="text" name="ubicacion" id="ubicacion"
                             value="Edificio {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
                     </div>
                 </section>
@@ -142,6 +142,9 @@
                         <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
                             value="{{ reporte.cod_bienes_dispositvo }}">
                     </div>
+                </section>
+                <section>
+                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
                 </section>
             </form>
         </div>
