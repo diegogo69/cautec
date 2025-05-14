@@ -63,11 +63,11 @@
                     <!-- Todas las areas juntas -->
                     <select name="nombre-area" id="nombre-area" class="form-select">
                         <option value="" selected>Selecciona tu área de trabajo</option>
-                        {% for tipo, tipo_areas in areas['nombres'].items() %}
-                        {% if tipo_areas %}
+                        {% for tipo, lista_areas in areas['areas'].items() %}
+                        {% if lista_areas %}
                         <optgroup label="{{ tipo | capitalize }}">
-                            {% for area in tipo_areas %}
-                            <option value="{{ area }}">{{ tipo | capitalize }} de {{ area['nombre'] | capitalize }}
+                            {% for area in lista_areas %}
+                            <option value="{{ area['id'] }}">{{ tipo | capitalize }} de {{ area['nombre'] | capitalize }}
                             </option>
                             {% endfor %}
                         </optgroup>
@@ -157,7 +157,7 @@
 
             for (const area of deps_json) {
                 const areaOpt = document.createElement('option');
-                areaOpt.value = area.nombre;
+                areaOpt.value = area.id;
                 areaOpt.textContent = area.nombre;
 
                 newAreaSelect.appendChild(areaOpt);

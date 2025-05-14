@@ -12,59 +12,9 @@
     {% block link_css %}{% endblock %}
 </head>
 
-<body class="d-flex flex-column" style="min-height: 100vh;">
+<body class="d-flex flex-column" style="height: 100vh;">
     <header class="site-header">
-        <nav class="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <!-- Brand image -->
-                    <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
-                    <img src="{{ url_for('static', filename='images/ula_hogb.png') }}" alt="Logo" width="30" height="24"
-                        class="d-inline-block align-text-top">
-                    Cautec
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <!-- Barra de navegacion si el usuario tiene sesión iniciada -->
-                    {% if current_user.is_authenticated %}
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('main.index') }}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('reportes.ver_reportes') }}">Reportes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="{{ url_for('departamentos.ver_departamentos') }}">Departamentos</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('usuarios.cuenta') }}">Cuenta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('usuarios.logout') }}">Cerrar sesión</a>
-                        </li>
-                    </ul>
-                    <!-- Barra de navegación si no se ha iniciado sesión -->
-                    {% else %}
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('usuarios.login') }}">Ingresar</a>
-                            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('usuarios.registrarse') }}">Registrarse</a>
-                        </li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
+        {% include "navbar.html" %}
     </header>
 
     <main class="flex-grow-1 d-flex ">
