@@ -15,7 +15,7 @@
         <!-- Columna principal. Vista de reporte y comentarios -->
         <div class="h-100 col-8 d-flex flex-column">
             <!-- Reporte card -->
-            <div class="reporte-card">
+            <section class="reporte-card">
                 <div class="reporte-header">
                     <div class=""><strong>Dispositivo:</strong> {{ reporte.tipo_dispositivo | capitalize }}</div>
                     <div class="">Reporte #{{ reporte.id }}</div>
@@ -30,7 +30,7 @@
                         {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Comentarios -->
             {% if comentarios %}
@@ -55,8 +55,8 @@
                 <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
                     <div class="form-floating">
                         <textarea class="form-control" name="comentario" id="comentario"
-                            placeholder="Añade un comentario"></textarea>
-                        <label for="comentario">Añadir comentario</label>
+                            placeholder="Añade un comentario..." rows="2" required></textarea>
+                        <label for="comentario">Añade un comentario</label>
                     </div>
                     <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
                     <button class="form-control btn btn-primary mt-2" type="submit">Enviar</button>
@@ -144,7 +144,8 @@
                     </div>
                 </section>
                 <section>
-                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <button type="button" class="btn btn-secondary"><a href="{{ url_for('reportes.nota_servicio', id=reporte.id) }}">Generar PDF</a></button>
                 </section>
             </form>
         </div>
