@@ -1,7 +1,7 @@
 import pdfkit
 import jinja2
 
-def crear_pdf(ruta_template, data, ruta_css):
+def crear_pdf(data, ruta_template, ruta_css, ruta_pdf):
     nombre_template = ruta_template.split("/")[-1]
     carpeta_template = ruta_template.replace(nombre_template, "")
 
@@ -23,8 +23,6 @@ def crear_pdf(ruta_template, data, ruta_css):
     config = pdfkit.configuration(wkhtmltopdf=ruta_wkhtmltopdf)
     # config = pdfkit.configuration() # By default pdfkit will attempt to locate this using which
 
-    ruta_pdf = '/home/diego/repos/cautec/src/routes/pdfkit_prueba.pdf'
-
     pdfkit.from_string(
         html_string,
         ruta_pdf,
@@ -34,7 +32,8 @@ def crear_pdf(ruta_template, data, ruta_css):
     )
 
 if __name__ == "__main__":
-    template = '/home/diego/repos/cautec/src/templates/pdf/solicitud_de_servicio.html'
+    template = '/home/diego/repos/cautec/src/templates/pdfs/solicitud_de_servicio.html'
     data = {}
-    css = '/home/diego/repos/cautec/src/templates/pdf/solicitud_de_servicio.css'
-    crear_pdf(template, data, css)
+    css = '/home/diego/repos/cautec/src/static/css/pdfs/solicitud_de_servicio.css'
+    pdf = '/home/diego/repos/cautec/Nota_de_servico.pdf'
+    crear_pdf(data, template, css, pdf)

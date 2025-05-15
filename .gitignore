@@ -3,6 +3,7 @@
 prueba
 .vscode
 local/
+*.pdf
 
 *.pyc
 __pycache__/
