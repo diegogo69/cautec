@@ -175,7 +175,11 @@ def eliminar_reporte(id):
 @reportes.route("/reporte/<int:reporte_id>/crear-comentario", methods=["POST"])
 @login_required
 def crear_comentario(reporte_id):
-    texto_comentario = request.form["comentario"]
+    texto_comentario = request.form["comentario"].strip()
+
+    if not texto_comentario:
+        return
+
     comentario = Comentario(
         comentario=texto_comentario, reporte_id=reporte_id, usuario_id=current_user.id
     )
