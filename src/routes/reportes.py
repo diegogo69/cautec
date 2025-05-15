@@ -68,10 +68,6 @@ def crear_reporte():
 
         nombre_solicitante = f"{nombre_sol} {apellido_sol}"
 
-        # departamento = Departamento.query.get(departamento_id)
-        # if not departamento:
-        #     departamento_id = None
-
         reporte = Reporte(
             nombre_solicitante=nombre_solicitante,
             tipo_dispositivo_id=tipo_dispositivo,
@@ -205,3 +201,26 @@ def eliminar_comentario(id, reporte_id):
 
     flash(f"El comentario ID #{id} se elimino exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte_id))
+
+@reportes.route("/reporte/<int:id>/generar-nota-de-servicio", methods=["GET", "POST"])
+@login_required
+def nota_servicio(id):
+    reporte = Reporte.query.get_or_404(id)
+    departamento = Departamento.query.get_or_404(reporte.departamento_id)
+
+    if request.method == "POST":
+        # if reporte.usuario_id != current_user.id:
+        #     abort(403)
+
+        flash(f"El reporte ID #{id} se elimino exitosamente!", "success")
+        return redirect(url_for("reportes.ver_reportes"))
+    
+    elif request.method == "GET":
+        reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
+        reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+        
+        return render_template(
+            'reportes/crear-nota-servicio.html',
+            reporte=reporte,
+            departamento=departamento,
+        )
