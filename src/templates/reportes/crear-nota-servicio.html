@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+- Generar nota de servicio
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid flex-grow-1 py-2">
+    <form action="{{ url_for('reportes.nota_servicio', id=reporte.id) }}" method="post">
+        <section>
+            <h5>Datos del Solicitante</h5>
+            <div>
+                <label class="form-label" for="solicitante">Usuario solicitante:</label>
+                <input class="form-control" type="text" name="solicitante" id="solicitante"
+                    value="{{ reporte.nombre_solicitante }}">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="departamento">Departamento:</label>
+                    <input class="form-control" type="text" name="departamento" id="departamento"
+                        value="{{ departamento.nombre }}">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="ubicacion">Ubicación:</label>
+                    <input class="form-control" type="text" name="ubicacion" id="ubicacion"
+                        value="Edificio {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
+                </div>
+
+                <div class="col">
+                    <label for="ext-telefonica" class="form-label">Ext. telefónica:</label>
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control" placeholder="3311"
+                        value="{{ departamento.linea_telefonica }}">
+                </div>
+                <div class="col">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control">
+                </div>
+            </div>
+            <div>
+                <label for="coordinador" class="form-label">Coord. o Jefe de Unidad:</label>
+                <input type="text" name="coordinador" id="coordinador" class="form-control">
+            </div>
+            <div>
+                <label for="otro_contacto" class="form-label">Otro contacto:</label>
+                <input type="text" name="otro_contacto" id="otro_contacto" class="form-control">
+            </div>
+        </section>
+
+        <section>
+            <h5>Descripción del dispositivo</h5>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="tipo">Tipo:</label>
+                    <input class="form-control" type="text" name="tipo" id="tipo"
+                        value="{{ reporte.tipo_dispositivo | capitalize }}">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="cod_bienes">Chapa ULA:</label>
+                    <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
+                        value="{{ reporte.cod_bienes_dispositvo }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="marca" class="form-label">Marca:</label>
+                    <input type="text" name="marca" id="marca" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="serial" class="form-label">Serial:</label>
+                    <input type="text" name="serial" id="serial" class="form-control">
+                </div>
+            </div>
+        </section>
+        <section>
+            <h5>Descripción de la falla:</h5>
+            <div>
+                <label class="form-label" for="falla">Falla:</label>
+                <input class="form-control" type="text" name="falla" id="falla"
+                    value="{{ reporte.falla | capitalize }}">
+            </div>
+            <div>
+                <fieldset class="">
+                    <legend class="fs-6">Funciona:</legend>
+                    <div class="form-check form-check-inline form-check-reverse">
+                        <input class="form-check-input" type="radio" name="funciona" id="si-funciona">
+                        <label class="form-check-label" for="si-funciona">
+                            Sí
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline form-check-reverse">
+                        <input class="form-check-input" type="radio" name="funciona" id="no-funciona" checked>
+                        <label class="form-check-label" for="no-funciona">
+                            No
+                        </label>
+                    </div>
+                    <div>
+                        <label class="form-label" for="diagnostico">Diagnóstico:</label>
+                        <textarea class="form-control" name="diagnostico" id="diagnostico"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+        </section>
+        <section>
+            <h5>Descripción del reporte:</h5>
+            <div class="row">
+                <div class="col">
+                    <label for="estado" class="form-label">Número de reporte:</label>
+                    <input type="text" name="nro-reporte" id="nro-reporte" class="form-control" placeholder="3311"
+                        value="{{ reporte.id }}">
+                </div>
+                <div class="col">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <input type="text" name="estado" id="estado" class="form-control" placeholder="3311"
+                        value="{{ reporte.estado }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="fecha_emision">Emitido:</label>
+                    <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
+                        value="{{ reporte.fecha_emision.strftime('%Y-%m-%d') }}">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="fecha_atencion">Atendido:</label>
+                    <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion" {% if
+                        reporte.fecha_atencion %} value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}" {% endif %}>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="fecha_cierre">Resuelto:</label>
+                    <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre" {% if
+                        reporte.fecha_cierre %} value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}" {% endif %}>
+                </div>
+                <div>
+                    <label class="form-label" for="accion">Acción:</label>
+                    <textarea class="form-control" name="accion" id="accion"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <button type="submit" class="btn btn-primary">Generar nota de servicio</button>
+        </section>
+    </form>
+</div>
+{% endblock %}
