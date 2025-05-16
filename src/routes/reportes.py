@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template, request, redirect, url_for, abort
+from flask import Blueprint, flash, render_template, request, redirect, url_for, abort, send_file, Response, make_response
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
@@ -9,7 +9,7 @@ from src.utils.pdfs import crear_pdf
 from src import db
 from sqlalchemy.sql import func
 from datetime import datetime
-
+from io import BytesIO
 
 reportes = Blueprint(
     "reportes", __name__, url_prefix="/reportes", template_folder="templates"
@@ -246,11 +246,60 @@ def nota_servicio(id):
         ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
         # ruta_css = url_for('static', filename='css/pdfs/solicitud_de_servicio.css')
         ruta_pdf = f'{root_path}prueba_pdf.pdf'
-
+        ruta_pdf = None
+        
         # instance_path = None
         # static_url_path = None
 
-        crear_pdf(data, ruta_template, ruta_css, ruta_pdf)
+        pdf = crear_pdf(data, ruta_template, ruta_css, ruta_pdf)
+
+        if pdf != True:
+            # Usando send_file es necesario utilizar BytesIO sobre pdf
+            # Mientras que al usar Response o make_response no es necesario
+            # send_file me parece más directo y semántico, sin embargo necesita ese paso extra
+
+            # Passing a file-like object requires that the file is
+            # opened in binary mode, and is mostly useful when
+            # building a file in memory with io.BytesIO
+
+            # as_attachment (bool) – Indicate to a browser that it should offer to save the file instead of displaying it.
+            pdf_buffer = BytesIO(pdf)
+
+            print(type(pdf)) # <class 'bytes'>
+            print(type(pdf_buffer)) # <class '_io.BytesIO'>
+            
+            # nombre_pdf = 'pdf_descarga_send_file.pdf'
+            # return send_file(
+            #     pdf,
+            #     # pdf_buffer,
+            #     download_name = nombre_pdf,
+            #     as_attachment = True,
+            # )
+
+            # According to flask documentation: 
+            # Do not set to a plain string or bytes, that will cause
+            # sending the response to be very inefficient
+            # as it will iterate one byte at a time.
+            
+            # Response: Quite often you don’t have to create this object yourself because make_response() will take care of that for you.
+            # make_response: A response object is created with the bytes as the body
+            # you will get a response object which you can use to attach headers
+            # useful when need to attach additional headers
+
+            # nombre_pdf = 'descarga_pdf_response.pdf'
+            # headers = {
+            #     'Content-Type': 'application/pdf',
+            #     'Content-Disposition': f"attachment;filename={nombre_pdf}"
+            # }
+
+            # response = Response(pdf, headers=headers)
+            # return response
+
+            nombre_pdf = 'descarga_pdf_make_response.pdf'
+            response = make_response(pdf)
+            response.headers["Content-Type"] = "application/pdf"
+            response.headers["Content-Disposition"] = f"attachment;filename={nombre_pdf}"
+            return response
 
         flash(f"El reporte ID #{id} se elimino exitosamente!", "success")
         return redirect(url_for("reportes.ver_reporte", id=id))
