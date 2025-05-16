@@ -12,44 +12,43 @@
     <header>
         <img src="file:///home/diego/repos/cautec/src/static/images/rangel_hcga.png" id="nurr-logo" alt="">
         <h1>Solicitud de servicio</h1>
-        <div>Fecha: {{ fecha_emision }}</div>
+        <div>Fecha: __ / __ / ____</div>
     </header>
     <main>
         <section>
             <div class="linea-de-texto">
-                <div>Nombre del solicitante: {{ nombre_solicitante }}</div>
-            </div>
-            <div class="linea-de-texto">
-                <div>Unidad o Dependencia: {{ nombre_departamento }}</div>
-            </div>
-            <div class="linea-de-texto">
-                {% if email %}
-                <div>Contactos: ext: {{ ext_telefonica }}. mail: {{ email }}</div>
-                {% else %}
-                <div>Contactos: ext: {{ ext_telefonica }}. mail:&nbsp;</div>
+                <div>Nombre del solicitante:&nbsp;</div>
                 <div class="subrayado"></div>
-                {% endif %}
             </div>
             <div class="linea-de-texto">
-                <div>Coord. o Jefe de Unidad: {{ nombre_coordinador }}</div>
+                <div>Unidad o Dependencia:&nbsp;</div>
+                <div class="subrayado"></div>
             </div>
             <div class="linea-de-texto">
-                {% if otro_contacto %}
-                <div>Otro contacto: {{ otro_contacto }}</div>
-                {% else %}
+                <div>Contactos: ext: _____. mail:&nbsp;</div>
+                <div class="subrayado"></div>
+            </div>
+            <div class="linea-de-texto">
+                <div>Coord. o Jefe de Unidad:&nbsp;</div>
+                <div class="subrayado"></div>
+            </div>
+            <div class="linea-de-texto">
                 <div>Otro contacto:&nbsp;</div>
                 <div class="subrayado"></div>
-                {% endif %}
             </div>
         </section>
         <section>
             <div class="linea-de-texto">
                 <div>Especificación del equipo</div>
-                <div>Marca: {{ marca_disp }}</div>
-                <div>Serial: {{ serial_disp }}</div>
+                <div>Marca:&nbsp;</div>
+                <div class="subrayado"></div>
+                <div>. &nbsp;</div>
+                <div>Serial:&nbsp;</div>
+                <div class="subrayado"></div>
             </div>
             <div class="linea-de-texto">
-                <div>Control de bienes: {{ cod_bienes_disp }}</div>
+                <div>Control de bienes:&nbsp;</div>
+                <div class="subrayado"></div>
             </div>
             <div class="linea-de-texto">
                 <div>PC: ____</div>
@@ -68,27 +67,15 @@
         <section>
             <div>Descripción de la Falla: Funciona: Sí ___. No ___</div>
             <div>Diagnóstico:</div>
-            <div>{{ diagnostico }}</div>
         </section>
         <div class="text-center">Para ser llenado por Servicio y Soporte Técnico NURR (5643)</div>
         <section>
             <div>Número de reporte: __________</div>
             <div class="linea-de-texto">
-                {% if fecha_atencion %}
-                <div>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</div>
-                {% else %}
-                <div>Fecha de Atención: 12/12/12</div>
-                {% endif %}
-                
-                {% if fecha_cierre %}
-                <div>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</div>
-                {% else %}
-                <div>Fecha de Entrega: 11/11/11</div>
-                {% endif %}
-                
+                <div>Fecha de Atención: __ / __ / ____</div>
+                <div>Fecha de Entrega: __ / __ / ____</div>
             </div>
             <div>Acción:</div>
-            <div>{{ accion }}</div>
         </section>
     </main>
     <footer>
@@ -100,8 +87,7 @@
         <div>Servicio y Soporte Técnico</div>
 
         <div>
-            <p>Villa Universitaria. El Prado. Sector la Concepción. Edificio "D". Piso 1. Municipio Pampanito. Trujillo
-                3150.</p>
+            <p>Villa Universitaria. El Prado. Sector la Concepción. Edificio "D". Piso 1. Municipio Pampanito. Trujillo 3150.</p>
             <p>República Bolivariana de Venezuela. Teléfonos: +58 FALTA LO DEMÁS</p>
         </div>
     </footer>
