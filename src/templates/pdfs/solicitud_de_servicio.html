@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de servicio</title>
+    <link rel="stylesheet" href="solicitud_de_servicio.css">
+</head>
+
+<body>
+    <header>
+        <img src="file:///home/diego/repos/cautec/src/static/images/rangel_hcga.png" id="nurr-logo" alt="">
+        <h1>Solicitud de servicio</h1>
+        <div>Fecha: {{ fecha_emision }}</div>
+    </header>
+    <main>
+        <section>
+            <div class="linea-de-texto">
+                <div>Nombre del solicitante: {{ nombre_solicitante }}</div>
+            </div>
+            <div class="linea-de-texto">
+                <div>Unidad o Dependencia: {{ nombre_departamento }}</div>
+            </div>
+            <div class="linea-de-texto">
+                {% if email %}
+                <div>Contactos: ext: {{ ext_telefonica }}. mail: {{ email }}</div>
+                {% else %}
+                <div>Contactos: ext: {{ ext_telefonica }}. mail:&nbsp;</div>
+                <div class="subrayado"></div>
+                {% endif %}
+            </div>
+            <div class="linea-de-texto">
+                <div>Coord. o Jefe de Unidad: {{ nombre_coordinador }}</div>
+            </div>
+            <div class="linea-de-texto">
+                {% if otro_contacto %}
+                <div>Otro contacto: {{ otro_contacto }}</div>
+                {% else %}
+                <div>Otro contacto:&nbsp;</div>
+                <div class="subrayado"></div>
+                {% endif %}
+            </div>
+        </section>
+        <section>
+            <div class="linea-de-texto">
+                <div>Especificación del equipo</div>
+                <div>Marca: {{ marca_disp }}</div>
+                <div>Serial: {{ serial_disp }}</div>
+            </div>
+            <div class="linea-de-texto">
+                <div>Control de bienes: {{ cod_bienes_disp }}</div>
+            </div>
+            <div class="linea-de-texto">
+                <div>PC: ____</div>
+                <div>Teclado: ____</div>
+                <div>Ratón: ____</div>
+                <div>Monitor: ____</div>
+            </div>
+            <div class="linea-de-texto">
+                <div>Regulador</div>
+                <div>Impresora: ____</div>
+                <div>Router: ____</div>
+                <div>Otro:&nbsp;</div>
+                <div class="subrayado"></div>
+            </div>
+        </section>
+        <section>
+            <div>Descripción de la Falla: Funciona: Sí ___. No ___</div>
+            <div>Diagnóstico:</div>
+            <div>{{ diagnostico }}</div>
+        </section>
+        <div class="text-center">Para ser llenado por Servicio y Soporte Técnico NURR (5643)</div>
+        <section>
+            <div>Número de reporte: __________</div>
+            <div class="linea-de-texto">
+                {% if fecha_atencion %}
+                <div>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</div>
+                {% else %}
+                <div>Fecha de Atención: 12/12/12</div>
+                {% endif %}
+                
+                {% if fecha_cierre %}
+                <div>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</div>
+                {% else %}
+                <div>Fecha de Entrega: 11/11/11</div>
+                {% endif %}
+                
+            </div>
+            <div>Acción:</div>
+            <div>{{ accion }}</div>
+        </section>
+    </main>
+    <footer>
+        <div class="linea-de-texto">
+            <div>Solicitante:</div>
+            <div>Jefe Unidad:</div>
+            <div>SST-NURR:</div>
+        </div>
+        <div>Servicio y Soporte Técnico</div>
+
+        <div>
+            <p>Villa Universitaria. El Prado. Sector la Concepción. Edificio "D". Piso 1. Municipio Pampanito. Trujillo
+                3150.</p>
+            <p>República Bolivariana de Venezuela. Teléfonos: +58 FALTA LO DEMÁS</p>
+        </div>
+    </footer>
+</body>
+
+</html>
