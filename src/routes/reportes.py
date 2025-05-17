@@ -11,6 +11,9 @@ from sqlalchemy.sql import func
 from datetime import datetime
 from io import BytesIO
 
+# Diccionario para información a renderizar en Notas de servicios
+NOTA_SERVICIO_DATA = {}
+
 reportes = Blueprint(
     "reportes", __name__, url_prefix="/reportes", template_folder="templates"
 )
@@ -203,11 +206,10 @@ def eliminar_comentario(id, reporte_id):
     flash(f"El comentario ID #{id} se elimino exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte_id))
 
-path = {'path': None}
 
 @reportes.route("/reporte/<int:id>/generar-nota-de-servicio", methods=["GET", "POST"])
 @login_required
-def nota_servicio(id):
+def crear_nota_servicio(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     
@@ -216,93 +218,26 @@ def nota_servicio(id):
     if request.method == "POST":
         # if reporte.usuario_id != current_user.id:
         #     abort(403)
-        data = {}
-        ruta_template = None
-        ruta_css = None
-        ruta_pdf = None
 
         reporte.accion = request.form['accion'].strip()
         reporte.diagnostico = request.form['diagnostico'].strip()
 
-        data['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
-        data['nombre_solicitante'] = reporte.nombre_solicitante
-        data['nombre_departamento'] = departamento.nombre
-        data['ext_telefonica'] = departamento.linea_telefonica
-        data['nombre_coordinador'] = request.form['coordinador']
-        data['marca_disp'] = request.form['marca']
-        data['serial_disp'] = request.form['serial']
-        data['cod_bienes_disp'] = reporte.cod_bienes_dispositvo # Fix typo
-        data['diagnostico'] = reporte.diagnostico
-        # data['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
-        data['fecha_atencion'] = None
-        # data['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
-        data['fecha_cierre'] = None
-        data['accion'] = reporte.accion
+        NOTA_SERVICIO_DATA['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
+        NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
+        NOTA_SERVICIO_DATA['nombre_departamento'] = departamento.nombre
+        NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
+        NOTA_SERVICIO_DATA['nombre_coordinador'] = request.form['coordinador']
+        NOTA_SERVICIO_DATA['marca_disp'] = request.form['marca']
+        NOTA_SERVICIO_DATA['serial_disp'] = request.form['serial']
+        NOTA_SERVICIO_DATA['cod_bienes_disp'] = reporte.cod_bienes_dispositvo # Fix typo
+        NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
+        # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
+        NOTA_SERVICIO_DATA['fecha_atencion'] = None
+        # NOTA_SERVICIO_DATA['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
+        NOTA_SERVICIO_DATA['fecha_cierre'] = None
+        NOTA_SERVICIO_DATA['accion'] = reporte.accion
 
-        # print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-        # root_path = reportes.root_path.replace('src/routes', '') 
-        root_path = reportes.root_path.removesuffix('src/routes') 
-        ruta_template = f'{root_path}src/templates/pdfs/solicitud_de_servicio.html'
-        ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
-        # ruta_css = url_for('static', filename='css/pdfs/solicitud_de_servicio.css')
-        ruta_pdf = f'{root_path}prueba_pdf.pdf'
-        ruta_pdf = None
-        
-        # instance_path = None
-        # static_url_path = None
-
-        pdf = crear_pdf(data, ruta_template, ruta_css, ruta_pdf)
-
-        if pdf != True:
-            # Usando send_file es necesario utilizar BytesIO sobre pdf
-            # Mientras que al usar Response o make_response no es necesario
-            # send_file me parece más directo y semántico, sin embargo necesita ese paso extra
-
-            # Passing a file-like object requires that the file is
-            # opened in binary mode, and is mostly useful when
-            # building a file in memory with io.BytesIO
-
-            # as_attachment (bool) – Indicate to a browser that it should offer to save the file instead of displaying it.
-            pdf_buffer = BytesIO(pdf)
-
-            print(type(pdf)) # <class 'bytes'>
-            print(type(pdf_buffer)) # <class '_io.BytesIO'>
-            
-            # nombre_pdf = 'pdf_descarga_send_file.pdf'
-            # return send_file(
-            #     pdf,
-            #     # pdf_buffer,
-            #     download_name = nombre_pdf,
-            #     as_attachment = True,
-            # )
-
-            # According to flask documentation: 
-            # Do not set to a plain string or bytes, that will cause
-            # sending the response to be very inefficient
-            # as it will iterate one byte at a time.
-            
-            # Response: Quite often you don’t have to create this object yourself because make_response() will take care of that for you.
-            # make_response: A response object is created with the bytes as the body
-            # you will get a response object which you can use to attach headers
-            # useful when need to attach additional headers
-
-            # nombre_pdf = 'descarga_pdf_response.pdf'
-            # headers = {
-            #     'Content-Type': 'application/pdf',
-            #     'Content-Disposition': f"attachment;filename={nombre_pdf}"
-            # }
-
-            # response = Response(pdf, headers=headers)
-            # return response
-
-            nombre_pdf = 'descarga_pdf_make_response.pdf'
-            response = make_response(pdf)
-            response.headers["Content-Type"] = "application/pdf"
-            response.headers["Content-Disposition"] = f"attachment;filename={nombre_pdf}"
-            return response
-
-        flash(f"El reporte ID #{id} se elimino exitosamente!", "success")
-        return redirect(url_for("reportes.ver_reporte", id=id))
+        return redirect(url_for('.nota_servicio', id=id))
     
     elif request.method == "GET":
         reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
@@ -313,3 +248,27 @@ def nota_servicio(id):
             reporte=reporte,
             departamento=departamento,
         )
+
+@reportes.route("/Nota de servicio - Reporte <int:id>", methods=["GET"])
+def nota_servicio(id):
+    root_path = reportes.root_path.removesuffix('src/routes') 
+    ruta_template = f'{root_path}src/templates/pdfs/solicitud_de_servicio.html'
+    ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
+    
+    pdf = crear_pdf(
+        NOTA_SERVICIO_DATA,
+        ruta_template,
+        ruta_css,
+    )
+
+    NOTA_SERVICIO_DATA.clear()
+
+    nombre_pdf = 'pdf_descarga_send_file.pdf'
+    pdf_buffer = BytesIO(pdf)
+
+    return send_file(
+        pdf_buffer,
+        download_name = nombre_pdf,
+        mimetype='application/pdf', # tipo de archivo enviado en el response
+        # as_attachment = True, # Ofrecer descargar en vez de mostrar archivo
+    )

@@ -8,7 +8,7 @@
 {% block content %}
 
 <div class="container-fluid flex-grow-1 py-2">
-    <form action="{{ url_for('reportes.nota_servicio', id=reporte.id) }}" method="post">
+    <form action="{{ url_for('reportes.crear_nota_servicio', id=reporte.id) }}" method="post" target="_blank">
         <section>
             <h5>Datos del Solicitante</h5>
             <div>
