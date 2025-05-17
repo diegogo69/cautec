@@ -213,8 +213,6 @@ def crear_nota_servicio(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     
-    print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-
     if request.method == "POST":
         # if reporte.usuario_id != current_user.id:
         #     abort(403)
@@ -251,6 +249,7 @@ def crear_nota_servicio(id):
 
 @reportes.route("/Nota de servicio - Reporte <int:id>", methods=["GET"])
 def nota_servicio(id):
+    print(reportes.root_path) # /home/diego/repos/cautec/src/routes
     root_path = reportes.root_path.removesuffix('src/routes') 
     ruta_template = f'{root_path}src/templates/pdfs/solicitud_de_servicio.html'
     ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
@@ -263,12 +262,12 @@ def nota_servicio(id):
 
     NOTA_SERVICIO_DATA.clear()
 
-    nombre_pdf = 'pdf_descarga_send_file.pdf'
+    pdf_nombre = 'pdf_descarga_send_file.pdf'
     pdf_buffer = BytesIO(pdf)
 
     return send_file(
         pdf_buffer,
-        download_name = nombre_pdf,
-        mimetype='application/pdf', # tipo de archivo enviado en el response
+        download_name = pdf_nombre,
+        mimetype='application/pdf', # tipo de archivo
         # as_attachment = True, # Ofrecer descargar en vez de mostrar archivo
     )
