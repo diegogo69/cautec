@@ -220,6 +220,7 @@ def crear_nota_servicio(id):
         reporte.accion = request.form['accion'].strip()
         reporte.diagnostico = request.form['diagnostico'].strip()
 
+        NOTA_SERVICIO_DATA['id'] = reporte.id
         NOTA_SERVICIO_DATA['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
         NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
         NOTA_SERVICIO_DATA['nombre_departamento'] = departamento.nombre
@@ -249,10 +250,12 @@ def crear_nota_servicio(id):
 
 @reportes.route("/Nota de servicio - Reporte <int:id>", methods=["GET"])
 def nota_servicio(id):
+    # PDFKit usa rutas de archivo absolutas, por eso se utiliza root_path
+    # url_for('static') produce una ruta de archivo relativa
     print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-    root_path = reportes.root_path.removesuffix('src/routes') 
-    ruta_template = f'{root_path}src/templates/pdfs/solicitud_de_servicio.html'
-    ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
+    ruta_src = reportes.root_path.removesuffix('/routes') 
+    ruta_template = f'{ruta_src}/templates/pdfs/solicitud_de_servicio.html'
+    ruta_css = f'{ruta_src}/static/css/pdfs/solicitud_de_servicio.css'
     
     pdf = crear_pdf(
         NOTA_SERVICIO_DATA,
@@ -262,7 +265,7 @@ def nota_servicio(id):
 
     NOTA_SERVICIO_DATA.clear()
 
-    pdf_nombre = 'pdf_descarga_send_file.pdf'
+    pdf_nombre = f'Nota de servicio - Reporte {id}.pdf'
     pdf_buffer = BytesIO(pdf)
 
     return send_file(
