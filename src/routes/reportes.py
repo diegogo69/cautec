@@ -22,7 +22,14 @@ reportes = Blueprint(
 @reportes.route("/", methods=["GET"])
 @login_required
 def ver_reportes():
-    reportes = Reporte.query.all()
+    # reportes = Reporte.query.all()
+    reportes = Reporte.query
+
+    if current_user.tipo == 'solicitante':
+        reportes = reportes.filter(Reporte.usuario_id == current_user.id)
+
+    reportes = reportes.all()
+    
     return render_template("reportes/ver-reportes.html", data={"reportes": reportes})
 
 
