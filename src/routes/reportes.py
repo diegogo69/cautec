@@ -29,7 +29,12 @@ def ver_reportes():
         reportes = reportes.filter(Reporte.usuario_id == current_user.id)
 
     reportes = reportes.all()
-    
+    for reporte in reportes:
+        reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
+        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        departamento = Departamento.query.get_or_404(reporte.departamento_id)
+        reporte.departamento = departamento.nombre
+
     return render_template("reportes/ver-reportes.html", data={"reportes": reportes})
 
 
@@ -40,8 +45,8 @@ def ver_reporte(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     comentarios = Comentario.query.filter_by(reporte_id=id).all()
-    reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
-    reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+    reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+    reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
     reporte.estados = ESTADOS_REPORTE
 
     return render_template(
@@ -246,8 +251,8 @@ def crear_nota_servicio(id):
         return redirect(url_for('.nota_servicio', id=id))
     
     elif request.method == "GET":
-        reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
-        reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
 
         return render_template(
             'reportes/crear-nota-servicio.html',
