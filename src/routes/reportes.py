@@ -234,21 +234,29 @@ def crear_nota_servicio(id):
 
         NOTA_SERVICIO_DATA['id'] = reporte.id
         NOTA_SERVICIO_DATA['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
-        NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
+        # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
+        NOTA_SERVICIO_DATA['nombre_solicitante'] = request.form['nombre_solicitante']
         NOTA_SERVICIO_DATA['nombre_departamento'] = departamento.nombre
-        NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
+        # NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
+        NOTA_SERVICIO_DATA['ext_telefonica'] = request.form['linea_telefonica']
         NOTA_SERVICIO_DATA['nombre_coordinador'] = request.form['coordinador']
         NOTA_SERVICIO_DATA['marca_disp'] = request.form['marca']
         NOTA_SERVICIO_DATA['serial_disp'] = request.form['serial']
         NOTA_SERVICIO_DATA['cod_bienes_disp'] = reporte.cod_bienes_dispositvo # Fix typo
-        NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
+        # NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
+        NOTA_SERVICIO_DATA['diagnostico'] = request.form['diagnostico']
         # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
-        NOTA_SERVICIO_DATA['fecha_atencion'] = None
+        # NOTA_SERVICIO_DATA['fecha_atencion'] = None
+        fecha_atencion = request.form['fecha_atencion']
+        NOTA_SERVICIO_DATA['fecha_atencion'] = datetime.fromisoformat(fecha_atencion)
         # NOTA_SERVICIO_DATA['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
-        NOTA_SERVICIO_DATA['fecha_cierre'] = None
-        NOTA_SERVICIO_DATA['accion'] = reporte.accion
+        # NOTA_SERVICIO_DATA['fecha_cierre'] = None
+        fecha_cierre = request.form['fecha_cierre']
+        NOTA_SERVICIO_DATA['fecha_cierre'] = datetime.fromisoformat(fecha_cierre)
+        # NOTA_SERVICIO_DATA['accion'] = reporte.accion
+        NOTA_SERVICIO_DATA['accion'] = request.form['accion']
 
-        return redirect(url_for('.nota_servicio', id=id))
+        return redirect(url_for('reportes.nota_servicio', id=id))
     
     elif request.method == "GET":
         reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
