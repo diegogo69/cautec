@@ -35,7 +35,7 @@
             <!-- Comentarios -->
             {% if comentarios %}
             <hr>
-            <section class="overflow-y-auto">
+            <section class="overflow-y-auto" style="min-height: 300px;">
                 <h4>Comentarios:</h4>
                 {% for comentario in comentarios %}
                 <div class="reporte-comentario">
@@ -55,7 +55,7 @@
                 <form method="post" action="{{ url_for('reportes.crear_comentario', reporte_id=reporte.id) }}">
                     <div class="form-floating">
                         <textarea class="form-control" name="comentario" id="comentario"
-                            placeholder="Añade un comentario..." rows="2" required></textarea>
+                            placeholder="Añade un comentario..." rows="3" required></textarea>
                         <label for="comentario">Añade un comentario</label>
                     </div>
                     <input type="hidden" name="reporte_id" value="{{ reporte.id }}">
@@ -146,7 +146,9 @@
                 {% if current_user.tipo != 'solicitante' %}
                 <section>
                     <button type="submit" class="btn btn-primary">Actualizar</button>
+                    {% if reporte.estado == 'cerrado'  %}
                     <button type="button" class="btn btn-secondary"><a href="{{ url_for('reportes.crear_nota_servicio', id=reporte.id) }}">Generar PDF</a></button>
+                    {% endif %}
                 </section>
                 {% endif %}
             </form>

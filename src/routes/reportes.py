@@ -121,8 +121,12 @@ def crear_reporte():
 @login_required
 def actualizar_reporte(id):
     reporte = Reporte.query.get_or_404(id)
-    if reporte.usuario_id != current_user.id:
-        abort(403)
+
+    # if (current_user.tipo != 'admin' and current_user.tipo != 'soporte'):
+    #     abort(403)
+
+    # elif reporte.usuario_id != current_user.id:
+    #     abort(403)
 
     estado = request.form["estado"]
     # fecha_emision = request.form["fecha_emision"]
@@ -247,12 +251,16 @@ def crear_nota_servicio(id):
         NOTA_SERVICIO_DATA['diagnostico'] = request.form['diagnostico']
         # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
         # NOTA_SERVICIO_DATA['fecha_atencion'] = None
-        fecha_atencion = request.form['fecha_atencion']
-        NOTA_SERVICIO_DATA['fecha_atencion'] = datetime.fromisoformat(fecha_atencion)
+        # fecha_atencion = request.form['fecha_atencion']
+        fecha_atencion = request.form.get('fecha_atencion')
+        if fecha_atencion:
+            NOTA_SERVICIO_DATA['fecha_atencion'] = datetime.fromisoformat(fecha_atencion)
         # NOTA_SERVICIO_DATA['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
         # NOTA_SERVICIO_DATA['fecha_cierre'] = None
-        fecha_cierre = request.form['fecha_cierre']
-        NOTA_SERVICIO_DATA['fecha_cierre'] = datetime.fromisoformat(fecha_cierre)
+        # fecha_cierre = request.form['fecha_cierre']
+        fecha_cierre = request.form.get('fecha_cierre')
+        if fecha_cierre:
+            NOTA_SERVICIO_DATA['fecha_cierre'] = datetime.fromisoformat(fecha_cierre)
         # NOTA_SERVICIO_DATA['accion'] = reporte.accion
         NOTA_SERVICIO_DATA['accion'] = request.form['accion']
 
