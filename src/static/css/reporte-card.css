@@ -42,3 +42,7 @@
     border: 3px solid #d1d5db;
     border-radius: .3rem;
 }
+
+.resize-none {
+    resize: none;
+}

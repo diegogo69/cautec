@@ -21,9 +21,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('reportes.ver_reportes') }}">Reportes</a>
                 </li>
+                {% if current_user.tipo != 'solicitante' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('departamentos.ver_departamentos') }}">Departamentos</a>
                 </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">

@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template, request, redirect, url_for, abort
+from flask import Blueprint, flash, render_template, request, redirect, url_for, abort, send_file, Response, make_response
 from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
@@ -9,7 +9,10 @@ from src.utils.pdfs import crear_pdf
 from src import db
 from sqlalchemy.sql import func
 from datetime import datetime
+from io import BytesIO
 
+# Diccionario para información a renderizar en Notas de servicios
+NOTA_SERVICIO_DATA = {}
 
 reportes = Blueprint(
     "reportes", __name__, url_prefix="/reportes", template_folder="templates"
@@ -19,7 +22,19 @@ reportes = Blueprint(
 @reportes.route("/", methods=["GET"])
 @login_required
 def ver_reportes():
-    reportes = Reporte.query.all()
+    # reportes = Reporte.query.all()
+    reportes = Reporte.query
+
+    if current_user.tipo == 'solicitante':
+        reportes = reportes.filter(Reporte.usuario_id == current_user.id)
+
+    reportes = reportes.all()
+    for reporte in reportes:
+        reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
+        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        departamento = Departamento.query.get_or_404(reporte.departamento_id)
+        reporte.departamento = departamento.nombre
+
     return render_template("reportes/ver-reportes.html", data={"reportes": reportes})
 
 
@@ -30,8 +45,8 @@ def ver_reporte(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     comentarios = Comentario.query.filter_by(reporte_id=id).all()
-    reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
-    reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+    reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+    reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
     reporte.estados = ESTADOS_REPORTE
 
     return render_template(
@@ -106,8 +121,12 @@ def crear_reporte():
 @login_required
 def actualizar_reporte(id):
     reporte = Reporte.query.get_or_404(id)
-    if reporte.usuario_id != current_user.id:
-        abort(403)
+
+    # if (current_user.tipo != 'admin' and current_user.tipo != 'soporte'):
+    #     abort(403)
+
+    # elif reporte.usuario_id != current_user.id:
+    #     abort(403)
 
     estado = request.form["estado"]
     # fecha_emision = request.form["fecha_emision"]
@@ -203,64 +222,83 @@ def eliminar_comentario(id, reporte_id):
     flash(f"El comentario ID #{id} se elimino exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte_id))
 
-path = {'path': None}
 
 @reportes.route("/reporte/<int:id>/generar-nota-de-servicio", methods=["GET", "POST"])
 @login_required
-def nota_servicio(id):
+def crear_nota_servicio(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     
-    print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-
     if request.method == "POST":
         # if reporte.usuario_id != current_user.id:
         #     abort(403)
-        data = {}
-        ruta_template = None
-        ruta_css = None
-        ruta_pdf = None
 
         reporte.accion = request.form['accion'].strip()
         reporte.diagnostico = request.form['diagnostico'].strip()
 
-        data['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
-        data['nombre_solicitante'] = reporte.nombre_solicitante
-        data['nombre_departamento'] = departamento.nombre
-        data['ext_telefonica'] = departamento.linea_telefonica
-        data['nombre_coordinador'] = request.form['coordinador']
-        data['marca_disp'] = request.form['marca']
-        data['serial_disp'] = request.form['serial']
-        data['cod_bienes_disp'] = reporte.cod_bienes_dispositvo # Fix typo
-        data['diagnostico'] = reporte.diagnostico
-        # data['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
-        data['fecha_atencion'] = None
-        # data['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
-        data['fecha_cierre'] = None
-        data['accion'] = reporte.accion
+        NOTA_SERVICIO_DATA['id'] = reporte.id
+        NOTA_SERVICIO_DATA['fecha_emision'] = reporte.fecha_emision.strftime('%Y-%m-%d')
+        # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
+        NOTA_SERVICIO_DATA['nombre_solicitante'] = request.form['nombre_solicitante']
+        NOTA_SERVICIO_DATA['nombre_departamento'] = departamento.nombre
+        # NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
+        NOTA_SERVICIO_DATA['ext_telefonica'] = request.form['linea_telefonica']
+        NOTA_SERVICIO_DATA['nombre_coordinador'] = request.form['coordinador']
+        NOTA_SERVICIO_DATA['marca_disp'] = request.form['marca']
+        NOTA_SERVICIO_DATA['serial_disp'] = request.form['serial']
+        NOTA_SERVICIO_DATA['cod_bienes_disp'] = reporte.cod_bienes_dispositvo # Fix typo
+        # NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
+        NOTA_SERVICIO_DATA['diagnostico'] = request.form['diagnostico']
+        # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
+        # NOTA_SERVICIO_DATA['fecha_atencion'] = None
+        # fecha_atencion = request.form['fecha_atencion']
+        fecha_atencion = request.form.get('fecha_atencion')
+        if fecha_atencion:
+            NOTA_SERVICIO_DATA['fecha_atencion'] = datetime.fromisoformat(fecha_atencion)
+        # NOTA_SERVICIO_DATA['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
+        # NOTA_SERVICIO_DATA['fecha_cierre'] = None
+        # fecha_cierre = request.form['fecha_cierre']
+        fecha_cierre = request.form.get('fecha_cierre')
+        if fecha_cierre:
+            NOTA_SERVICIO_DATA['fecha_cierre'] = datetime.fromisoformat(fecha_cierre)
+        # NOTA_SERVICIO_DATA['accion'] = reporte.accion
+        NOTA_SERVICIO_DATA['accion'] = request.form['accion']
 
-        # print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-        # root_path = reportes.root_path.replace('src/routes', '') 
-        root_path = reportes.root_path.removesuffix('src/routes') 
-        ruta_template = f'{root_path}src/templates/pdfs/solicitud_de_servicio.html'
-        ruta_css = f'{root_path}src/static/css/pdfs/solicitud_de_servicio.css'
-        # ruta_css = url_for('static', filename='css/pdfs/solicitud_de_servicio.css')
-        ruta_pdf = f'{root_path}prueba_pdf.pdf'
-
-        # instance_path = None
-        # static_url_path = None
-
-        crear_pdf(data, ruta_template, ruta_css, ruta_pdf)
-
-        flash(f"El reporte ID #{id} se elimino exitosamente!", "success")
-        return redirect(url_for("reportes.ver_reporte", id=id))
+        return redirect(url_for('reportes.nota_servicio', id=id))
     
     elif request.method == "GET":
-        reporte.falla = FALLAS_DISPOSITIVOS[int(reporte.falla_id)]
-        reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[int(reporte.tipo_dispositivo_id)]
+        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
 
         return render_template(
             'reportes/crear-nota-servicio.html',
             reporte=reporte,
             departamento=departamento,
         )
+
+@reportes.route("/Nota de servicio - Reporte <int:id>", methods=["GET"])
+def nota_servicio(id):
+    # PDFKit usa rutas de archivo absolutas, por eso se utiliza root_path
+    # url_for('static') produce una ruta de archivo relativa
+    print(reportes.root_path) # /home/diego/repos/cautec/src/routes
+    ruta_src = reportes.root_path.removesuffix('/routes') 
+    ruta_template = f'{ruta_src}/templates/pdfs/solicitud_de_servicio.html'
+    ruta_css = f'{ruta_src}/static/css/pdfs/solicitud_de_servicio.css'
+    
+    pdf = crear_pdf(
+        NOTA_SERVICIO_DATA,
+        ruta_template,
+        ruta_css,
+    )
+
+    NOTA_SERVICIO_DATA.clear()
+
+    pdf_nombre = f'Nota de servicio - Reporte {id}.pdf'
+    pdf_buffer = BytesIO(pdf)
+
+    return send_file(
+        pdf_buffer,
+        download_name = pdf_nombre,
+        mimetype='application/pdf', # tipo de archivo
+        # as_attachment = True, # Ofrecer descargar en vez de mostrar archivo
+    )

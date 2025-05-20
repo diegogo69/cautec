@@ -28,7 +28,7 @@
                     Ver reportes
                 </a>
             </li>
-    
+            {% if current_user.tipo != 'solicitante' %}
             <li class="nav-item">
                 Departamentos
             </li>
@@ -48,6 +48,7 @@
                     Ver departamentos
                 </a>
             </li>
+            {% endif %}
         </ul>
     </nav>
 </aside>

@@ -8,12 +8,12 @@
 {% block content %}
 
 <div class="container-fluid flex-grow-1 py-2">
-    <form action="{{ url_for('reportes.nota_servicio', id=reporte.id) }}" method="post">
+    <form action="{{ url_for('reportes.crear_nota_servicio', id=reporte.id) }}" method="post" target="_blank">
         <section>
             <h5>Datos del Solicitante</h5>
             <div>
-                <label class="form-label" for="solicitante">Usuario solicitante:</label>
-                <input class="form-control" type="text" name="solicitante" id="solicitante"
+                <label class="form-label" for="solicitante">Nombre del usuario solicitante:</label>
+                <input class="form-control" type="text" name="nombre_solicitante" id="solicitante"
                     value="{{ reporte.nombre_solicitante }}">
             </div>
             <div class="row">
@@ -30,7 +30,7 @@
 
                 <div class="col">
                     <label for="ext-telefonica" class="form-label">Ext. telefónica:</label>
-                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control" placeholder="3311"
+                    <input type="text" name="linea_telefonica" id="ext-telefonica" class="form-control" placeholder="3311"
                         value="{{ departamento.linea_telefonica }}">
                 </div>
                 <div class="col">
@@ -106,14 +106,14 @@
             <h5>Descripción del reporte:</h5>
             <div class="row">
                 <div class="col">
-                    <label for="estado" class="form-label">Número de reporte:</label>
+                    <label for="nro-reporte" class="form-label">Número de reporte:</label>
                     <input type="text" name="nro-reporte" id="nro-reporte" class="form-control" placeholder="3311"
                         value="{{ reporte.id }}">
                 </div>
                 <div class="col">
                     <label for="estado" class="form-label">Estado:</label>
                     <input type="text" name="estado" id="estado" class="form-control" placeholder="3311"
-                        value="{{ reporte.estado }}">
+                        value="{{ reporte.estado | capitalize }}">
                 </div>
             </div>
             <div class="row">

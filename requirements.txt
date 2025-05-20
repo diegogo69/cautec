@@ -19,6 +19,7 @@ mypy-extensions==1.0.0
 mysqlclient==2.2.7
 packaging==24.2
 pathspec==0.12.1
+pdfkit==1.0.0
 platformdirs==4.3.7
 python-dotenv==1.1.0
 SQLAlchemy==2.0.40

@@ -23,8 +23,8 @@ class Reporte(db.Model):
     nombre_solicitante = db.Column(db.String(50))
     fecha_visita = db.Column(db.DateTime(timezone=True))
     cod_bienes_dispositvo = db.Column(db.String(50)) # Fix typo
-    tipo_dispositivo_id = db.Column(db.String(20))
-    falla_id = db.Column(db.String(180))
+    tipo_dispositivo_id = db.Column(db.Integer)
+    falla_id = db.Column(db.Integer)
     
 
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)

@@ -5,62 +5,62 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex flex-nowrap">
-    <div class="container-fluid pt-2">
-        <div class="row">
-            <div class="col-auto me-auto">
-                <h2>Reportes</h2>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-primary">
-                    <a href="{{ url_for('reportes.crear_reporte') }}">Crear reporte</a>
-                </button>
-            </div>
+<div class="container-fluid flex-grow-1 py-2">
+    <div class="row">
+        <div class="col-auto">
+            <h2>Reportes</h2>
         </div>
-
-        {% if data['reportes'] %}
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</td>
-                    <th scope="col">Titulo</td>
-                    <th scope="col">Descripcion</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reporte in data['reportes'] %}
-                <tr>
-                    <th scope="row">{{ reporte['id'] }}</td>
-                    <td>{{ reporte['titulo'] }}</td>
-                    <td>{{ reporte['descripcion'] }}</td>
-
-                    <td>
-                        <button class="btn btn-sm btn-outline-info">
-                            <a href="{{ url_for('reportes.ver_reporte', id=reporte['id']) }}">Ver</a>
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary">
-                            <a href="{{ url_for('reportes.editar_reporte', id=reporte['id']) }}">Editar</a>
-
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" form="del-{{ reporte.id }}"
-                            type="submit">Eliminar</button>
-                    </td>
-                    <form id="del-{{ reporte.id }}"
-                        action="{{ url_for('reportes.eliminar_reporte', id=reporte['id']) }}" method="post">
-                    </form>
-                </tr>
-                {% endfor %}
-
-            </tbody>
-        </table>
-
-        {% else %}
-        <p>No hay reportes para mostrar</p>
-
-        {% endif %}
-
+        <div class="col-auto ms-auto">
+            <button class="btn btn-primary">
+                <a href="{{ url_for('reportes.crear_reporte') }}">Crear reporte</a>
+            </button>
+        </div>
     </div>
+
+    {% if data['reportes'] %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Departamento</th>
+                <th scope="col">Dispositivo</th>
+                <th>Falla</th>
+                <th>Estado</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reporte in data['reportes'] %}
+            <tr>
+                <th scope="row">{{ reporte['id'] }}</td>
+                <td>{{ reporte['departamento'] }}</td>
+                <td>{{ reporte['dispositivo'] }}</td>
+                <td>{{ reporte['falla'] }}</td>
+                <td>{{ reporte['estado'] }}</td>
+
+                <td>
+                    <button class="btn btn-sm btn-outline-info">
+                        <a href="{{ url_for('reportes.ver_reporte', id=reporte['id']) }}">Ver</a>
+                    </button>
+                    <!--
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <a href="{{ url_for('reportes.editar_reporte', id=reporte['id']) }}">Editar</a>
+                    </button>
+                     -->
+                    <button form="del-{{ reporte.id }}" type="submit"
+                        class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </td>
+                <form id="del-{{ reporte.id }}"
+                    action="{{ url_for('reportes.eliminar_reporte', id=reporte['id']) }}" method="post">
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <p>No hay reportes para mostrar</p>
+    {% endif %}
 </div>
 {% endblock %}
