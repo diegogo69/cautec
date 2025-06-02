@@ -5,16 +5,19 @@ import platform
 
 def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
 
-    # Este codigo obtiene el nombre del sistema operativo de la maquina
+    # Generar rutas de archivo acorde al sistema operativo del servidor
+    # Se utilizan rutas genéricas para Windows y Linux
+    # Obtén la ruta de wkhtmltopdf con el siguiente comando:
+    # windows: where wkhtmltopdf
+    # linux: which wkhtmltopdf
     nombre_sistema_operativo = platform.system()
 
-    # Dependiendo del sistema operativo, aplica el codigo correspondiente
     if nombre_sistema_operativo == 'Windows':
-        nombre_template = ruta_template.split("\\")[-1] # windows
-        ruta_wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" # Ruta en Windows
+        nombre_template = ruta_template.split("\\")[-1]
+        ruta_wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
     else:
-        nombre_template = ruta_template.split("/")[-1] # linux
-        ruta_wkhtmltopdf = '/usr/bin/wkhtmltopdf' # Ruta en Linux
+        nombre_template = ruta_template.split("/")[-1]
+        ruta_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         
     carpeta_template = ruta_template.replace(nombre_template, "")
 
@@ -33,22 +36,8 @@ def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
         'encoding': 'UTF-8',
         'enable-local-file-access': None,
     }
-
-    # obtén la ruta de wkhtmltopdf con el siguiente comando:
-    # linux | which wkhtmltopdf
-    # windows | where wkhtmltopdf
-    # location of the wkhtmltopdf binary.
-    # By default pdfkit will attempt to locate this using which
     
     config = pdfkit.configuration(wkhtmltopdf = ruta_wkhtmltopdf)
-
-    # Also you can pass an opened file:
-    # with open('file.html') as f:
-        # pdfkit.from_file(f, 'out.pdf')
-
-    # If you wish to further process generated PDF, you can read it to a variable:
-    # Without output_path, PDF is returned for assigning to a variable
-    # pdf = pdfkit.from_url('http://google.com')
 
     pdf = pdfkit.from_string(
         html_string,
