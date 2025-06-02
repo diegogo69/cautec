@@ -281,9 +281,33 @@ def nota_servicio(id):
     # PDFKit usa rutas de archivo absolutas, por eso se utiliza root_path
     # url_for('static') produce una ruta de archivo relativa
     print(reportes.root_path) # /home/diego/repos/cautec/src/routes
-    ruta_src = reportes.root_path.removesuffix('/routes') 
-    ruta_template = f'{ruta_src}/templates/pdfs/solicitud_de_servicio.html'
-    ruta_css = f'{ruta_src}/static/css/pdfs/solicitud_de_servicio.css'
+    # C:\Users\Gustavo\Documents\cautec\src\routes
+    # C:\Users\Gustavo\Documents\cautec\src\templates\pdfs\solicitud_de_servicio.html
+    # ruta_src = reportes.root_path.removesuffix('/routes') 
+
+
+    # saber cual es el sistema operativo
+    # El nombre del sistema operativo puede ser:
+        # - 'Windows' para Windows
+        # - 'Linux' para Linux
+    import platform
+    nombre_sistema_operativo = platform.system()
+
+    # Verificar si el sistema operativo es Windows o Linux
+    # Utilizar una ruta de archivo adecuada al sistema de archivos del sistema operativo
+    if nombre_sistema_operativo == 'Windows':
+        # ------- Lineas de codigo para windows ------------
+        ruta_src = reportes.root_path.removesuffix('\\routes') # Ruta base en windows
+        ruta_template = f'{ruta_src}\\templates\\pdfs\\solicitud_de_servicio.html' # Ruta de la plantilla en windows
+        ruta_css = f'{ruta_src}\\static\\css\\pdfs\\solicitud_de_servicio.css'  # Ruta del css en windows
+    elif nombre_sistema_operativo == 'Linux':   
+        #------- Lineas de codigo para Linux ------------
+        ruta_src = reportes.root_path.removesuffix('/routes') # Ruta base en linux
+        ruta_template = f'{ruta_src}/templates/pdfs/solicitud_de_servicio.html' # Ruta de la plantilla pdf en linux
+        ruta_css = f'{ruta_src}/static/css/pdfs/solicitud_de_servicio.css'  # Ruta del css en linux
+    else:
+        # idk. what could be another option? MacOS
+        ...
     
     pdf = crear_pdf(
         NOTA_SERVICIO_DATA,

@@ -1,8 +1,21 @@
 import pdfkit
 import jinja2
+import platform
+
 
 def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
-    nombre_template = ruta_template.split("/")[-1]
+
+    # Este codigo obtiene el nombre del sistema operativo de la maquina
+    nombre_sistema_operativo = platform.system()
+
+    # Dependiendo del sistema operativo, aplica el codigo correspondiente
+    if nombre_sistema_operativo == 'Windows':
+        nombre_template = ruta_template.split("\\")[-1] # windows
+        ruta_wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" # Ruta en Windows
+    else:
+        nombre_template = ruta_template.split("/")[-1] # linux
+        ruta_wkhtmltopdf = '/usr/bin/wkhtmltopdf' # Ruta en Linux
+        
     carpeta_template = ruta_template.replace(nombre_template, "")
 
     env_template = jinja2.Environment(loader=jinja2.FileSystemLoader(carpeta_template))
@@ -18,7 +31,7 @@ def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
         "margin-right": "3cm",
         "margin-top": "4cm",
         'encoding': 'UTF-8',
-        'enable-local-file-access': '',
+        'enable-local-file-access': None,
     }
 
     # obtén la ruta de wkhtmltopdf con el siguiente comando:
@@ -26,8 +39,8 @@ def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
     # windows | where wkhtmltopdf
     # location of the wkhtmltopdf binary.
     # By default pdfkit will attempt to locate this using which
-    # ruta_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
-    # config = pdfkit.configuration(wkhtmltopdf=ruta_wkhtmltopdf)
+    
+    config = pdfkit.configuration(wkhtmltopdf = ruta_wkhtmltopdf)
 
     # Also you can pass an opened file:
     # with open('file.html') as f:
@@ -42,7 +55,7 @@ def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
         output_path=ruta_pdf,
         options=options,
         css=ruta_css,
-        # configuration=config,
+        configuration=config,
         verbose=True, # Get output hints for debugging
     )
 
