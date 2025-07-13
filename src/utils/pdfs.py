@@ -5,6 +5,7 @@ import platform
 
 def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
 
+    print('hello world')
     # Generar rutas de archivo acorde al sistema operativo del servidor
     # Se utilizan rutas genéricas para Windows y Linux
     # Obtén la ruta de wkhtmltopdf con el siguiente comando:
