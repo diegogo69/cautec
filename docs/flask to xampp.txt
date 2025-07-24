@@ -1,0 +1,133 @@
+QUE HICE YO
+
+1. Instalar los malditos c++ de la mierda
+2. Instalar Apache como servicio (Necesario????)
+C:\xampp\apache\bin\httpd.exe -k install
+
+2. Activar el entorno virtual. Se trabajará con entorno virtual
+3. poner la variable de entorno de apache root dir con diagonales de frente /////, no hacia atrás idiota
+set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache
+
+4. Instalar mod_wsgi sin cachear. Si hay una instalacion previa de mod_wsgi desinstalala con pip uninstall mod_wsgi
+pip install --no-cache-dir mod_wsgi 
+
+5. Obtener la configuración de mod_wsgi
+mod_wsgi-express module-config
+
+6. Copiar el texto que devuelve el comando en la terminal
+
+7. Desactivar y cerrar el entorno virtual
+
+8. Pegar el texto de configuracion en httpd.conf después de todos los LoadModule
+
+9. Pegar la siguiente configuración del servidor. Modificar respectivamente (puerto, servername, ruta del .wsgi y de la carpeta del proyecto)
+<VirtualHost *:5001>
+	ServerName localhost
+	WSGIScriptAlias /mi_app C:/xampp/htdocs/mi_app/app.wsgi
+	
+	<Directory C:/xampp/htdocs/mi_app>
+		Options FollowSymLinks
+		AllowOverride None
+		Require all granted
+	</Directory>
+</VirtualHost>
+
+10. Añadir configuración de puerto y servername respectivamente. Ejemplo:
+Listen 5001
+localhost:5001
+
+# app.wsgi
+import sys
+
+sys.path.insert(0, 'C:\\xampp\\htdocs\\mi_app')
+
+from app import app as application
+
+
+# app.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Malditx apache de la mierdxxxxxxxxxxxxxxxxxxxxx"
+    
+if __name__ == "__main__":
+    app.run()
+
+
+VERIFICA QUE APACHE FUNCIONA DESPUES DE CADA PASO. PARA VERIFICAR CUANDO Y POR QUÉ DEJA DE FUNCIONAR
+
+---------- issue https://github.com/GrahamDumpleton/mod_wsgi/issues/835#issue-1687776735 ---------
+
+set the environment variable MOD_WSGI_APACHE_ROOTDIR to the directory containing the Apache distribution. Ensure you use forward slashes in the directory path
+
+Also be aware that xampp distributions of Apache often don't work as they lack the required DLL import libraries needed when compiling the Apache module. That is a separate issue though. The ApacheLounge distribution of Apache is what is recommended.
+
+sys.path es una lista que define las rutas en las cuales python buscará las importaciones de modulos (archivos de python), en ese sentido .insert(0, <ruta>) define la primera ruta a utilizar, mientras que .append(<ruta>) la añade pero al final de la lista 
+------------- -------------------
+<mi_app> C:/xampp/htdocs/mi_app C:\xampp\htdocs\mi_app
+
+error: Microsoft Visual C++ 14.0 or greater is required
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+RuntimeError: No Apache installation can be found.
+set MOD_WSGI_APACHE_ROOTDIR=C:\xampp\apache
+set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache
+
+C:\xampp\apache\bin\httpd.exe -k install
+
+
+indian guy video tutorial
+
+# app.wsgi
+import sys
+import os
+
+sys.path.append(<path to app dir>) # \\ double backslash
+
+from app import app as application
+
+# app.py
+
+
+# get load module config and paste on httpd.conf before any loadmodule right after listen port
+# paths use "quotes" and forward slash "C:/..."
+
+# creates separate mi_app.conf file. # localhost or 127.0.0.1 or IP address
+
+WSGIApplicationGroup %{GLOBAL}
+<VirtualHost *:80>
+	ServerName localhost
+	WSGIScriptAlias /mi_app C:/xampp/htdocs/mi_app/app.wsgi
+	
+	<Directory C:/xampp/htdocs/mi_app>
+		Options FollowSymLinks
+		AllowOverride None
+		Require all granted
+	</Directory>
+</VirtualHost>
+
+# Include mi_app.conf file. Guíate de los otros Include conf/extra para verificar
+Include conf/extra/mi_app.conf 
+
+# Add Listen port and ServerName to httpd.conf. Verify servername and listen syntax
+Listen <port>
+ServerName <address>:<port>
+
+
+
+
+------------------ Page issues ----------
+You need to use double backslashes in your web.wsgi file:
+sys.path.insert(0, 'D:\\Tirumalesh\\dev\\text_basic')
+
+
+------------- Me testing ------------
+Las rutas en la configuracion de virtualhost funcionan de ambas formas con y sin comillas
+Las rutas en la configuracion de virtualhost funcionan de ambas formas con slash de frente y hacia atrás
+En el archivo .wsgi ambas sys.path.append(<ruta>) y sys.path.insert(0, <ruta>) funcionan
+Si hay Listen <puerto> pero no hay ServerName:<puerto> FUNCIONA
+Si no hay Listen <puerto> NO FUNCIONA
+Utilizando el mismo puerto que apache (80) y WSGIScriptAlias / FUNCIONA el servidor de la app se sobrepone al de apache
