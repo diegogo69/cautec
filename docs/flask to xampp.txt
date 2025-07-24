@@ -1,26 +1,30 @@
 QUE HICE YO
 
 1. Instalar los malditos c++ de la mierda
-2. Instalar Apache como servicio (Necesario????)
+
+2. Instalar Python para todos los usuarios
+
+3. Instalar Apache como servicio (Necesario????)
 C:\xampp\apache\bin\httpd.exe -k install
 
-2. Activar el entorno virtual. Se trabajará con entorno virtual
-3. poner la variable de entorno de apache root dir con diagonales de frente /////, no hacia atrás idiota
+4. poner la variable de entorno de apache root dir con diagonales de frente /////, no hacia atrás idiota
 set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache
 
-4. Instalar mod_wsgi sin cachear. Si hay una instalacion previa de mod_wsgi desinstalala con pip uninstall mod_wsgi
+5. Activar el entorno virtual. Se trabajará con entorno virtual
+
+6. Instalar mod_wsgi sin cachear. Si hay una instalacion previa de mod_wsgi desinstalala con pip uninstall mod_wsgi
 pip install --no-cache-dir mod_wsgi 
 
-5. Obtener la configuración de mod_wsgi
+7. Obtener la configuración de mod_wsgi
 mod_wsgi-express module-config
 
-6. Copiar el texto que devuelve el comando en la terminal
+8. Copiar el texto que devuelve el comando en la terminal
 
-7. Desactivar y cerrar el entorno virtual
+9. Desactivar el entorno virtual
 
-8. Pegar el texto de configuracion en httpd.conf después de todos los LoadModule
+10. Pegar el texto de configuracion en httpd.conf después de todos los LoadModule
 
-9. Pegar la siguiente configuración del servidor. Modificar respectivamente (puerto, servername, ruta del .wsgi y de la carpeta del proyecto)
+11. Pegar la siguiente configuración del servidor. Modificar respectivamente (puerto, servername, ruta del .wsgi y de la carpeta del proyecto)
 <VirtualHost *:5001>
 	ServerName localhost
 	WSGIScriptAlias /mi_app C:/xampp/htdocs/mi_app/app.wsgi
@@ -32,7 +36,7 @@ mod_wsgi-express module-config
 	</Directory>
 </VirtualHost>
 
-10. Añadir configuración de puerto y servername respectivamente. Ejemplo:
+12. Añadir configuración de puerto y servername respectivamente. En las lineas correspondientes, es decir, Listen <puerto> debajo de Listen 80 y ServerName:<puerto> debajo de ServerName localhost:80. Ejemplo:
 Listen 5001
 localhost:5001
 
