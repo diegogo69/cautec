@@ -11,9 +11,10 @@ C:\xampp\apache\bin\httpd.exe -k install
 set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache
 
 5. Activar el entorno virtual. Se trabajará con entorno virtual
+.venv\Scripts\activate
 
 6. Instalar mod_wsgi sin cachear. Si hay una instalacion previa de mod_wsgi desinstalala con pip uninstall mod_wsgi
-pip install --no-cache-dir mod_wsgi 
+pip install --no-cache-dir mod_wsgi
 
 7. Obtener la configuración de mod_wsgi
 mod_wsgi-express module-config
@@ -28,7 +29,7 @@ mod_wsgi-express module-config
 <VirtualHost *:5001>
 	ServerName localhost
 	WSGIScriptAlias /mi_app C:/xampp/htdocs/mi_app/app.wsgi
-	
+
 	<Directory C:/xampp/htdocs/mi_app>
 		Options FollowSymLinks
 		AllowOverride None
@@ -135,3 +136,9 @@ En el archivo .wsgi ambas sys.path.append(<ruta>) y sys.path.insert(0, <ruta>) f
 Si hay Listen <puerto> pero no hay ServerName:<puerto> FUNCIONA
 Si no hay Listen <puerto> NO FUNCIONA
 Utilizando el mismo puerto que apache (80) y WSGIScriptAlias / FUNCIONA el servidor de la app se sobrepone al de apache
+Python instalado para todos los usuarios FUNCIONA
+Python instalado para el usuario FUNCIONA
+Apache NO instalado como servicio FUNCIONA A VECES SI A VECES NO. Tuve un error que se soluciono al instalar apache como servicio, aunque luego lo volví a desinstalar y mod_wsgi instalaba igual, así que no sé bien. Pero me da la sensacion que es mejor hacer el paso de instalar apache como servicio.
+
+
+
