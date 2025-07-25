@@ -7,25 +7,25 @@ QUE HICE YO
 3. Instalar Apache como servicio (Necesario????)
 C:\xampp\apache\bin\httpd.exe -k install
 
-4. poner la variable de entorno de apache root dir con diagonales de frente /////, no hacia atr·s idiota
+4. poner la variable de entorno de apache root dir con diagonales de frente /////, no hacia atr√°s idiota
 set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache
 
-5. Activar el entorno virtual. Se trabajar· con entorno virtual
+5. Activar el entorno virtual. Se trabajar√° con entorno virtual
 .venv\Scripts\activate
 
 6. Instalar mod_wsgi sin cachear. Si hay una instalacion previa de mod_wsgi desinstalala con pip uninstall mod_wsgi
 pip install --no-cache-dir mod_wsgi
 
-7. Obtener la configuraciÛn de mod_wsgi
+7. Obtener la configuraci√≥n de mod_wsgi
 mod_wsgi-express module-config
 
 8. Copiar el texto que devuelve el comando en la terminal
 
 9. Desactivar el entorno virtual
 
-10. Pegar el texto de configuracion en httpd.conf despuÈs de todos los LoadModule
+10. Pegar el texto de configuracion en httpd.conf despu√©s de todos los LoadModule
 
-11. Pegar la siguiente configuraciÛn del servidor. Modificar respectivamente (puerto, servername, ruta del .wsgi y de la carpeta del proyecto)
+11. Pegar la siguiente configuraci√≥n del servidor. Modificar respectivamente (puerto, servername, ruta del .wsgi y de la carpeta del proyecto)
 <VirtualHost *:5001>
 	ServerName localhost
 	WSGIScriptAlias /mi_app C:/xampp/htdocs/mi_app/app.wsgi
@@ -37,7 +37,7 @@ mod_wsgi-express module-config
 	</Directory>
 </VirtualHost>
 
-12. AÒadir configuraciÛn de puerto y servername respectivamente. En las lineas correspondientes, es decir, Listen <puerto> debajo de Listen 80 y ServerName:<puerto> debajo de ServerName localhost:80. Ejemplo:
+12. A√±adir configuraci√≥n de puerto y servername respectivamente. En las lineas correspondientes, es decir, Listen <puerto> debajo de Listen 80 y ServerName:<puerto> debajo de ServerName localhost:80. Ejemplo:
 Listen 5001
 localhost:5001
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     app.run()
 
 
-VERIFICA QUE APACHE FUNCIONA DESPUES DE CADA PASO. PARA VERIFICAR CUANDO Y POR QU… DEJA DE FUNCIONAR
+VERIFICA QUE APACHE FUNCIONA DESPUES DE CADA PASO. PARA VERIFICAR CUANDO Y POR QU√â DEJA DE FUNCIONAR
 
 ---------- issue https://github.com/GrahamDumpleton/mod_wsgi/issues/835#issue-1687776735 ---------
 
@@ -70,7 +70,7 @@ set the environment variable MOD_WSGI_APACHE_ROOTDIR to the directory containing
 
 Also be aware that xampp distributions of Apache often don't work as they lack the required DLL import libraries needed when compiling the Apache module. That is a separate issue though. The ApacheLounge distribution of Apache is what is recommended.
 
-sys.path es una lista que define las rutas en las cuales python buscar· las importaciones de modulos (archivos de python), en ese sentido .insert(0, <ruta>) define la primera ruta a utilizar, mientras que .append(<ruta>) la aÒade pero al final de la lista 
+sys.path es una lista que define las rutas en las cuales python buscar√° las importaciones de modulos (archivos de python), en ese sentido .insert(0, <ruta>) define la primera ruta a utilizar, mientras que .append(<ruta>) la a√±ade pero al final de la lista 
 ------------- -------------------
 <mi_app> C:/xampp/htdocs/mi_app C:\xampp\htdocs\mi_app
 
@@ -114,7 +114,7 @@ WSGIApplicationGroup %{GLOBAL}
 	</Directory>
 </VirtualHost>
 
-# Include mi_app.conf file. GuÌate de los otros Include conf/extra para verificar
+# Include mi_app.conf file. Gu√≠ate de los otros Include conf/extra para verificar
 Include conf/extra/mi_app.conf 
 
 # Add Listen port and ServerName to httpd.conf. Verify servername and listen syntax
@@ -131,14 +131,159 @@ sys.path.insert(0, 'D:\\Tirumalesh\\dev\\text_basic')
 
 ------------- Me testing ------------
 Las rutas en la configuracion de virtualhost funcionan de ambas formas con y sin comillas
-Las rutas en la configuracion de virtualhost funcionan de ambas formas con slash de frente y hacia atr·s
+Las rutas en la configuracion de virtualhost funcionan de ambas formas con slash de frente y hacia atr√°s
 En el archivo .wsgi ambas sys.path.append(<ruta>) y sys.path.insert(0, <ruta>) funcionan
 Si hay Listen <puerto> pero no hay ServerName:<puerto> FUNCIONA
 Si no hay Listen <puerto> NO FUNCIONA
 Utilizando el mismo puerto que apache (80) y WSGIScriptAlias / FUNCIONA el servidor de la app se sobrepone al de apache
 Python instalado para todos los usuarios FUNCIONA
 Python instalado para el usuario FUNCIONA
-Apache NO instalado como servicio FUNCIONA A VECES SI A VECES NO. Tuve un error que se soluciono al instalar apache como servicio, aunque luego lo volvÌ a desinstalar y mod_wsgi instalaba igual, asÌ que no sÈ bien. Pero me da la sensacion que es mejor hacer el paso de instalar apache como servicio.
+Apache NO instalado como servicio FUNCIONA A VECES SI A VECES NO. Tuve un error que se soluciono al instalar apache como servicio, aunque luego lo volv√≠ a desinstalar y mod_wsgi instalaba igual, as√≠ que no s√© bien. Pero me da la sensacion que es mejor hacer el paso de instalar apache como servicio.
+La configuraci√≥n de logs funciona s√≥lo si existen los archivos access.log y error.log en la ruta especificada
 
 
 
+---------- REFERENCIAS ------------
+Flask App Deployment in Windows (Apache-Server, mod_wsgi) https://thilinamad.medium.com/flask-app-deployment-in-windows-apache-server-mod-wsgi-82e1cfeeb2ed
+Serve Flask App With XAMPP Apache on Windows https://medium.com/swlh/serve-flask-app-with-xampp-apache-on-windows-4debb4eb0b91
+Flask on Windows using Apache https://dev.to/willmvs/flask-deployment-on-windows-139b 
+Flask App Deployment in Windows (Apache-Server, mod_wsgi) #454 https://github.com/GrahamDumpleton/mod_wsgi/issues/454
+How can I execute a python flask web app with xampp? - Stackoverflow https://stackoverflow.com/a/59245496
+Indian guy: Deploy Flask app on Apache HTTPD server | WSGI module for Flask https://www.youtube.com/watch?v=EzJV7oo0R04   https://github.com/shivamkalra111/Python-Flask-with-Apache
+
+
+
+-------- CONFIG --------
+The Listen directive tells the server to accept incoming requests on the specified port or address-and-port combination. If only a port number is specified, the server listens to the given port on all interfaces. If an IP address is given as well as a port, the server will listen on the given port and interface.
+Multiple Listen directives may be used to specify a number of addresses and ports to listen to. The server will respond to requests from any of the listed addresses and ports.
+For example, to make the server accept connections on both port 80 and port 8000, use:
+Listen 80
+Listen 8000
+To make the server accept connections on two specified interfaces and port numbers, use
+Listen 192.170.2.1:80
+Listen 192.170.2.5:8000
+Error condition
+Multiple Listen directives for the same ip address and port will result in an Address already in use error message.
+
+Include directive allows inclusion of other configuration files from within the server configuration files.
+The file path specified may be an absolute path, or may be relative to the ServerRoot directory ("C:/xampp/apache" en este caso").
+Include /usr/local/apache2/conf/ssl.conf
+Include conf/ssl.conf
+
+
+<VirtualHost> and </VirtualHost> are used to enclose a group of directives that will apply only to a particular virtual host. Any directive that is allowed in a virtual host context may be used. When the server receives a request for a document on a particular virtual host, it uses the configuration directives enclosed in the <VirtualHost> section
+Note
+The use of <VirtualHost> does not affect what addresses Apache httpd listens on. You may need to ensure that Apache httpd is listening on the correct addresses using Listen.
+DocumentRoot: Valor por defecto: /usr/local/apache/htdocs y en xampp "C:/xampp/htdocs"
+  Est√° definido y explicado en httpd.conf y asignado a "C:/xampp/htdocs"
+# DocumentRoot: The directory out of which you will serve your
+# documents. By default, all requests are taken from this directory, but
+# symbolic links and aliases may be used to point to other locations.
+#
+DocumentRoot "C:/xampp/htdocs"
+
+<Directory> and </Directory> are used to enclose a group of directives that will apply only to the named directory, sub-directories of that directory, and the files within the respective directories. Any directive that is allowed in a directory context may be used.
+
+
+# ServerAdmin: Your address, where problems with the server should be
+# e-mailed.  This address appears on some server-generated pages, such
+# as error documents.  e.g. admin@your-domain.com
+#
+ServerAdmin postmaster@localhost
+
+# ServerName gives the name and port that the server uses to identify itself.
+# This can often be determined automatically, but we recommend you specify
+# it explicitly to prevent problems during startup.
+#
+# If your host doesn't have a registered DNS name, enter its IP address here.
+#
+
+    #
+    # Alias: Maps web paths into filesystem paths and is used to
+    # access content that does not live under the DocumentRoot.
+    # Example:
+    # Alias /webpath /full/filesystem/path
+    #
+    # If you include a trailing / on /webpath then the server will
+    # require it to be present in the URL.  You will also likely
+    # need to provide a <Directory> section to allow access to
+    # the filesystem path.
+
+    #
+    # ScriptAlias: This controls which directories contain server scripts. 
+    # ScriptAliases are essentially the same as Aliases, except that
+    # documents in the target directory are treated as applications and
+    # run by the server when requested rather than as documents sent to the
+    # client.  The same rules about trailing "/" apply to ScriptAlias
+    # directives as to Alias.
+    #
+    ScriptAlias /cgi-bin/ "C:/xampp/cgi-bin/"
+
+#
+# Deny access to the entirety of your server's filesystem. You must
+# explicitly permit access to web content directories in other 
+# <Directory> blocks below.
+#
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+    #
+    # Possible values for the Options directive are "None", "All",
+    # or any combination of:
+    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+Indexes
+If a URL which maps to a directory is requested, and there is no DirectoryIndex (e.g., index.html) in that directory, then mod_autoindex will return a formatted listing of the directory.
+Includes
+Server-side includes provided by mod_include are permitted.
+FollowSymLinks
+The server will follow symbolic links in this directory.
+ExecCGI
+Execution of CGI scripts using mod_cgi is permitted.
+
+    #
+    # AllowOverride controls what directives may be placed in .htaccess files.
+    # It can be "All", "None", or any combination of the keywords:
+    #   AllowOverride FileInfo AuthConfig Limit
+    #
+    AllowOverride All
+
+    #
+    # Controls who can get stuff from this server.
+    #
+    Require all granted
+
+    #
+    # AddHandler allows you to map certain file extensions to "handlers":
+    # actions unrelated to filetype. These can be either built into the server
+    # or added with the Action directive (see below)
+    #
+    # To use CGI scripts outside of ScriptAliased directories:
+    # (You will also need to add "ExecCGI" to the "Options" directive.)
+    #
+    AddHandler cgi-script .cgi .pl .asp
+
+#
+# ErrorLog: The location of the error log file.
+# If you do not specify an ErrorLog directive within a <VirtualHost>
+# container, error messages relating to that virtual host will be
+# logged here.  If you *do* define an error logfile for a <VirtualHost>
+# container, that host's errors will be logged there and not here.
+#
+ErrorLog "logs/error.log"
+
+    #
+    # The location and format of the access logfile (Common Logfile Format).
+    # If you do not define any access logfiles within a <VirtualHost>
+    # container, they will be logged here.  Contrariwise, if you *do*
+    # define per-<VirtualHost> access logfiles, transactions will be
+    # logged therein and *not* in this file.
+    #
+    #CustomLog "logs/access.log" common
+
+    #
+    # If you prefer a logfile with access, agent, and referer information
+    # (Combined Logfile Format) you can use the following directive.
+    #
+    CustomLog "logs/access.log" combined
