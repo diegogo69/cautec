@@ -1,6 +1,5 @@
 # Desplegar aplicación Flask en XAMPP Apache (Windows)   
-Para nuestro proyecto utilizaremos un entorno virtual, para trabajar de forma más organizada y eficiente.   
-**mod_wsgi** es el encargado de indicarle a nuestro servidor Apache como ejecutar nuestra aplicación Flask.   
+Para nuestro proyecto utilizaremos un entorno virtual, para trabajar de forma más organizada y eficiente, y con el paquete **mod_wsgi** que es el encargado de indicarle a nuestro servidor Apache como ejecutar nuestra aplicación Flask.   
 
 Este ejemplo asume lo siguiente:
 - Nuestra Aplicación Flask se llama *mi_app*   
@@ -10,11 +9,11 @@ Este ejemplo asume lo siguiente:
 
 
 ## Instalación de Visual C++ Build Tools   
-Instala las librerías de Microsoft Visual C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/).   
+Instala las librerías de Microsoft Visual C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/). Se recomienda instalar la versión más reciente, aunque la mínima requerida es la 14.0.0.   
+
 
 ## Instalación completa de Python   
 Debes tener una instalación completa de Python que incluya el instalador de paquetes **pip**, y te permita la creación de entornos virtuales.
-
 
 **Verificar Python**: `python --version`   
 
@@ -22,13 +21,17 @@ Debes tener una instalación completa de Python que incluya el instalador de paq
 
 
 ## Instalación de Apache o XAMPP   
-Se recomienda usar una versión reciente de Apache, o de XAMPP que incluye Apache.   
+Se recomienda usar una versión reciente de Apache, o de XAMPP que incluye Apache.
+
+**Importante**: Todas las instalaciones deben ser de la misma arquitectura, es decir, todas son de 32-bits o todas son de 64-bits.
+
 
 ## Archivos del proyecto   
 Nuestro proyecto debe incluir el archivo principal de nuestra aplicación, generalmente *app.py*, que define nuestra aplicación Flask y además incluir un archivo *.wsgi* que funcionará como el archivo de entrada para nuestro servidor Apache.
 
+
 ### mi_app.wsgi
-Crea un archivo *.wsgi* con el nombre de tu aplicación y añade el siguiente contenido:
+Crea un archivo *.wsgi* con el nombre de tu aplicación, en este caso *mi_app.wsgi*, y añade el siguiente contenido:
 
 ```
 import sys
@@ -39,6 +42,7 @@ from app import app as application
 ```
 
 El archivo es básicamente código python, que importa la aplicación flask (*app*) del archivo principal (*app.py*) con el nombre de *application*. Las primeras lineas definen a la ruta del proyecto como la primera ruta en la cual buscar los modulos importados, en este caso la importación de *app*.
+
 
 ### app.py
 Este ejemplo define una aplicación Flask básica en un archivo *app.py* con el siguiente contenido:   
@@ -56,12 +60,14 @@ if __name__ == "__main__":
     app.run()
 ```
 
+
 ## Instalar Apache como servicio   
 Este paso es recomendable para evitar errores. Abre CMD como administrador y ejecuta el siguiente comando:   
 
 `C:\xampp\apache\bin\httpd.exe -k install`
 
-El comando utiliza la ruta por defecto de la instalación de XAMPP. En caso de que hayas elegido una ruta diferente para la instalación de XAMPP debes utilizar la ruta que elegiste.   
+El comando utiliza la ruta por defecto de la instalación de XAMPP. En caso de que hayas elegido una ruta diferente para la instalación de XAMPP debes utilizar la ruta que elegiste. Al completar este paso puedes cerrar el CMD.   
+
 
 ## Definir variable de entorno para Apache   
 Debemos indicar la ruta de nuestra instalación de Apache, que en este caso es una instalación de Apache con XAMPP. Para ello definimos una variable de entorno con la ruta nuestra instalación de Apache utilizando **diagonales hacia delante** ( **/** ), y no hacia atrás ( **\\** ).   
@@ -72,18 +78,19 @@ Abre una terminal CMD en el directorio de tu proyecto y ejecuta el siguiente com
 
 **IMPORTANTE:** Asegúrate que la ruta de Apache en el comando usa diagonales hacia delante ( **////** )   
 
+
 ## Activar el entorno virtual   
 La instalación del paquete mod_wsgi la haremos en el entorno virtual de nuestro proyecto. Si tu entorno virtual se llama *.venv* ejecuta el siguiente comando:   
 
 `.venv\Scripts\activate`
 
+
 ## Instalar mod_wsgi   
-Este es el paso que presenta más inconvenientes, habiendo seguido los pasos anteriores deberías estar tranquilo. Para la instalación del paquete se utilizarán dos directivas, la primera (*--require-virtualenv*) indica que la instalación sólo se realizará si el entorno virtual está activado, para evitar una instalación global; la segunda (*--no-cache-dir*) indica que se deshabilitará la caché para la instalación del paquete, para evitar una instalación posiblemente corrupta.
+Este es el paso que presenta más inconvenientes, habiendo seguido los pasos anteriores deberías estar tranquilo. Para la instalación del paquete se utilizarán tres directivas, la primera (*--require-virtualenv*) indica que la instalación sólo se realizará si el entorno virtual está activado, para evitar una instalación global; la segunda (*--no-cache-dir*) indica que se deshabilitará la caché para la instalación del paquete, para evitar una instalación posiblemente corrupta; y la tercera (*-U*) asegura que se instale la versión más reciente del paquete.
 
 En el CMD con el entorno virtual activo ejecuta el siguiente comando:   
 
-`pip install --require-virtualenv --no-cache-dir mod_wsgi`
-
+`pip install --require-virtualenv --no-cache-dir -U mod_wsgi`
 
 **Nota:** Si existe una instalacion previa de mod_wsgi, global o en el entorno virtual, desinstalala con `pip uninstall mod_wsgi` para evitar errores en la instalación.   
 
@@ -101,6 +108,7 @@ Copia el texto que aparece en la terminal, que luce algo similar a esto:
 > LoadModule wsgi_module "C:/Users/prod_deploy/AppData/Roaming/Python/Python37/site-packages/mod_wsgi/server/mod_wsgi.cp37-win_amd64.pyd"   
 > WSGIPythonHome "c:/program files/python37"   
 
+
 ## Añadir configuración de mod_wsgi a Apache   
 La configuración de mod_wsgi que generamos ahora debemos añadirla al archivo **httpd.conf** de configuración de Apache.   
 
@@ -109,6 +117,7 @@ La configuración de mod_wsgi que generamos ahora debemos añadirla al archivo *
 - Dentro del archivo busca la última línea que contenga *LoadModule*
 
 - Pega el texto de configuracion después de todos los *LoadModule*
+
 
 ## Añadir configuración del puerto de la aplicación   
 Debemos indicar a Apache el puerto que nuestra aplicación utilizará
@@ -149,3 +158,6 @@ Pega la siguiente configuración al final del archivo **httpd.conf**, haciendo m
 	</Directory>
 </VirtualHost>
 ```
+
+## Voilà   
+Activa el servidor Apache, y accede a tu aplicación desde http://localhost:5001/mi_app, si todo ha salido bien, deberías ver un bonito mensaje en pantalla.   
