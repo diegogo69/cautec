@@ -95,6 +95,7 @@ WSGIApplicationGroup %{GLOBAL}
 
 MIA. APACHE 2.4
 
+WSGIApplicationGroup %{GLOBAL}
 <VirtualHost *:5001>
     # ServerAdmin admin-name-here
     ServerName localhost
@@ -110,4 +111,20 @@ MIA. APACHE 2.4
 
     # ErrorLog “[myapp]/logs/error.log”
     # CustomLog “[myapp]/logs/access.log” common
+</VirtualHost>
+
+# Cautec VirtualHost config
+<VirtualHost *:5001>
+  ServerAdmin cautec@cautec.com
+  ServerName localhost
+
+  WSGIApplicationGroup %{GLOBAL}
+  WSGIScriptAlias / C:/xampp/htdocs/cautec/wsgi_scripts/cautec.wsgi
+
+  <Directory C:/xampp/htdocs/cautec>
+    Require all granted
+  </Directory>
+
+  ErrorLog "C:/xampp/htdocs/cautec/logs/error.log"
+  CustomLog "C:/xampp/htdocs/cautec/logs/access.log" common
 </VirtualHost>

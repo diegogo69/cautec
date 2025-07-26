@@ -289,6 +289,17 @@ ErrorLog "logs/error.log"
 
     #
     # If you prefer a logfile with access, agent, and referer information
+
+# Las siguientes directivas generan error e impiden que se inicialice Apache
+# WSGIDaemonProcess cautec
+# WSGIProcessGroup cautec
+
+# La siguiente directiva es necesaria para evitar el error: ImportError: PyO3 modules compiled for CPython 3.8 or older may only be initialized once per interpreter process
+# WSGIApplicationGroup directive is used to force the WSGI application to run in the main Python interpreter context of each of the Apache worker processes. This is to avoid those issues with some third party packages for Python with C extensions as mentioned before.
+# it forces the WSGI application to run in the main Python interpreter context of each process. This is preferred in this scenario as some third party packages for Python which include C extensions will not run in the Python sub interpreter contexts which mod_wsgi would use by default. By using the main Python interpreter context you eliminate the possibility of such third party packages for Python causing problems.
+#  Forcing a WSGI application to run within the first interpreter can be necessary when a third party C extension module for Python has used the simplified threading API for manipulation of the Python GIL and thus will not run correctly within any additional sub interpreters created by Python.
+# docs https://modwsgi.readthedocs.io/en/develop/configuration-directives/WSGIApplicationGroup.html
+
     # (Combined Logfile Format) you can use the following directive.
     #
     CustomLog "logs/access.log" combined
