@@ -63,6 +63,7 @@ if __name__ == "__main__":
 
 
 VERIFICA QUE APACHE FUNCIONA DESPUES DE CADA PASO. PARA VERIFICAR CUANDO Y POR QUÉ DEJA DE FUNCIONAR
+TODOS LAS INSTALACIONES SEAN DE LA MISMA ARQUITECTURA (32.BITS O 64-BITS)
 
 ---------- issue https://github.com/GrahamDumpleton/mod_wsgi/issues/835#issue-1687776735 ---------
 
@@ -127,6 +128,10 @@ ServerName <address>:<port>
 ------------------ Page issues ----------
 You need to use double backslashes in your web.wsgi file:
 sys.path.insert(0, 'D:\\Tirumalesh\\dev\\text_basic')
+
+A few comments.
+
+Firstly, relying on ExecCGI/AddHandler to execute Python WSGI scripts is in general not recommended. Use WSGIDaemonProcess/WSGIProcessGroup/WSGIScriptAlias instead.
 
 
 ------------- Me testing ------------
