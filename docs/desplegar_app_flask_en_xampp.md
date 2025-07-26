@@ -143,7 +143,7 @@ Justo debajo de la ultima añade una linea para tu aplicación:
 En este ejemplo el ServerName es *localhost* y el puerto es *5001*   
 
 
-## Añadir configuración del servidor   
+## Añadir configuración VirtualHost del servidor   
 Para que Apache muestre nuestra Aplicación debemos generar la configuración del servidor de nuestra aplicación. 
 
 Pega la siguiente configuración al final del archivo **httpd.conf**, haciendo modificaciones respectivas según tu aplicación (puerto, servername, ruta del archivo *.wsgi* y de la carpeta del proyecto)   
@@ -161,3 +161,51 @@ Pega la siguiente configuración al final del archivo **httpd.conf**, haciendo m
 
 ## Voilà   
 Activa el servidor Apache, y accede a tu aplicación desde http://localhost:5001/mi_app, si todo ha salido bien, deberías ver un bonito mensaje en pantalla.   
+
+## Acceder desde la red local   
+Para acceder a nuestra aplicación desde otros dispositivos conectados a nuestra misma red debemos añadir las siguientes configuraciones. 
+
+### Obtener la dirección IP del servidor   
+Para acceder a nuestra aplicación es necesario conocer la dirección IP del servidor Apache. Desde el computador en el que está instalado nuestro servidor Apache ejecuta el siguiente comando en una ventana de CMD:
+
+`ipconfig`
+
+En la terminal debe aparecer una línea *Dirección IPV4* con nuestra dirección IP que debe lucir algo así:
+
+> Dirección IPv4. . . . . . . . . . . . . . : x.x.x.x
+
+Copia la dirección IP, en este caso como ejemplo es *x.x.x.x*.
+
+### Añadir nuestra dirección IP en el servidor Apache
+Modifica las líneas de configuración que añadiste para la aplicación en el archivo *httpd.conf*, añadiendo la dirección IP:
+
+Reemplaza la línea `Listen 5001` por `Listen x.x.x.x:5001`   
+
+Reemplaza la línea `ServerName localhost:5001` por `ServerName x.x.x.x:5001`
+
+En la configuración VirtualHost del servidor, al final del archivo, reemplaza la línea `ServerName localhost` por `ServerName x.x.x.x`. De esta forma:   
+
+```
+<VirtualHost *:5001>   
+  ServerName x.x.x.x   
+...   
+```
+
+Reemplaza la dirección IP de ejemplo *x.x.x.x* por tu dirección IP.   
+
+### Configuración de Firewall de windows
+Debes configurar el firewall de windows para que permmita el acceso al servidor Apache a través de la red local. 
+
+- Abre el *Firewall de Windows*   
+- Ingresa a *Configuración avanzada*   
+- En el panel izquierdo ingresa en *Reglas de entrada*   
+- Busca las reglas que digan "*Apache HTTP Server*" y eliminalas   
+- En el panel derecho haz click en *Nueva regla*   
+- Elige la opción de **Puerto** y haz click en *siguiente*   
+- Selecciona las opciones de **TCP** y **Puertos específicos**, ingresa el número de puerto de tu aplicación en la casilla de texto y haz click en siguiente   
+- Selecciona **Permitir la conexión**   
+- Selecciona las casillas de **Dominio**, **Privado** y **Público**   
+- Añade un nombre de configuración, por ejemplo: *puerto_mi_app*   
+- Abre el Panel de Control de XAMPP y activa el servidor Apache
+- En la ventana que se despliega del Firewall de Windows selecciona ambas casillas de **Redes privadas** y **Redes públicas**, y haz click en **Permitir acceso**   
+- Accede a la aplicación desde la dirección **x.x.x.x:5001** en el navegador desde un dispositivo conectado a la misma red, donde *x.x.x.x* es la dirección del servidor Apache y *5001* el puerto de tu aplicación   
