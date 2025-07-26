@@ -4,6 +4,7 @@ prueba
 .vscode
 local/
 *.pdf
+logs/
 
 *.pyc
 __pycache__/

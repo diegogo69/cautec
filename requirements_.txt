@@ -8,9 +8,9 @@ Flask-Bcrypt # Crear hash para contraseñas
 Flask-Login
 email-validator
 SQLAlchemy-Utils # Abstraccion de metodos utiles, como verificar la existencia de una base de datos, o crear una base de datos
-
 pdfkit
 Jinja2 # Installed by flask, also needed for PDFKit
 # Follow the doc instructions to install wkhtmltopdf
 #DEVELOPMENT
 black | formatter
+mod_wsgi # Para despligue en servidor xampp
