@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from src.utils.auth import bcrypt
 
+load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
+
 # db = MySQL()
 class SQLAlchemyBase(DeclarativeBase):
     __abstract__ = True
@@ -20,12 +22,11 @@ db = SQLAlchemy(model_class=SQLAlchemyBase)
 # Se proveen un valor explicito por defecto de None
 # Parece que el la aplicación mod_wsgi no carga las variables de entorno de python-dotenv
 def get_variables_entorno():
-    load_dotenv()
-    dialect = os.getenv('DB_DIALECT', 'mysql')
-    username = os.getenv('DB_USERNAME', 'cautec')
-    password = os.getenv('DB_PASSWORD', 'cautec')
-    host = os.getenv('DB_HOST', 'localhost')
-    database = os.getenv('DB_DATABASE', 'cautec')
+    dialect = os.getenv('DB_DIALECT', None)
+    username = os.getenv('DB_USERNAME', None)
+    password = os.getenv('DB_PASSWORD', None)
+    host = os.getenv('DB_HOST', None)
+    database = os.getenv('DB_DATABASE', None)
 
     return dialect, username, password, host, database
 
