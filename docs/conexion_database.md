@@ -13,7 +13,27 @@ sqlite:///project.db
 postgresql://scott:tiger@localhost/project
  MySQL / MariaDB
 mysql://scott:tiger@localhost/project
- Cargar variables de entorno
+
+
+Variables de entorno con python-dotenv
+
+# Archivo .env
+Crea un archivo llamado .env el cual contendrá las variables de entorno, en forma de clave=valor
+
+SECRET_KEY=mysecretkey
+DATABASE_URL=postgres://user:password@localhost/db
+
+# Importa los modulos necesarios
+from dotenv import load_dotenv
+import os
+
+# Carga las variables de entorno desde .env
+load_dotenv()
+
+# Accede a las variables de entorno del entorno actual
+SECRET_KEY = os.getenv('SECRET_KEY')
+DATABASE_URL = os.getenv('DATABASE_URL'):
+
 
 Error usuario incorrecto:
 Error:  (MySQLdb.OperationalError) (1045, "Access denied for user 'caute'@'localhost' (using password: YES)")

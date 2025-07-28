@@ -18,13 +18,14 @@ db = SQLAlchemy(model_class=SQLAlchemyBase)
 
 # Cargar valores de variables de entorno para las credenciales de la base de datos
 # Se proveen un valor explicito por defecto de None
+# Parece que el la aplicación mod_wsgi no carga las variables de entorno de python-dotenv
 def get_variables_entorno():
     load_dotenv()
-    dialect = os.getenv('DB_DIALECT', None)
-    username = os.getenv('DB_USERNAME', None)
-    password = os.getenv('DB_PASSWORD', None)
-    host = os.getenv('DB_HOST', None)
-    database = os.getenv('DB_DATABASE', None)
+    dialect = os.getenv('DB_DIALECT', 'mysql')
+    username = os.getenv('DB_USERNAME', 'cautec')
+    password = os.getenv('DB_PASSWORD', 'cautec')
+    host = os.getenv('DB_HOST', 'localhost')
+    database = os.getenv('DB_DATABASE', 'cautec')
 
     return dialect, username, password, host, database
 
