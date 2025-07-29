@@ -30,6 +30,7 @@ import platform
 
 
 # Diccionario para información a renderizar en Notas de servicios
+# Funciona esto en caso de un servidor con multiples solicitudes?
 NOTA_SERVICIO_DATA = {}
 
 reportes = Blueprint(
@@ -99,6 +100,10 @@ def crear_reporte():
         cod_bienes = request.form["cod-bienes"].strip()
         falla = request.form["falla"].strip()
         fecha_visita = request.form["fecha-visita"].strip()
+        if fecha_visita:
+            fecha_visita = datetime.fromisoformat(fecha_visita)
+        else:
+            fecha_visita = None
 
         nombre_solicitante = f"{nombre_sol} {apellido_sol}"
 
@@ -107,7 +112,7 @@ def crear_reporte():
             tipo_dispositivo_id=tipo_dispositivo,
             cod_bienes_dispositvo=cod_bienes,
             falla_id=falla,
-            fecha_visita=datetime.fromisoformat(fecha_visita),
+            fecha_visita=fecha_visita,
             usuario_id=current_user.id,
             departamento_id=reporte_area,
         )
