@@ -20,16 +20,16 @@ Una vez creado el entorno virtual, es necesario activarlo. Ejecuta uno de los si
 
 Para desactivar el entorno virtual utiliza el comando `deactivate`
 
-## Errores al activar el entorno virtual en PowerShell
+## Errores al activar el entorno virtual en Windows PowerShell
 
-Si al intentar activr el entorno virtual obtienes el siguiente error:
+Si tu sistema operavito es windows y al intentar activr el entorno virtual obtienes el siguiente error:
 
 > No se puede cargar el archivo ...\.venv\Scripts\Activate.ps1 porque la ejecución de scripts está deshabilitada en este sistema.
 
 Abre una terminal de PowerShell como administrador
 
-Ejecuta el siguiente comando:  
-`Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`
+Ejecuta el siguiente comando para habilitar la activación del entorno virtual:  
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
 ## Instalar dependencias desde requirements.txt
 

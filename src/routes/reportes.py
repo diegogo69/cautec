@@ -100,10 +100,10 @@ def crear_reporte():
         cod_bienes = request.form.get("cod-bienes").strip()
         falla = request.form.get("falla").strip()
         falla_predeterminada = True
-        if falla == 'otro':
+        if falla == "otro":
             # Añadir falla definida por el usuario y utilizar su index o id
             # falla = request.form.get('falla-otro').strip()
-            falla = '0'
+            falla = "0"
             falla_predeterminada = False
 
         fecha_visita = request.form.get("fecha-visita").strip()
@@ -140,11 +140,19 @@ def crear_reporte():
         dispositivos = {}
         dispositivos["tipos"] = TIPOS_DISPOSITIVOS
         dispositivos["fallas"] = FALLAS_DISPOSITIVOS
+        # fecha_hoy = datetime.isoformat(datetime.now(), sep='T', timespec='minutes')
+        fecha_hoy = datetime.now()
+        fecha_visita_pred = datetime.isoformat(fecha_hoy, sep='T', timespec='minutes')
+        fecha_visita_min = f"{ datetime.date(fecha_hoy) }T00:00"
+        fecha_visita_max = f"{ fecha_hoy.year }-12-31T23:59"
 
         return render_template(
             "reportes/crear-reporte.html",
             areas=areas,
             dispositivos=dispositivos,
+            fecha_visita_pred=fecha_visita_pred,
+            fecha_visita_min=fecha_visita_min,
+            fecha_visita_max=fecha_visita_max,
             enumerate=enumerate,
         )
 

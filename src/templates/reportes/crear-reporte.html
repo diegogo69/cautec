@@ -123,7 +123,10 @@
 
                 <li class="col-12">
                     <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
-                    <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2">
+                    <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2"
+                    min="{{ fecha_visita_min }}" max="{{ fecha_visita_max }}" value="{{ fecha_visita_pred }}"
+                    step="900"
+                    >
                     <div class="form-text">Selecciona una fecha y hora que te convenga para que uno de nuestros técnicos
                         de soporte visite tu área de trabajo</div>
                 </li>
@@ -232,6 +235,6 @@
     // Add event listener for the select field
     fallaSelect.addEventListener('change', handleSelectChange);
 
-    handleSelectChange();
+    // handleSelectChange();
 </script>
 {% endblock %}
