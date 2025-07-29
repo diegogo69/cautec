@@ -87,19 +87,26 @@ def crear_reporte():
         # departamento_id = 1
         # equipo_asociado = request.form['equipo_asociado']
 
-        nombre_sol = request.form["nombre-sol"].strip()
-        apellido_sol = request.form["apellido-sol"].strip()
+        nombre_sol = request.form.get("nombre-sol").strip()
+        apellido_sol = request.form.get("apellido-sol").strip()
 
-        tipo_area = request.form["tipo-area"].strip()
-        reporte_area = request.form["nombre-area"].strip()
-        torre = request.form["torre"].strip()
-        piso = request.form["piso"].strip()
-        ext_telefonica = request.form["ext-telefonica"].strip()
+        tipo_area = request.form.get("tipo-area").strip()
+        reporte_area = request.form.get("nombre-area").strip()
+        torre = request.form.get("torre").strip()
+        piso = request.form.get("piso").strip()
+        ext_telefonica = request.form.get("ext-telefonica").strip()
 
-        tipo_dispositivo = request.form["tipo-dispositivo"].strip()
-        cod_bienes = request.form["cod-bienes"].strip()
-        falla = request.form["falla"].strip()
-        fecha_visita = request.form["fecha-visita"].strip()
+        tipo_dispositivo = request.form.get("tipo-dispositivo").strip()
+        cod_bienes = request.form.get("cod-bienes").strip()
+        falla = request.form.get("falla").strip()
+        falla_predeterminada = True
+        if falla == 'otro':
+            # Añadir falla definida por el usuario y utilizar su index o id
+            # falla = request.form.get('falla-otro').strip()
+            falla = '0'
+            falla_predeterminada = False
+
+        fecha_visita = request.form.get("fecha-visita").strip()
         if fecha_visita:
             fecha_visita = datetime.fromisoformat(fecha_visita)
         else:

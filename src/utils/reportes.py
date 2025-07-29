@@ -17,6 +17,7 @@ TIPOS_DISPOSITIVOS = [
 ]
 
 FALLAS_DISPOSITIVOS = [
+    "otro",
     "no enciende",
     "se apaga",
     "se queda pegada",

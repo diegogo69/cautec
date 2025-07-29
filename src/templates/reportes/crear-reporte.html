@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/crear-reporte.css') }}">
+{% endblock link_css %}
+
 {% block title %}
 - Crear reporte
 {% endblock %}
@@ -98,17 +102,25 @@
                     <label for="cod-bienes" class="form-label">Chapa ULA:</label>
                     <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13">
                     <!-- placeholder="2-80124-34011" -->
-                    <div class="form-text">Ingresa los digitos del código Chapa ULA del equipo</div>
+                    <div class="form-text">Ingresa el código Chapa ULA del equipo. Sólo digitos.</div>
                 </li>
                 <li class="col">
-                    <label for="falla" class="form-label">Falla:</label>
+                    <label for="falla" class="form-label">Falla del equipo:</label>
                     <select name="falla" id="falla" class="form-select">
                         <option selected>Selecciona una falla</option>
                         {% for index, falla in enumerate(dispositivos['fallas']) %}
                         <option value="{{ index }}">{{ falla|capitalize }}</option>
                         {% endfor %}
+                        <option value="otro">Otro</option>
                     </select>
                 </li>
+
+                <li class="col-12 oculto" id="falla-otro-container">
+                    <label for="falla-otro" class="form-label">Descripción de la falla:</label>
+                    <input type="text" name="falla-otro" id="falla-otro" class="form-control">
+                    <div class="form-text">Añada una descripción breve de la falla del equipo</div>
+                </li>
+
                 <li class="col-12">
                     <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
                     <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2">
@@ -169,13 +181,12 @@
     })
 </script>
 <script>
-
     const campoChapaULA = document.querySelector('#cod-bienes');
 
-    campoChapaULA.addEventListener('input', function(e) {
+    function formatearChapaULA(e) {
         let valorCampoChapaULA = e.target.value;
 
-        // 1. Remover caracteres no numéricos
+        // 1. Remover caracteres no numéricos del campo
         valorCampoChapaULA = valorCampoChapaULA.replace(/\D/g, ''); // \D matches any character that is not a digit (0-9)
 
         // 2. Aplicar el formato "x-xxxxx-xxxxx"
@@ -192,7 +203,35 @@
 
         // 3. Actualizar el valor del campo
         e.target.value = formatoChapaULA;
-    });
+    }
 
+    campoChapaULA.addEventListener('input', formatearChapaULA);
+
+</script>
+
+<script>
+    const fallaSelect = document.querySelector('#falla');
+    const containerfallaOtro = document.querySelector('#falla-otro-container');
+    const campoFallaOtro = document.querySelector('#falla-otro');
+
+    // Function to handle the change event
+    function handleSelectChange(e) {
+        const fallaSeleccionada = e.target.value;
+
+        if (fallaSeleccionada === 'otro') {
+            containerfallaOtro.classList.remove('oculto'); // Show the container
+            campoFallaOtro.setAttribute('required', 'required'); // Make the input required
+            campoFallaOtro.focus(); // Optionally focus the input field
+        } else {
+            containerfallaOtro.classList.add('oculto'); // Hide the container
+            campoFallaOtro.removeAttribute('required'); // Remove required attribute
+            campoFallaOtro.value = ''; // Clear the input field when hidden
+        }
+    }
+
+    // Add event listener for the select field
+    fallaSelect.addEventListener('change', handleSelectChange);
+
+    handleSelectChange();
 </script>
 {% endblock %}
