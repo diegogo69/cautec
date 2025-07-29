@@ -1,0 +1,5 @@
+DB_DIALECT = None
+DB_USERNAME = None
+DB_PASSWORD = None
+DB_HOST = None
+DB_DATABASE = None

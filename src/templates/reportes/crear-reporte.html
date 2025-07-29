@@ -96,8 +96,9 @@
                 </li>
                 <li class="col-6">
                     <label for="cod-bienes" class="form-label">Chapa ULA:</label>
-                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control">
+                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13">
                     <!-- placeholder="2-80124-34011" -->
+                    <div class="form-text">Ingresa los digitos del código Chapa ULA del equipo</div>
                 </li>
                 <li class="col">
                     <label for="falla" class="form-label">Falla:</label>
@@ -166,5 +167,32 @@
             areaSelect.replaceWith(newAreaSelect)
         })
     })
+</script>
+<script>
+
+    const campoChapaULA = document.querySelector('#cod-bienes');
+
+    campoChapaULA.addEventListener('input', function(e) {
+        let valorCampoChapaULA = e.target.value;
+
+        // 1. Remover caracteres no numéricos
+        valorCampoChapaULA = valorCampoChapaULA.replace(/\D/g, ''); // \D matches any character that is not a digit (0-9)
+
+        // 2. Aplicar el formato "x-xxxxx-xxxxx"
+        let formatoChapaULA = '';
+        if (valorCampoChapaULA.length > 0) {
+            formatoChapaULA += valorCampoChapaULA.substring(0, 1); // Primer digito
+        }
+        if (valorCampoChapaULA.length > 1) {
+            formatoChapaULA += '-' + valorCampoChapaULA.substring(1, 6); // Siguientes 5 digitos
+        }
+        if (valorCampoChapaULA.length > 6) {
+            formatoChapaULA += '-' + valorCampoChapaULA.substring(6, 11); // Ultimos 5 digitos
+        }
+
+        // 3. Actualizar el valor del campo
+        e.target.value = formatoChapaULA;
+    });
+
 </script>
 {% endblock %}
