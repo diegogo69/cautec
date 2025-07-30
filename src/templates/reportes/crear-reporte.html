@@ -13,7 +13,7 @@
 
 <div class="container-fluid flex-grow-1 py-2">
     <form action="{{ url_for('reportes.crear_reporte') }}" method="post">
-        <h2>Nuevo reporte</h2>
+        <h2>Nuevo reporte de trabajo</h2>
         <fieldset>
             <legend>Solicitante</legend>
             <ul class="list-unstyled row g-2">
@@ -108,8 +108,8 @@
                     <label for="falla" class="form-label">Falla del equipo:</label>
                     <select name="falla" id="falla" class="form-select">
                         <option selected>Selecciona una falla</option>
-                        {% for index, falla in enumerate(dispositivos['fallas']) %}
-                        <option value="{{ index }}">{{ falla|capitalize }}</option>
+                        {% for falla in dispositivos.fallas %}
+                        <option value="{{ falla.id }}">{{ falla.descripcion | capitalize }}</option>
                         {% endfor %}
                         <option value="otro">Otro</option>
                     </select>
@@ -118,17 +118,16 @@
                 <li class="col-12 oculto" id="falla-otro-container">
                     <label for="falla-otro" class="form-label">Descripción de la falla:</label>
                     <input type="text" name="falla-otro" id="falla-otro" class="form-control">
-                    <div class="form-text">Añada una descripción breve de la falla del equipo</div>
+                    <div class="form-text">Añada una descripción breve de la falla del equipo.</div>
                 </li>
 
                 <li class="col-12">
                     <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
                     <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2"
                     min="{{ fecha_visita_min }}" max="{{ fecha_visita_max }}" value="{{ fecha_visita_pred }}"
-                    step="900"
                     >
                     <div class="form-text">Selecciona una fecha y hora que te convenga para que uno de nuestros técnicos
-                        de soporte visite tu área de trabajo</div>
+                        de soporte visite tu área de trabajo (Ej: {{ fecha_hoy.strftime("%d/%m/%Y") }} 10:30 am).</div>
                 </li>
             </ul>
         </fieldset>

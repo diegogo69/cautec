@@ -17,9 +17,9 @@ TIPOS_DISPOSITIVOS = [
 ]
 
 FALLAS_DISPOSITIVOS = [
-    "otro",
-    "no enciende",
-    "se apaga",
-    "se queda pegada",
-    "monitor no muestra imagen",
+    # {'tipo', 'predeterminada', 'descripcion'},
+    {'tipo': 'general', 'predeterminada': True, 'descripcion': 'no enciende'},
+    {'tipo': 'general', 'predeterminada': True, 'descripcion': 'se apaga'},
+    {'tipo': 'general', 'predeterminada': True, 'descripcion': 'se queda pegada'},
+    {'tipo': 'general', 'predeterminada': True, 'descripcion': 'monitor no muestra imagen'},
 ]

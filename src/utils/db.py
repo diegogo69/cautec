@@ -96,7 +96,6 @@ def crear_departamentos():
     if hay_departamentos:
         return
 
-    print('Creando departamentos')
     for torre in AREAS_TORRES:
         for piso in AREAS_PISOS:
             for tipo in AREAS_TIPOS:
@@ -119,9 +118,38 @@ def crear_departamentos():
     db.session.commit()
     print('Departamentos creados exitosamente')
 
+def crear_fallas():
+    from src.utils.reportes import FALLAS_DISPOSITIVOS
+    from src.models.falla_dispositivo import Falla_Dispositivo
+
+    hay_fallas = Falla_Dispositivo.query.first()
+    print('----- Fallas -----')
+    print(hay_fallas)
+
+    if hay_fallas:
+        print('Ya hay fallas registradas')
+        return
+        
+    print('No hay fallas registradas. Añadiendo fallas predeterminadas')
+    for falla in FALLAS_DISPOSITIVOS:
+        tipo = falla['tipo']
+        predeterminada = falla['predeterminada']
+        descripcion = falla['descripcion']
+        
+        falla_dispositivo = Falla_Dispositivo(
+            tipo=tipo,
+            predeterminada=predeterminada,
+            descripcion=descripcion,
+        )
+
+        db.session.add(falla_dispositivo)
+                
+    db.session.commit()
+    print('Fallas registradas exitosamente')
 
 # Comprobar si hay usuarios registrados en la base de datos
 def primera_vez():
     crear_usuarios()
     crear_departamentos()
+    crear_fallas()
     return

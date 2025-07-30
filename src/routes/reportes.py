@@ -14,6 +14,7 @@ from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
 from src.models.departamento import Departamento
+from src.models.falla_dispositivo import Falla_Dispositivo
 from src.utils.departamentos import (
     departamentos_json,
     AREAS_TIPOS,
@@ -50,7 +51,8 @@ def ver_reportes():
     reportes = reportes.all()
     for reporte in reportes:
         reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
-        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        # reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        reporte.falla = Falla_Dispositivo.query.get_or_404(reporte.falla_id)
         departamento = Departamento.query.get_or_404(reporte.departamento_id)
         reporte.departamento = departamento.nombre
 
@@ -64,7 +66,8 @@ def ver_reporte(id):
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
     comentarios = Comentario.query.filter_by(reporte_id=id).all()
-    reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+    # reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+    reporte.falla = Falla_Dispositivo.query.get_or_404(reporte.falla_id)
     reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
     reporte.estados = ESTADOS_REPORTE
 
@@ -99,12 +102,23 @@ def crear_reporte():
         tipo_dispositivo = request.form.get("tipo-dispositivo").strip()
         cod_bienes = request.form.get("cod-bienes").strip()
         falla = request.form.get("falla").strip()
-        falla_predeterminada = True
+
+        # Añadir falla definida por el usuario y utilizar su index o id
         if falla == "otro":
-            # Añadir falla definida por el usuario y utilizar su index o id
-            # falla = request.form.get('falla-otro').strip()
-            falla = "0"
+            falla_tipo = 'otro'
             falla_predeterminada = False
+            falla_descripcion = request.form.get('falla-otro').strip()
+
+            falla_otro_nueva = Falla_Dispositivo(
+                tipo=falla_tipo,
+                predeterminada=falla_predeterminada,
+                descripcion=falla_descripcion,
+            )
+
+            db.session.add(falla_otro_nueva)
+            db.session.commit()
+
+            falla = falla_otro_nueva.id
 
         fecha_visita = request.form.get("fecha-visita").strip()
         if fecha_visita:
@@ -139,7 +153,11 @@ def crear_reporte():
 
         dispositivos = {}
         dispositivos["tipos"] = TIPOS_DISPOSITIVOS
-        dispositivos["fallas"] = FALLAS_DISPOSITIVOS
+        # dispositivos["fallas"] = FALLAS_DISPOSITIVOS
+        # dispositivos["fallas"] = Falla_Dispositivo.query.all()
+        dispositivos["fallas"] = Falla_Dispositivo.query.filter_by(predeterminada=True).all()
+
+
         # fecha_hoy = datetime.isoformat(datetime.now(), sep='T', timespec='minutes')
         fecha_hoy = datetime.now()
         fecha_visita_pred = datetime.isoformat(fecha_hoy, sep='T', timespec='minutes')
@@ -150,6 +168,7 @@ def crear_reporte():
             "reportes/crear-reporte.html",
             areas=areas,
             dispositivos=dispositivos,
+            fecha_hoy=fecha_hoy,
             fecha_visita_pred=fecha_visita_pred,
             fecha_visita_min=fecha_visita_min,
             fecha_visita_max=fecha_visita_max,
@@ -311,7 +330,8 @@ def crear_nota_servicio(id):
         return redirect(url_for("reportes.nota_servicio", id=id))
 
     elif request.method == "GET":
-        reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        # reporte.falla = FALLAS_DISPOSITIVOS[reporte.falla_id]
+        reporte.falla = Falla_Dispositivo.query.get_or_404(reporte.falla_id)
         reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
 
         return render_template(
