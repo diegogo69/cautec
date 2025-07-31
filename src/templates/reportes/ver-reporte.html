@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block link_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/reporte-card.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ver-reporte.css') }}">
 {% endblock link_css %}
 
 {% block title %}
@@ -21,7 +21,7 @@
                     <div class="">Reporte #{{ reporte.id }}</div>
                 </div>
                 <div class="reporte-body">
-                    <p class="m-0"><strong>Falla:</strong> {{ reporte.falla | capitalize }}</p>
+                    <p class="m-0"><strong>Falla:</strong> {{ reporte.falla.descripcion | capitalize }}</p>
                 </div>
                 <div class="reporte-footer">
                     <div><strong>Creado:</strong> {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</div>

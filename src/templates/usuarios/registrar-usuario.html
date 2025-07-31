@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+- Registrar usuario
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid flex-grow-1 py-2">
+
+    <form method="POST" action="{{ url_for('usuarios.registrar_usuario') }}">
+        <h2>Nuevo usuario</h2>
+        <!-- form.csrf_token Render CSRF token hidden field -->
+        <!-- form.hidden_tag() Render fields of type hidden -->
+        {{ form.hidden_tag() }}
+        <ul class="list-unstyled row g-3">
+            <li class="col-6">
+                <!-- <label for="usuario" class="form-label">Nombre de usuario:</label> -->
+                {{ form.usuario.label(class="form-label") }}
+                {% if form.usuario.errors %}
+                {{ form.usuario(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.usuario.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.usuario(class="form-control") }}
+                {% endif %}
+            </li>
+
+            <li class="col-6">
+                {{ form.email.label(class="form-label") }}
+                {% if form.email.errors %}
+                {{ form.email(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.email(class="form-control ") }}
+                {% endif %}
+            </li>
+            <li class="col-6">
+                {{ form.password.label(class="form-label") }}
+                {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.password(class="form-control ") }}
+                {% endif %}
+            </li>
+            <li class="col-6">
+                {{ form.confirm_password.label(class="form-label") }}
+                {% if form.confirm_password.errors %}
+                {{ form.confirm_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    <!-- VALIDATION FEEDBACK -->
+                    {% for error in form.confirm_password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.confirm_password(class="form-control ") }}
+                {% endif %}
+            </li>
+            <li class="col-4">
+                <label for="tipo" class="form-label">Tipo:</label>
+                <select name="tipo" id="torre" class="form-select col" required>
+                    <option value="" selected>Selecciona el tipo de usuario</option>
+                    <option value="admin">Administrador</option>
+                    <option value="soporte">Soporte</option>
+                    <option value="solicitante">Solicitante</option>
+                </select>
+            </li>
+
+        </ul>
+        <button type="submit" class="btn btn-primary w-100">Registrar usuario</button>
+    </form>
+</div>
+{% endblock %}

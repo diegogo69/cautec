@@ -48,6 +48,27 @@
                     Ver departamentos
                 </a>
             </li>
+
+            <li class="nav-item">
+                Usuarios
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('usuarios.registrar_usuario') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    Registrar usuario
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('usuarios.ver_usuarios') }}" class="nav-link pe-0">
+                    <svg class="bi pe-none me-2" width="16" height="16" aria-hidden="true">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Ver usuarios
+                </a>
+            </li>
+
             {% endif %}
         </ul>
     </nav>

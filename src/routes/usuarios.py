@@ -24,6 +24,44 @@ def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 
+@usuarios.route("/ver-usuarios", methods=["GET"])
+@login_required
+def ver_usuarios():
+    usuarios = Usuario.query.all()
+
+    return render_template(
+        "usuarios/ver-usuarios.html", usuarios=usuarios
+    )
+
+@usuarios.route("/registrar-usuario", methods=["GET", "POST"])
+@login_required
+def registrar_usuario():
+    if current_user.tipo != "admin":
+        return redirect(url_for("main.index"))
+
+    form = RegistroForm()
+
+    if request.method == 'POST' and form.validate():
+        nombre_usuario = form.usuario.data.strip()
+        email = form.email.data.strip()
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        tipo = request.form.get('tipo').strip()
+
+        nuevo_usuario = Usuario(
+            usuario=nombre_usuario,
+            email=email,
+            password=hashed_password,
+            tipo=tipo,
+        )
+        
+        db.session.add(nuevo_usuario)  # add query
+        db.session.commit()  # commit changes
+
+        flash("Tu cuenta ha sido creada exitosamente! Ahora puedes ingresar", "success")
+        return redirect(url_for("usuarios.registrar_usuario"))
+    return render_template("usuarios/registrar-usuario.html", title="Register", form=form)
+
+
 @usuarios.route("/registrarse", methods=["GET", "POST"])
 def registrarse():
     if current_user.is_authenticated:
