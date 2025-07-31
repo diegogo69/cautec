@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from src import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from src.utils.auth import login_manager
@@ -58,9 +58,28 @@ def registrar_usuario():
         db.session.commit()  # commit changes
 
         flash("Tu cuenta ha sido creada exitosamente! Ahora puedes ingresar", "success")
-        return redirect(url_for("usuarios.registrar_usuario"))
+        return redirect(url_for("usuarios.ver_usuarios"))
     return render_template("usuarios/registrar-usuario.html", title="Register", form=form)
 
+# Ruta para eliminar reporte. Válida sólo para el método POST
+@usuarios.route("/usuario/<int:id>/eliminar", methods=["POST"])
+@login_required
+def eliminar_usuario(id):
+    usuario = Usuario.query.get_or_404(id)
+    if current_user.tipo != 'admin' and current_user.id != usuario.id:
+        abort(403)
+        return
+
+    if usuario.id == 1:
+        # Acción prohibida: esta acción causaría daños permanentes al sistema y no se puede realizar.
+        abort(403)
+        return
+
+    db.session.delete(usuario)
+    db.session.commit()
+
+    flash(f"El usuario ID #{id} se elimino exitosamente!", "success")
+    return redirect(url_for("usuarios.ver_usuarios"))
 
 @usuarios.route("/registrarse", methods=["GET", "POST"])
 def registrarse():

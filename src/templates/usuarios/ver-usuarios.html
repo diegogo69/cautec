@@ -6,57 +6,58 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="col-auto me-auto">
-        <h2>Usuarios</h2>
+<div class="container-fluid flex-grow-1 py-2">
+    <div class="row">
+        <div class="col-auto">
+            <h2>Usuarios</h2>
+        </div>
+        <div class="col-auto ms-auto">
+            <button class="btn btn-primary">
+                <a href="{{ url_for('usuarios.registrar_usuario') }}">Registrar usuario</a>
+            </button>
+        </div>
     </div>
-    <div class="col-auto">
-        <button class="btn btn-primary">
-            <a href="{{ url_for('usuarios.registrar_usuario') }}">Registrar usuario</a>
-        </button>
-    </div>
+
+    {% if usuarios %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre de usuario</td>
+                <th scope="col">Correo</td>
+                <th scope="col">Tipo</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.usuario }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.tipo }}</td>
+
+                <td>
+                    <button class="btn btn-sm btn-outline-info">
+                        <a href="{{ url_for('departamentos.ver_departamento', id=0) }}">Ver</a>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <a href="{{ url_for('departamentos.editar_departamento', id=0) }}">Editar</a>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" form="del-{{ usuario.id }}" type="submit">Eliminar</button>
+                </td>
+                <form id="del-{{ usuario.id }}" action="{{ url_for('usuarios.eliminar_usuario', id=usuario.id) }}"
+                    method="post">
+                </form>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% else %}
+    <p>No hay usuarios para mostrar</p>
+
+    {% endif %}
+
 </div>
-
-{% if usuarios %}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Nombre de usuario</td>
-            <th scope="col">Correo</td>
-            <th scope="col">Tipo</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.usuario }}</td>
-            <td>{{ usuario.email }}</td>
-            <td>{{ usuario.tipo }}</td>
-
-            <td>
-                <button class="btn btn-sm btn-outline-info">
-                    <a href="{{ url_for('departamentos.ver_departamento', id=0) }}">Ver</a>
-                </button>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <a href="{{ url_for('departamentos.editar_departamento', id=0) }}">Editar</a>
-                </button>
-                <button class="btn btn-sm btn-outline-danger" form="del-{{0}}"
-                    type="submit">Eliminar</button>
-            </td>
-            <form id="del-{{ 0 }}"
-                action="{{ url_for('departamentos.eliminar_departamento', id=0) }}" method="post">
-            </form>
-        </tr>
-        {% endfor %}
-
-    </tbody>
-</table>
-
-{% else %}
-<p>No hay usuarios para mostrar</p>
-
-{% endif %}
-
 {% endblock %}

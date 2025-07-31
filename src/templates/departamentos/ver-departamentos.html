@@ -6,57 +6,58 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="col-auto me-auto">
-        <h2>Departamentos</h2>
+<div class="container-fluid flex-grow-1 py-2">
+    <div class="row">
+        <div class="col-auto">
+            <h2>Departamentos</h2>
+        </div>
+        <div class="col-auto ms-auto">
+            <button class="btn btn-primary">
+                <a href="{{ url_for('departamentos.crear_departamento') }}">Registrar departamento</a>
+            </button>
+        </div>
     </div>
-    <div class="col-auto">
-        <button class="btn btn-primary">
-            <a href="{{ url_for('departamentos.crear_departamento') }}">Registrar departamento</a>
-        </button>
-    </div>
+
+    {% if departamentos %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</td>
+                <th scope="col">Ubicacion</td>
+                <th scope="col">Nombre coordinador</td>
+                <th scope="col">Linea telefonica</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for departamento in departamentos %}
+            <tr>
+                <td>{{ departamento.nombre }}</td>
+                <td>{{ departamento.ubicacion }}</td>
+                <td>{{ departamento.nombre_coordinador }}</td>
+                <td>{{ departamento.linea_telefonica }}</td>
+
+                <td>
+                    <button class="btn btn-sm btn-outline-info">
+                        <a href="{{ url_for('departamentos.ver_departamento', id=departamento.id) }}">Ver</a>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <a href="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}">Editar</a>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" form="del-{{departamento.id}}"
+                        type="submit">Eliminar</button>
+                </td>
+                <form id="del-{{ departamento.id }}"
+                    action="{{ url_for('departamentos.eliminar_departamento', id=departamento.id) }}" method="post">
+                </form>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% else %}
+    <p>No hay departamentos para mostrar</p>
+    {% endif %}
 </div>
-
-{% if departamentos %}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Nombre</td>
-            <th scope="col">Ubicacion</td>
-            <th scope="col">Nombre coordinador</td>
-            <th scope="col">Linea telefonica</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for departamento in departamentos %}
-        <tr>
-            <td>{{ departamento.nombre }}</td>
-            <td>{{ departamento.ubicacion }}</td>
-            <td>{{ departamento.nombre_coordinador }}</td>
-            <td>{{ departamento.linea_telefonica }}</td>
-
-            <td>
-                <button class="btn btn-sm btn-outline-info">
-                    <a href="{{ url_for('departamentos.ver_departamento', id=departamento.id) }}">Ver</a>
-                </button>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <a href="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}">Editar</a>
-                </button>
-                <button class="btn btn-sm btn-outline-danger" form="del-{{departamento.id}}" type="submit">Eliminar</button>
-            </td>
-            <form id="del-{{ departamento.id }}" action="{{ url_for('departamentos.eliminar_departamento', id=departamento.id) }}" method="post">
-            </form>
-        </tr>
-        {% endfor %}
-
-    </tbody>
-</table>
-
-{% else %}
-<p>No hay departamentos para mostrar</p>
-
-{% endif %}
-
 {% endblock %}
