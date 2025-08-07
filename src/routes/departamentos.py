@@ -14,7 +14,15 @@ departamentos = Blueprint(
 @departamentos.route("/", methods=["GET"])
 @login_required
 def ver_departamentos():
-    departamentos = Departamento.query.all()
+    # departamentos = Departamento.query.all()
+    
+    page_default = 1
+    por_pagina = 10
+    pagina = request.args.get('pagina', page_default, type=int)
+    departamentos = (
+        Departamento.query #.order_by(Departamento.nombre.desc())
+            .paginate(page=pagina, per_page=por_pagina)
+    )
 
     return render_template(
         "departamentos/ver-departamentos.html", departamentos=departamentos

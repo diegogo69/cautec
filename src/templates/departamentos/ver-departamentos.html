@@ -7,9 +7,10 @@
 
 {% block content %}
 <div class="container-fluid flex-grow-1 py-2">
-    <div class="row">
-        <div class="col-auto">
+    <div class="row align-items-center">
+        <div class="col-auto d-flex align-items-baseline">
             <h2>Departamentos</h2>
+            <div class="ms-1">{{departamentos.first}}-{{departamentos.last}} / {{departamentos.total}}</div>
         </div>
         <div class="col-auto ms-auto">
             <button class="btn btn-primary">
@@ -18,7 +19,7 @@
         </div>
     </div>
 
-    {% if departamentos %}
+    {% if departamentos.items %}
     <table class="table">
         <thead>
             <tr>
@@ -30,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for departamento in departamentos %}
+            {% for departamento in departamentos.items %}
             <tr>
                 <td>{{ departamento.nombre }}</td>
                 <td>{{ departamento.ubicacion }}</td>
@@ -56,6 +57,30 @@
         </tbody>
     </table>
 
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% for nro_pag in departamentos.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if nro_pag %}
+            {% if departamentos.page == nro_pag %}
+            <li class="page-item active"><a class="page-link"
+                    href="{{ url_for('departamentos.ver_departamentos', pagina=nro_pag) }}">{{ nro_pag }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link"
+                    href="{{ url_for('departamentos.ver_departamentos', pagina=nro_pag) }}">{{ nro_pag }}</a></li>
+            {% endif %}
+            {% else %}
+            <li class="page-item"><a href="#" class="page-link">...</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- <label for="por-pag-sel">Por pág.:</label>
+    <select class="form-select form-select-sm" id="por-pag-sel" aria-label="Small select example">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+    </select> -->
     {% else %}
     <p>No hay departamentos para mostrar</p>
     {% endif %}

@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from src.utils.auth import bcrypt
 
-load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
+# load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
+load_dotenv()
 
 # db = MySQL()
 class SQLAlchemyBase(DeclarativeBase):
