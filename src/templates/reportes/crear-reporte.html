@@ -33,7 +33,7 @@
             <ul class="list-unstyled row g-3 align-items-end">
                 <li class="col-4">
                     <label for="torre" class="col-auto form-label m-0">Torre:</label>
-                    <select name="torre" id="torre" class="col form-select">
+                    <select name="torre" id="torre" class="col form-select" required>
                         <option value="" selected>Seleccionar torre</option>
                         {% for torre in areas['torres'] %}
                         <option value="{{ torre }}">{{ torre|capitalize }}</option>
@@ -42,7 +42,7 @@
                 </li>
                 <li class="col-4">
                     <label for="piso" class="col-auto form-label m-0">Piso:</label>
-                    <select name="piso" id="piso" class="col form-select">
+                    <select name="piso" id="piso" class="col form-select" required>
                         <option value="" selected>Seleccionar piso</option>
                         {% for piso in areas['pisos'] %}
                         {% if piso == '0' %}
@@ -55,7 +55,7 @@
                 </li>
                 <li class="col-4">
                     <label for="tipo-area" class="col-auto form-label m-0">Tipo de área:</label>
-                    <select name="tipo-area" id="tipo-area" class="form-select">
+                    <select name="tipo-area" id="tipo-area" class="form-select" required>
                         <option value="" selected>Seleccionar tipo de área</option>
                         {% for tipo in areas['tipos'] %}
                         <option value="{{ tipo }}">{{ tipo|capitalize }}</option>
@@ -65,7 +65,7 @@
                 <li class="col-8">
                     <label for="nombre-area" class="col-auto form-label m-0">Área de trabajo:</label>
                     <!-- Todas las areas juntas -->
-                    <select name="nombre-area" id="nombre-area" class="form-select">
+                    <select name="nombre-area" id="nombre-area" class="form-select" required>
                         <option value="" selected>Selecciona tu área de trabajo</option>
                         {% for tipo, lista_areas in areas['areas'].items() %}
                         {% if lista_areas %}
@@ -91,8 +91,8 @@
             <ul class="list-unstyled row g-2">
                 <li class="col-6">
                     <label for="tipo-dispositivo" class="form-label">Tipo de dispositivo:</label>
-                    <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select">
-                        <option selected>Selecciona un tipo de dispositivo</option>
+                    <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select" required>
+                        <option value="">Selecciona un tipo de dispositivo</option>
                         {% for index, tipo in enumerate(dispositivos['tipos']) %}
                         <option value="{{ index }}">{{ tipo|capitalize }}</option>
                         {% endfor %}
@@ -100,14 +100,14 @@
                 </li>
                 <li class="col-6">
                     <label for="cod-bienes" class="form-label">Chapa ULA:</label>
-                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13">
+                    <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13" required>
                     <!-- placeholder="2-80124-34011" -->
                     <div class="form-text">Ingresa el código Chapa ULA del equipo. Sólo digitos.</div>
                 </li>
                 <li class="col">
                     <label for="falla" class="form-label">Falla del equipo:</label>
-                    <select name="falla" id="falla" class="form-select">
-                        <option selected>Selecciona una falla</option>
+                    <select name="falla" id="falla" class="form-select" required>
+                        <option value="" selected>Selecciona una falla</option>
                         {% for falla in dispositivos.fallas %}
                         <option value="{{ falla.id }}">{{ falla.descripcion | capitalize }}</option>
                         {% endfor %}

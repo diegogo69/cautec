@@ -70,7 +70,8 @@
                     <h5>Reporte</h5>
                     <div>
                         <label class="form-label" for="estado">Estado:</label>
-                        <select class="form-select" name="estado" id="estado">
+                        <select class="form-select" name="estado" id="estado"
+                            {% if current_user.tipo == 'solicitante' %} disabled {% endif %}>
                             {% for estado in reporte['estados'] %}
                                 <option value="{{ estado }}" {% if estado == reporte.estado %} selected {% endif %}>
                                     {{ estado | capitalize() }}

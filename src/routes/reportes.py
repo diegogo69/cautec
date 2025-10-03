@@ -51,6 +51,7 @@ def ver_reportes():
     reportes = reportes.all()
     for reporte in reportes:
         reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
+        
         reporte.falla = Falla_Dispositivo.query.get_or_404(reporte.falla_id)
         departamento = Departamento.query.get_or_404(reporte.departamento_id)
         reporte.departamento = departamento.nombre
@@ -128,9 +129,9 @@ def crear_reporte():
 
         reporte = Reporte(
             nombre_solicitante=nombre_solicitante,
-            tipo_dispositivo_id=tipo_dispositivo,
+            tipo_dispositivo_id=int(tipo_dispositivo),
             cod_bienes_dispositvo=cod_bienes,
-            falla_id=falla,
+            falla_id=int(falla),
             fecha_visita=fecha_visita,
             usuario_id=current_user.id,
             departamento_id=reporte_area,
