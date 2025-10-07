@@ -1,0 +1,38 @@
+.bg-img {
+    /* La imagen de fondo */
+    /* background-image: url('../images/imagen_de_fondo_login.png');/* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
+    background-image: url('../images/fondo_blur20.png');/* Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen */
+    min-height: 100vh; /* Asegura que la imagen cubra toda la altura de la ventana */
+
+    /* Propiedades de la imagen */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repite la imagen */
+    background-size: cover; /* La imagen cubre todo el contenedor */
+}
+
+.contenedor-formulario {
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para el formulario */
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.3);
+    /* width: 300px; */
+    /* text-align: center; */
+}
+
+.contenedor-bienvenida {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 3.5rem;
+    margin-top: -100px;
+}
+
+.contenedor-bienvenida h1 {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: 700;
+}
+
+.contenedor-bienvenida p {
+    font-size: 1.1rem;
+}

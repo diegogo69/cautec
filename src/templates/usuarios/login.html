@@ -1,9 +1,22 @@
 {% extends "layout-user-auth.html" %}
+
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock link_css %}
+
 {% block content %}
-<div class="container-fluid">
-    <div class="row ">
-        <div class="col-md-6">
-            <div class="content-section">
+<div class="container-fluid bg-img">
+    <div class="row h-100">
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="contenedor-bienvenida">
+                <h1>Bienvenido a Cautec</h1>
+                <!-- <p>Realiza reportes de trabajo desde la comodidad de tu oficina y te atenderemos con gusto.</p> -->
+                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt nulla atque commodi assumenda perferendis ipsum minima magnam quia dolor accusamus alias tempora, iusto debitis aspernatur, rem pariatur. Non, sed neque?</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="content-section contenedor-formulario">
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
@@ -40,7 +53,7 @@
                         </div>
                     </fieldset>
                     <div class="form-group mb-3">
-                        {{ form.submit(class="btn btn-outline-info") }}
+                        {{ form.submit(class="btn btn-info") }}
                         <small class="text-muted ml-2">
                             <a href="{{ url_for('usuarios.reset_request') }}">¿Olvidaste tu contraseña?</a>
                         </small>
@@ -51,9 +64,8 @@
                         ¿No tienes una cuenta? <a class="ml-2" href="{{ url_for('usuarios.registrarse') }}">Regístrate</a>
                     </small>
                 </div>
-            </div>    
+            </div> 
         </div>
-        <div class="col-md-6"></div>
     </div>
 </div>
 {% endblock content %}
