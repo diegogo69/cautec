@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-5.3.5-css/bootstrap.min.css') }}"
         type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
+    {% block link_css %}{% endblock %}
+
 </head>
 
 <body class="d-flex flex-column vh-100">
