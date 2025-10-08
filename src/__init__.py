@@ -16,11 +16,13 @@ def create_app(config_class=Config):
     from src.routes.reportes import reportes
     from src.routes.departamentos import departamentos
     from src.routes.errores import errores
+    from src.routes.notificaciones import notificaciones
     app.register_blueprint(main)
     app.register_blueprint(usuarios)
     app.register_blueprint(reportes)
     app.register_blueprint(departamentos)
     app.register_blueprint(errores)
+    app.register_blueprint(notificaciones)
 
     db.init_app(app)
     with app.app_context():

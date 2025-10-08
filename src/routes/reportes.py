@@ -15,6 +15,8 @@ from src.models.reporte import Reporte
 from src.models.comentario import Comentario
 from src.models.departamento import Departamento
 from src.models.falla_dispositivo import Falla_Dispositivo
+from src.models.usuario import Usuario
+
 from src.utils.departamentos import (
     departamentos_json,
     AREAS_TIPOS,
@@ -28,6 +30,7 @@ from sqlalchemy.sql import func
 from datetime import datetime
 from io import BytesIO
 import platform
+from src.utils.notificaciones import crear_notificacion
 
 
 # Diccionario para información a renderizar en Notas de servicios
@@ -140,6 +143,18 @@ def crear_reporte():
         db.session.add(reporte)
         db.session.commit()
 
+        # Crear notificaciones: avisar a responsables (departamento) o a soporte/admin
+        try:
+            responsables = []
+            soporte_users = Usuario.query.filter(Usuario.tipo.in_(['soporte', 'admin'])).all()
+            responsables.extend([u.id for u in soporte_users])
+
+            mensaje = f"Nuevo reporte #{reporte.id} emitido por {reporte.nombre_solicitante}"
+            for uid in responsables:
+                crear_notificacion(uid, 'nuevo_reporte', mensaje, reporte_id=reporte.id)
+        except Exception:
+            pass
+
         flash("Tu reporte ha sido registrado exitosamente!", "success")
         return redirect(url_for("reportes.ver_reportes"))
 
@@ -199,6 +214,9 @@ def actualizar_reporte(id):
 
     db.session.commit()
 
+    # Generar notificación de cambio de estado: notificar al solicitante que su reporte fue actualizado
+    crear_notificacion(reporte.usuario_id, 'cambio_estado', f"El estado de tu reporte #{reporte.id} fue actualizado a '{reporte.estado}'", reporte_id=reporte.id)
+
     flash(f"El reporte ID #{id} fue actualizado exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte.id))
 
@@ -256,6 +274,20 @@ def crear_comentario(reporte_id):
 
     db.session.add(comentario)
     db.session.commit()
+
+    # Notificar al solicitante y a soporte según quien comenta
+    try:
+        reporte = Reporte.query.get(reporte_id)
+        if reporte and reporte.usuario_id != current_user.id:
+            crear_notificacion(reporte.usuario_id, 'nuevo_comentario', f"Nuevo comentario en el reporte #{reporte_id}", reporte_id=reporte_id)
+
+        if current_user.tipo == 'solicitante':
+            from src.models.usuario import Usuario
+            soporte_users = Usuario.query.filter(Usuario.tipo.in_(['soporte', 'admin'])).all()
+            for u in soporte_users:
+                crear_notificacion(u.id, 'nuevo_comentario', f"Comentario en reporte #{reporte_id}", reporte_id=reporte_id)
+    except Exception:
+        pass
 
     flash("Tu comentario se añadió exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte_id))
