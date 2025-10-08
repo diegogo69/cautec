@@ -1,0 +1,52 @@
+<div>
+    <div class="content-section" style="border-color: darkgray;">
+        <h3>Notificaciones</h3>
+        {# Usar las notificaciones pasadas al template o, si no hay, obtener las del usuario actual #}
+
+        {% if notificaciones is defined %}
+
+            {% set nots = notificaciones %}
+
+        {% elif current_user.is_authenticated %}
+
+            {% set nots = current_user.notificaciones.filter_by(leido=False).limit(10).all() %}
+
+        {% else %}
+
+            {% set nots = [] %}
+
+        {% endif %}
+
+
+        {% if nots and nots|length > 0 %}
+        <form method="post" action="{{ url_for('notificaciones.marcar_leidas') }}">
+            <button type="submit" class="btn btn-sm btn-outline-primary mb-2">Marcar todas como leídas</button>
+        </form>
+        <ul class="list-group">
+            {% for n in nots %}
+            <li class="list-group-item {% if not n.leido %}list-group-item-warning{% else %}list-group-item-light{% endif %}">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>{{ n.tipo.replace('_', ' ').title() }}</strong>
+                        <div>{{ n.mensaje }}</div>
+                        <small class="text-muted">{{ n.fecha.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </div>
+                    {% if n.reporte_id %}
+                    <div>
+                        <a href="{{ url_for('notificaciones.ver_notificacion', notificacion_id=n.id) }}" class="btn btn-sm btn-primary">Ver</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">No hay notificaciones</p>
+        {% endif %}
+
+        <!-- Mostrar link a pagina de notificaciones del usuario -->
+        <div>
+            <a href="{{ url_for('notificaciones.ver_notificaciones') }}" class="">Ver todas las notificaciones</a>
+        </div>
+    </div>
+</div>
