@@ -14,3 +14,4 @@ Jinja2 # Installed by flask, also needed for PDFKit
 #DEVELOPMENT
 black | formatter
 mod_wsgi # Para despligue en servidor xampp
+flask-mail # Para enviar correos

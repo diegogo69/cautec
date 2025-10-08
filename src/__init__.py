@@ -1,7 +1,7 @@
 from flask import Flask
 from src.config import Config
 from src.utils.db import db, primera_vez
-from src.utils.auth import bcrypt, login_manager
+from src.utils.auth import bcrypt, login_manager, mail
 
 
 def create_app(config_class=Config):
@@ -10,6 +10,7 @@ def create_app(config_class=Config):
 
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
         
     from src.routes.main import main
     from src.routes.usuarios import usuarios
