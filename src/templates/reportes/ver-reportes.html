@@ -7,6 +7,9 @@
 {% block content %}
 <div class="container-fluid flex-grow-1 py-2">
     <div class="row">
+        {% include "messages.html" %}
+    </div>
+    <div class="row">
         <div class="col-auto">
             <h2>Reportes</h2>
         </div>
@@ -49,7 +52,9 @@
                     </button>
                      -->
                     <button form="del-{{ reporte.id }}" type="submit"
-                        class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('¿Seguro que deseas eliminar el reporte #{{ reporte.id }}?')"
+                        >Eliminar</button>
                 </td>
                 <form id="del-{{ reporte.id }}"
                     action="{{ url_for('reportes.eliminar_reporte', id=reporte['id']) }}" method="post">

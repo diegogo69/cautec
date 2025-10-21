@@ -87,6 +87,7 @@ def registrarse():
         return redirect(url_for("main.index"))
 
     form = RegistroForm()
+    print(form.email.label(text="Correo Electrónico"))
     if form.validate_on_submit():
         nombre_usuario = form.usuario.data.strip()
         email = form.email.data.strip()
@@ -113,11 +114,17 @@ def login():
         return redirect(url_for("main.index"))
 
     form = LoginForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         nombre_usuario = form.usuario.data.strip()
         usuario = Usuario.query.filter_by(usuario=nombre_usuario).first()
 
-        if usuario and bcrypt.check_password_hash(usuario.password, form.password.data):
+        if not usuario:
+            flash(
+                "El nombre de usuario no está registrado. Verificalo o registrate",
+                "danger"
+            )
+
+        elif usuario and bcrypt.check_password_hash(usuario.password, form.password.data):
             login_user(usuario, remember=form.remember.data)
 
             # If next arg from previous attempt to acces a route without logged in. Redirect to that attempted route
@@ -135,7 +142,7 @@ def login():
 @usuarios.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("main.index"))
+    return redirect(url_for("usuarios.login"))
 
 
 @usuarios.route("/cuenta", methods=["GET", "POST"])

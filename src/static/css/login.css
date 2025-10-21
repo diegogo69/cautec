@@ -10,12 +10,16 @@
     background-size: cover; /* La imagen cubre todo el contenedor */
 }
 
+div.alert {
+    box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.3);
+}
+
 .contenedor-formulario {
     background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para el formulario */
     padding: 32px;
     border-radius: 10px;
     box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.3);
-    /* width: 300px; */
+    width: 320px;
     /* text-align: center; */
 }
 
