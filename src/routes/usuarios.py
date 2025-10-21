@@ -87,6 +87,7 @@ def registrarse():
         return redirect(url_for("main.index"))
 
     form = RegistroForm()
+    print(form.email.label(text="Correo Electrónico"))
     if form.validate_on_submit():
         nombre_usuario = form.usuario.data.strip()
         email = form.email.data.strip()

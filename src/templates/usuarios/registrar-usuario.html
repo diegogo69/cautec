@@ -16,8 +16,8 @@
         {{ form.hidden_tag() }}
         <ul class="list-unstyled row g-3">
             <li class="col-6">
-                <!-- <label for="usuario" class="form-label">Nombre de usuario:</label> -->
-                {{ form.usuario.label(class="form-label") }}
+                <!-- <label for="usuario" class="form-label fw-bold">Nombre de usuario:</label> -->
+                {{ form.usuario.label(class="form-label fw-bold") }}
                 {% if form.usuario.errors %}
                 {{ form.usuario(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
@@ -31,7 +31,7 @@
             </li>
 
             <li class="col-6">
-                {{ form.email.label(class="form-label") }}
+                {{ form.email.label(class="form-label fw-bold") }}
                 {% if form.email.errors %}
                 {{ form.email(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
@@ -44,7 +44,7 @@
                 {% endif %}
             </li>
             <li class="col-6">
-                {{ form.password.label(class="form-label") }}
+                {{ form.password.label(class="form-label fw-bold") }}
                 {% if form.password.errors %}
                 {{ form.password(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
@@ -57,7 +57,7 @@
                 {% endif %}
             </li>
             <li class="col-6">
-                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password.label(class="form-label fw-bold") }}
                 {% if form.confirm_password.errors %}
                 {{ form.confirm_password(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
@@ -71,7 +71,7 @@
                 {% endif %}
             </li>
             <li class="col-4">
-                <label for="tipo" class="form-label">Tipo:</label>
+                <label for="tipo" class="form-label fw-bold">Tipo:</label>
                 <select name="tipo" id="torre" class="form-select col" required>
                     <option value="" selected>Selecciona el tipo de usuario</option>
                     <option value="admin">Administrador</option>

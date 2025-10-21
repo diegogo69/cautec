@@ -18,11 +18,11 @@
             <legend>Solicitante</legend>
             <ul class="list-unstyled row g-2">
                 <li class="col">
-                    <label for="nombre-sol" class="form-label">Nombre:</label>
+                    <label for="nombre-sol" class="form-label"><strong>Nombre:</strong></label>
                     <input type="text" name="nombre-sol" id="nombre-sol" class="form-control">
                 </li>
                 <li class="col">
-                    <label for="apellido-sol" class="form-label">Apellido:</label>
+                    <label for="apellido-sol" class="form-label"><strong>Apellido:</strong></label>
                     <input type="text" name="apellido-sol" id="apellido-sol" class="form-control">
                 </li>
             </ul>
@@ -32,7 +32,7 @@
             <p>Selecciona tu área de trabajo</p>
             <ul class="list-unstyled row g-3 align-items-end">
                 <li class="col-4">
-                    <label for="torre" class="col-auto form-label m-0">Torre:</label>
+                    <label for="torre" class="col-auto form-label m-0"><strong>Torre:</strong></label>
                     <select name="torre" id="torre" class="col form-select" required>
                         <option value="" selected>Seleccionar torre</option>
                         {% for torre in areas['torres'] %}
@@ -41,7 +41,7 @@
                     </select>
                 </li>
                 <li class="col-4">
-                    <label for="piso" class="col-auto form-label m-0">Piso:</label>
+                    <label for="piso" class="col-auto form-label m-0"><strong>Piso:</strong></label>
                     <select name="piso" id="piso" class="col form-select" required>
                         <option value="" selected>Seleccionar piso</option>
                         {% for piso in areas['pisos'] %}
@@ -54,7 +54,7 @@
                     </select>
                 </li>
                 <li class="col-4">
-                    <label for="tipo-area" class="col-auto form-label m-0">Tipo de área:</label>
+                    <label for="tipo-area" class="col-auto form-label m-0"><strong>Tipo de área:</strong></label>
                     <select name="tipo-area" id="tipo-area" class="form-select" required>
                         <option value="" selected>Seleccionar tipo de área</option>
                         {% for tipo in areas['tipos'] %}
@@ -63,7 +63,7 @@
                     </select>
                 </li>
                 <li class="col-8">
-                    <label for="nombre-area" class="col-auto form-label m-0">Área de trabajo:</label>
+                    <label for="nombre-area" class="col-auto form-label m-0"><strong>Área de trabajo:</strong></label>
                     <!-- Todas las areas juntas -->
                     <select name="nombre-area" id="nombre-area" class="form-select" required>
                         <option value="" selected>Selecciona tu área de trabajo</option>
@@ -81,7 +81,7 @@
 
                 </li>
                 <li class="col-4">
-                    <label for="ext-telefonica" class="form-label m-0">Ext. telefónica:</label>
+                    <label for="ext-telefonica" class="form-label m-0"><strong>Ext. telefónica:</strong></label>
                     <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control">
                 </li>
             </ul>
@@ -90,7 +90,7 @@
             <legend>Descripción del equipo</legend>
             <ul class="list-unstyled row g-2">
                 <li class="col-6">
-                    <label for="tipo-dispositivo" class="form-label">Tipo de dispositivo:</label>
+                    <label for="tipo-dispositivo" class="form-label"><strong>Tipo de dispositivo:</strong></label>
                     <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select" required>
                         <option value="">Selecciona un tipo de dispositivo</option>
                         {% for index, tipo in enumerate(dispositivos['tipos']) %}
@@ -99,13 +99,13 @@
                     </select>
                 </li>
                 <li class="col-6">
-                    <label for="cod-bienes" class="form-label">Chapa ULA:</label>
+                    <label for="cod-bienes" class="form-label"><strong>Chapa ULA:</strong></label>
                     <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13" required>
                     <!-- placeholder="2-80124-34011" -->
                     <div class="form-text">Ingresa el código Chapa ULA del equipo. Sólo digitos.</div>
                 </li>
                 <li class="col">
-                    <label for="falla" class="form-label">Falla del equipo:</label>
+                    <label for="falla" class="form-label"><strong>Falla del equipo:</strong></label>
                     <select name="falla" id="falla" class="form-select" required>
                         <option value="" selected>Selecciona una falla</option>
                         {% for falla in dispositivos.fallas %}
@@ -116,13 +116,13 @@
                 </li>
 
                 <li class="col-12 oculto" id="falla-otro-container">
-                    <label for="falla-otro" class="form-label">Descripción de la falla:</label>
+                    <label for="falla-otro" class="form-label"><strong>Descripción de la falla:</strong></label>
                     <input type="text" name="falla-otro" id="falla-otro" class="form-control">
                     <div class="form-text">Añada una descripción breve de la falla del equipo.</div>
                 </li>
 
                 <li class="col-12">
-                    <label for="fecha-visita" class="form-label me-3">Fecha disponible para visita:</label>
+                    <label for="fecha-visita" class="form-label me-3"><strong>Fecha disponible para visita:</strong></label>
                     <input type="datetime-local" name="fecha-visita" id="fecha-visita" class="p-2"
                     min="{{ fecha_visita_min }}" max="{{ fecha_visita_max }}" value="{{ fecha_visita_pred }}"
                     >

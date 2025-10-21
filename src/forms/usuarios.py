@@ -8,7 +8,7 @@ from src.models.usuario import Usuario
 
 class RegistroForm(FlaskForm):
     usuario = StringField(
-        "Nombre de usuario",
+        "Nombre de usuario:",
         validators=[
             DataRequired(),
             Length(min=3, max=20, message="Debe contener entre 3 y 20 caracteres"),
@@ -16,7 +16,7 @@ class RegistroForm(FlaskForm):
     )
 
     email = EmailField(
-        "Correo",
+        "Correo:",
         validators=[
             DataRequired(),
             Email(
@@ -26,10 +26,10 @@ class RegistroForm(FlaskForm):
     )
 
     password = PasswordField(
-        "Contraseña", validators=[DataRequired(), Length(min=3, max=20)]
+        "Contraseña:", validators=[DataRequired(), Length(min=3, max=20)]
     )
     confirm_password = PasswordField(
-        "Confirmar contraseña",
+        "Confirmar contraseña:",
         validators=[
             DataRequired(),
             EqualTo("password", message="Las contraseñas no coinciden"),
@@ -56,10 +56,10 @@ class RegistroForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     #   email = StringField('Email', validators=[DataRequired(), Email()])
-    usuario = StringField("Usuario", validators=[DataRequired(), Length(min=3, max=20)])
+    usuario = StringField("Usuario:", validators=[DataRequired(), Length(min=3, max=20)])
 
     password = PasswordField(
-        "Contraseña", validators=[DataRequired(), Length(min=3, max=20)]
+        "Contraseña:", validators=[DataRequired(), Length(min=3, max=20)]
     )
     remember = BooleanField("Recordarme")
     submit = SubmitField("Ingresar")
