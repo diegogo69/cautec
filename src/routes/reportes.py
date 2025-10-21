@@ -217,7 +217,7 @@ def actualizar_reporte(id):
     # Generar notificación de cambio de estado: notificar al solicitante que su reporte fue actualizado
     crear_notificacion(reporte.usuario_id, 'cambio_estado', f"El estado de tu reporte #{reporte.id} fue actualizado a '{reporte.estado}'", reporte_id=reporte.id)
 
-    flash(f"El reporte ID #{id} fue actualizado exitosamente!", "success")
+    flash(f"El reporte fue actualizado exitosamente!", "success")
     return redirect(url_for("reportes.ver_reporte", id=reporte.id))
 
 

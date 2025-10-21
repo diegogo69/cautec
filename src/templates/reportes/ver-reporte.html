@@ -10,6 +10,10 @@
 
 {% block content %}
 <div class="container-fluid py-2">
+    <div class="row">
+        {% include "messages.html" %}
+    </div>
+
     <h2 class="text-center">Reporte #{{ reporte.id }}</h2>
     <div class="row" style="height: calc(100vh - 8rem);">
         <!-- Columna principal. Vista de reporte y comentarios -->
@@ -69,7 +73,7 @@
                 <section>
                     <h5>Reporte</h5>
                     <div>
-                        <label class="form-label" for="estado">Estado:</label>
+                        <label class="form-label fw-bold" for="estado">Estado:</label>
                         <select class="form-select" name="estado" id="estado"
                             {% if current_user.tipo == 'solicitante' %} disabled {% endif %}>
                             {% for estado in reporte['estados'] %}
@@ -81,26 +85,26 @@
                         </select>
                     </div>
                     <div>
-                        <label class="form-label" for="fecha_emision">Creado:</label>
+                        <label class="form-label fw-bold" for="fecha_emision">Creado:</label>
                         <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
                             value="{{ reporte.fecha_emision.strftime('%Y-%m-%d') }}">
                     </div>
                     <div>
-                        <label class="form-label" for="fecha_visita">Fecha para visita:</label>
+                        <label class="form-label fw-bold" for="fecha_visita">Fecha para visita:</label>
                         <!-- 2022-07-31T22:00 -->
                         <input class="form-control" type="datetime-local" name="fecha_visita" id="fecha_visita"
                             value="{{ reporte.fecha_visita.strftime('%Y-%m-%d %H:%M') }}">
                     </div>
                     {% if reporte.fecha_atencion %}
                     <div>
-                        <label class="form-label" for="fecha_atencion">Atendido:</label>
+                        <label class="form-label fw-bold" for="fecha_atencion">Atendido:</label>
                         <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion"
                             value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}">
                     </div>
                     {% endif %}
                     {% if reporte.fecha_cierre %}
                     <div>
-                        <label class="form-label" for="fecha_cierre">Resuelto:</label>
+                        <label class="form-label fw-bold" for="fecha_cierre">Resuelto:</label>
                         <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre"
                             value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}">
                     </div>
@@ -110,17 +114,17 @@
                 <section>
                     <h5>Solicitante</h5>
                     <div>
-                        <label class="form-label" for="solicitante">Usuario solicitante:</label>
+                        <label class="form-label fw-bold" for="solicitante">Usuario solicitante:</label>
                         <input class="form-control" type="text" name="solicitante" id="solicitante"
                             value="{{ reporte.nombre_solicitante }}">
                     </div>
                     <div>
-                        <label class="form-label" for="departamento">Departamento:</label>
+                        <label class="form-label fw-bold" for="departamento">Departamento:</label>
                         <input class="form-control" type="text" name="departamento" id="departamento"
                             value="{{ departamento.nombre }}">
                     </div>
                     <div>
-                        <label class="form-label" for="ubicacion">Ubicación:</label>
+                        <label class="form-label fw-bold" for="ubicacion">Ubicación:</label>
                         <input class="form-control" type="text" name="ubicacion" id="ubicacion"
                             value="Edificio {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}">
                     </div>
@@ -129,17 +133,17 @@
                 <section>
                     <h5>Dispositivo</h5>
                     <div>
-                        <label class="form-label" for="tipo">Tipo:</label>
+                        <label class="form-label fw-bold" for="tipo">Tipo:</label>
                         <input class="form-control" type="text" name="tipo" id="tipo"
                             value="{{ reporte.tipo_dispositivo | capitalize }}">
                     </div>
                     <div>
-                        <label class="form-label" for="falla">Falla:</label>
+                        <label class="form-label fw-bold" for="falla">Falla:</label>
                         <input class="form-control" type="text" name="falla" id="falla"
                             value="{{ reporte.falla | capitalize }}">
                     </div>
                     <div>
-                        <label class="form-label" for="cod_bienes">Chapa ULA:</label>
+                        <label class="form-label fw-bold" for="cod_bienes">Chapa ULA:</label>
                         <input class="form-control" type="text" name="cod_bienes" id="cod_bienes"
                             value="{{ reporte.cod_bienes_dispositvo }}">
                     </div>

@@ -17,7 +17,7 @@ def ver_notificaciones():
 @login_required
 def marcar_leidas():
     cantidad = marcar_todas_leidas(current_user.id)
-    flash(f'{cantidad} notificaciones marcadas como leidas', 'success')
+    # flash(f'{cantidad} notificaciones marcadas como leidas', 'success')
     return redirect(url_for('main.index'))
 
 
