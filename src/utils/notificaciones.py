@@ -34,10 +34,16 @@ def marcar_todas_leidas(usuario_id: int):
 
 # Enviar mensaje de correo electrónico para notificaciones importantes
 def enviar_correo_notificacion(usuario):
-    msg = Message('Nueva notificacion CAUTEC',
-                  sender='soportenurr@gmail.com',
-                  recipients=[usuario.email])
-    msg.body = f'''Hola!
+    try:
+        msg = Message('Nueva notificacion CAUTEC',
+                      sender='soportenurr@gmail.com',
+                      recipients=[usuario.email])
+        msg.body = f'''Hola!
 Tienes una nueva notificación en el sistema CAUTEC. Por favor, inicia sesión para revisarla.
 '''
-    mail.send(msg)
+        mail.send(msg)
+        return True
+    except Exception as e:
+        # Log the error or handle it as needed
+        print(f"Error al enviar el correo. Error: {e}")
+        return False
