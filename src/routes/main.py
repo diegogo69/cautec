@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from flask_login import current_user, login_required
 
 
@@ -6,6 +6,11 @@ main = Blueprint('main', __name__, template_folder='templates')
 
 @main.route('/')
 @main.route('/inicio')
-@login_required
+# @login_required
 def index():
-    return render_template('index.html')
+    # Si el usuario está autenticado, redirigir a su panel de control sino redigir a la pagina de login
+    if current_user.is_authenticated:
+        return render_template('index.html')
+    else:
+        # Redirigir a la página de login
+        return redirect('usuarios/login.html')

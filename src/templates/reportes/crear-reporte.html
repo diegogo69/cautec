@@ -82,7 +82,7 @@
                 </li>
                 <li class="col-4">
                     <label for="ext-telefonica" class="form-label m-0"><strong>Ext. telefónica:</strong></label>
-                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control">
+                    <input type="text" name="ext-telefonica" id="ext-telefonica" class="form-control" minlength="4" required>
                 </li>
             </ul>
         </fieldset>
@@ -209,6 +209,45 @@
 
     campoChapaULA.addEventListener('input', formatearChapaULA);
 
+</script>
+<script>
+    const campoExtTel = document.querySelector('#ext-telefonica');
+
+    function formatearExtTel(e) {
+        let valorCampoExtTel = e.target.value;
+
+        // 1. Remover caracteres no numéricos del campo
+        valorCampoExtTel = valorCampoExtTel.replace(/\D/g, ''); // \D matches any character that is not a digit (0-9)
+
+        // 2. Aplicar el formato "xxxx"
+        let formatoExtTel = '';
+
+        if (valorCampoExtTel.length > 0) {
+            formatoExtTel = valorCampoExtTel.substring(0, 4); // Primer digito
+        }
+
+        // 3. Actualizar el valor del campo
+        e.target.value = formatoExtTel;
+    }
+
+    campoExtTel.addEventListener('input', formatearExtTel);
+
+</script>
+<script>
+    // Permitir sólo letras y espacios en los campos de nombre y apellido
+    const nombreSolInput = document.querySelector('#nombre-sol');
+    const apellidoSolInput = document.querySelector('#apellido-sol');
+    function permitirSoloLetrasYEspacios(e) {
+        let valorCampo = e.target.value;
+
+        // Remover caracteres que no sean letras unicode o espacios
+        valorCampo = valorCampo.replace(/[^\p{L}\s]/gu, '');
+
+        // Actualizar el valor del campo
+        e.target.value = valorCampo;
+    }
+    nombreSolInput.addEventListener('input', permitirSoloLetrasYEspacios);
+    apellidoSolInput.addEventListener('input', permitirSoloLetrasYEspacios);
 </script>
 <script>
     const fallaSelect = document.querySelector('#falla');
