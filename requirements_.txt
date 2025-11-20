@@ -1,5 +1,4 @@
 Flask
-!Flask-MySQL
 python-dotenv # Variables de entorno
 Flask-SQLAlchemy # Conexion a la base de datos
 mysqlclient # conexion con mysql
@@ -8,10 +7,10 @@ Flask-Bcrypt # Crear hash para contraseñas
 Flask-Login
 email-validator
 SQLAlchemy-Utils # Abstraccion de metodos utiles, como verificar la existencia de una base de datos, o crear una base de datos
-pdfkit
+pdfkit # wkhtmltopdf is needed to be installed in the os
 Jinja2 # Installed by flask, also needed for PDFKit
-# Follow the doc instructions to install wkhtmltopdf
-#DEVELOPMENT
+Flask-Mail # Para enviar correos
+# Development
 black | formatter
+# Apache Xampp server
 mod_wsgi # Para despligue en servidor xampp
-flask-mail # Para enviar correos

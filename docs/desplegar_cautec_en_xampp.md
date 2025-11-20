@@ -6,6 +6,16 @@ Despliegue de la aplicación web Cautec en servidor apache con base de datos MyS
 
 Instala las librerías de Microsoft Visual C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/). Se recomienda instalar la versión más reciente, aunque la mínima requerida es la 14.0.0.
 
+### Paquetes Visual C++ Build Tools 2015 en Visual Studio installer
+
+Estos son los paquetes requeridos a instalar a través del Visual Studio installer
+
+- MSVC v140 - VS 2015 C++ Build Tools (v14.00)
+- SDK de Windows Universal CRT
+- Windows 10 SDK (10.0.19041.0)
+
+Funcional en versiones MiniOS de windows
+
 ## Instalación completa de Python
 
 Debes tener una instalación completa de Python que incluya el instalador de paquetes **pip**, y te permita la creación de entornos virtuales.
@@ -52,7 +62,13 @@ Debemos indicar la ruta de nuestra instalación de Apache, que en este caso es u
 
 Abre una terminal CMD en el directorio de tu proyecto y ejecuta el siguiente comando:
 
+### cmd
+
 `set MOD_WSGI_APACHE_ROOTDIR=C:/xampp/apache`
+
+### powershell
+
+`$env:MOD_WSGI_APACHE_ROOTDIR = "C:\xampp\apache"`
 
 **IMPORTANTE:** Asegúrate que la ruta de Apache en el comando usa diagonales hacia delante ( **////** )
 
@@ -71,6 +87,12 @@ En el CMD con el entorno virtual activo ejecuta el siguiente comando:
 `pip install --require-virtualenv --no-cache-dir -U mod_wsgi`
 
 **Nota:** Si existe una instalacion previa de mod_wsgi, global o en el entorno virtual, desinstalala con `pip uninstall mod_wsgi` para evitar errores en la instalación.
+
+### ERROR: rc.exe NOT FOUND
+
+Este error se puede presentar durante la instalación de mod_wsgi. Verifica que "rc.exe" esté presente en la siguiente ruta: `C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86\`. Si es así, añade la siguiente ruta al Path en las variables del sistema: 
+
+`C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x86`
 
 ## Obtener la configuración de mod_wsgi
 

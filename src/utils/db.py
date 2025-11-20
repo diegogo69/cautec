@@ -27,9 +27,10 @@ def get_variables_entorno():
     username = os.getenv('DB_USERNAME', None)
     password = os.getenv('DB_PASSWORD', None)
     host = os.getenv('DB_HOST', None)
+    port = os.getenv('DB_PORT', None)
     database = os.getenv('DB_DATABASE', None)
 
-    return dialect, username, password, host, database
+    return dialect, username, password, host, port, database
 
 
 # Generar una dirección URI (identificador uniforme de recursos) para la conexion a la base de datos
@@ -40,10 +41,10 @@ def get_variables_entorno():
 # Si no se proveen credenciales válidas para la URI, se crea una base de datos SQLite por defecto
 # Asegurando que la aplicacion puede ejecutarse
 def get_database_uri():
-    dialect, username, password, host, database = get_variables_entorno()
+    dialect, username, password, host, port, database = get_variables_entorno()
 
     if (dialect and username and password and host and database):
-        database_uri = f'{dialect}://{username}:{password}@{host}/{database}'
+        database_uri = f'{dialect}://{username}:{password}@{host}:{port}/{database}'
 
         from sqlalchemy_utils import database_exists, create_database
         try:

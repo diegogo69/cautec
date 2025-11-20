@@ -1,5 +1,7 @@
-DB_DIALECT = None
-DB_USERNAME = None
-DB_PASSWORD = None
-DB_HOST = None
-DB_DATABASE = None
+
+DB_DIALECT = mysql
+DB_USERNAME = cautec
+DB_PASSWORD = 1234
+DB_HOST = localhost
+DB_PORT = 3306 
+DB_DATABASE = cautec
