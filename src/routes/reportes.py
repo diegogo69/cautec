@@ -31,6 +31,7 @@ from datetime import datetime
 from io import BytesIO
 import platform
 from src.utils.notificaciones import crear_notificacion
+from pathlib import Path
 
 
 # Diccionario para información a renderizar en Notas de servicios
@@ -40,6 +41,15 @@ NOTA_SERVICIO_DATA = {}
 reportes = Blueprint(
     "reportes", __name__, url_prefix="/reportes", template_folder="templates"
 )
+
+print('---------------------- REPORTES PATH -------------------------------')
+print(__file__)
+print(reportes.root_path)
+print('-----------------------------------------------------')
+
+ruta_src_reportes = Path(reportes.root_path)
+ruta_src = ruta_src_reportes.parent
+ruta_logo_ula = ruta_src / 'static' / 'images' / 'rangel_hcga.png'
 
 
 @reportes.route("/", methods=["GET"])
@@ -323,6 +333,7 @@ def crear_nota_servicio(id):
         reporte.accion = request.form["accion"].strip()
         reporte.diagnostico = request.form["diagnostico"].strip()
 
+        NOTA_SERVICIO_DATA["logo_ula"] = ruta_logo_ula.resolve().as_posix()
         NOTA_SERVICIO_DATA["id"] = reporte.id
         NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision.strftime("%Y-%m-%d")
         # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
@@ -372,34 +383,23 @@ def crear_nota_servicio(id):
 def nota_servicio(id):
     # PDFKit usa rutas de archivo absolutas para localizar los archivos
     # Generar ruta absoluta para la instancia de la aplicación actual
-    # Utilizar una ruta de archivo adecuada al sistema operativo del servidor
-    # E.g. Windows: C:\Users\Gustavo\Documents\cautec\src\templates\pdfs\solicitud_de_servicio.html
-    # E.g. Linux: /home/diego/repos/cautec/src/templates/pdfs/solicitud_de_servicio.html
-    print(reportes.root_path)
+    print(' --------------------------- RUTAS NOTA SERVICIO -------------- ')
+    ruta_src
+    print(ruta_src)
+    ruta_template = ruta_src / 'templates' / 'pdfs' / 'solicitud_de_servicio.html'
+    print(ruta_template)
+    ruta_css = ruta_src / 'static' / 'css' / 'pdfs' / 'solicitud_de_servicio.css'
+    print(ruta_css)
+    print(' ----------------------------------------- ')
 
-    nombre_sistema_operativo = platform.system()
-
-    if nombre_sistema_operativo == "Windows":
-        ruta_src = reportes.root_path.removesuffix("\\routes")
-        ruta_template = f"{ruta_src}\\templates\\pdfs\\solicitud_de_servicio.html"
-        ruta_css = f"{ruta_src}\\static\\css\\pdfs\\solicitud_de_servicio.css"
-
-    elif nombre_sistema_operativo == "Linux":
-        ruta_src = reportes.root_path.removesuffix("/routes")
-        ruta_template = f"{ruta_src}/templates/pdfs/solicitud_de_servicio.html"
-        ruta_css = f"{ruta_src}/static/css/pdfs/solicitud_de_servicio.css"
-
-    else:
-        # idk. what could be another option? MacOS
-        ...
 
     pdf = crear_pdf(
-        NOTA_SERVICIO_DATA,
+        NOTA_SERVICIO_DATA.copy(),
         ruta_template,
         ruta_css,
     )
 
-    NOTA_SERVICIO_DATA.clear()
+    # NOTA_SERVICIO_DATA.clear()
 
     pdf_nombre = f"Nota de servicio - Reporte {id}.pdf"
     pdf_buffer = BytesIO(pdf)
