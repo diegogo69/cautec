@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user, login_required
+import os
+
+os.path
 
 
 main = Blueprint('main', __name__, template_folder='templates')
@@ -13,4 +16,4 @@ def index():
         return render_template('index.html')
     else:
         # Redirigir a la página de login
-        return redirect('usuarios/login.html')
+        return redirect(url_for('usuarios.login'))
