@@ -29,7 +29,11 @@
                 </div>
                 <div class="reporte-footer">
                     <div><strong>Creado:</strong> {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</div>
-                    <div><strong>Estado:</strong> {{ reporte.estado | capitalize }}</div>
+                    <div>
+                        <strong>Estado: </strong>
+                        {{ reporte.estado | capitalize }}
+                        <span class="circulo-reporte-estado reporte-{{ reporte['estado'] | replace(' ', '-') }}"></span>
+                    </div>
                     <div><strong>Ubicación:</strong> {{ departamento.nombre }}. Edificio
                         {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}
                     </div>
@@ -77,9 +81,11 @@
                         <select class="form-select" name="estado" id="estado"
                             {% if current_user.tipo == 'solicitante' %} disabled {% endif %}>
                             {% for estado in reporte['estados'] %}
+                                {% if estado != 'nuevo' %}
                                 <option value="{{ estado }}" {% if estado == reporte.estado %} selected {% endif %}>
                                     {{ estado | capitalize() }}
                                 </option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
