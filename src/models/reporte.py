@@ -22,7 +22,7 @@ class Reporte(db.Model):
 
     nombre_solicitante = db.Column(db.String(50))
     fecha_visita = db.Column(db.DateTime(timezone=True))
-    cod_bienes_dispositvo = db.Column(db.String(50)) # Fix typo
+    cod_bienes_dispositivo = db.Column(db.String(50)) # Fix typo
     tipo_dispositivo_id = db.Column(db.Integer)
     falla_id = db.Column(db.Integer)
     

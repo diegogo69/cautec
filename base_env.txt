@@ -1,4 +1,4 @@
-
+USE_SQLITE_ = true
 DB_DIALECT = mysql
 DB_USERNAME = cautec
 DB_PASSWORD = 1234

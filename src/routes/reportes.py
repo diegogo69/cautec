@@ -55,13 +55,39 @@ ruta_logo_ula = ruta_src / 'static' / 'images' / 'rangel_hcga.png'
 @reportes.route("/", methods=["GET"])
 @login_required
 def ver_reportes():
-    # reportes = Reporte.query.all()
-    reportes = Reporte.query
+    query = Reporte.query
 
+    # Filter "reportes" based on user type
     if current_user.tipo == "solicitante":
-        reportes = reportes.filter(Reporte.usuario_id == current_user.id)
+        query = query.filter(Reporte.usuario_id == current_user.id)
 
-    reportes = reportes.all()
+    # Apply filters based on query parameters
+    if 'estado' in request.args and request.args['estado']:
+        query = query.filter(Reporte.estado == request.args['estado'])
+    if 'fecha_emision' in request.args and request.args['fecha_emision']:
+        query = query.filter(func.date(Reporte.fecha_emision) == request.args['fecha_emision'])
+    if 'nombre_solicitante' in request.args and request.args['nombre_solicitante']:
+        query = query.filter(Reporte.nombre_solicitante.ilike(f"%{request.args['nombre_solicitante']}%"))
+    if 'cod_bienes_dispositivo' in request.args and request.args['cod_bienes_dispositivo']:
+        query = query.filter(Reporte.cod_bienes_dispositivo.ilike(f"%{request.args['cod_bienes_dispositivo']}%"))
+    if 'tipo_dispositivo_id' in request.args and request.args['tipo_dispositivo_id']:
+        query = query.filter(Reporte.tipo_dispositivo_id == request.args['tipo_dispositivo_id'])
+    if 'falla_id' in request.args and request.args['falla_id']:
+        query = query.filter(Reporte.falla_id == request.args['falla_id'])
+    if 'usuario_id' in request.args and request.args['usuario_id']:
+        usuario_filter = request.args['usuario_id']
+        query = query.join(Usuario).filter(
+            (Usuario.usuario.ilike(f"%{usuario_filter}%")) | 
+            (Usuario.id == usuario_filter)
+        )
+    if 'departamento_id' in request.args and request.args['departamento_id']:
+        departamento_filter = request.args['departamento_id']
+        query = query.join(Departamento).filter(
+            (Departamento.nombre.ilike(f"%{departamento_filter}%")) | 
+            (Departamento.id == departamento_filter)
+        )
+
+    reportes = query.all()
     for reporte in reportes:
         reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
         
@@ -69,7 +95,15 @@ def ver_reportes():
         departamento = Departamento.query.get_or_404(reporte.departamento_id)
         reporte.departamento = departamento.nombre
 
-    return render_template("reportes/ver-reportes.html", data={"reportes": reportes})
+    data = {}
+    data["reportes"] = reportes
+    data["ESTADOS_REPORTE"] = ESTADOS_REPORTE
+    data["TIPOS_DISPOSITIVOS"] = TIPOS_DISPOSITIVOS
+    # data["FALLAS_DISPOSITIVOS"] = FALLAS_DISPOSITIVOS
+    data["FALLAS_DISPOSITIVOS"] = Falla_Dispositivo.query.filter_by(predeterminada=True).all()
+
+
+    return render_template("reportes/ver-reportes.html", data=data, enumerate=enumerate)
 
 
 # from sqlalchemy.orm import asdict
@@ -143,7 +177,7 @@ def crear_reporte():
         reporte = Reporte(
             nombre_solicitante=nombre_solicitante,
             tipo_dispositivo_id=int(tipo_dispositivo),
-            cod_bienes_dispositvo=cod_bienes,
+            cod_bienes_dispositivo=cod_bienes,
             falla_id=int(falla),
             fecha_visita=fecha_visita,
             usuario_id=current_user.id,
@@ -345,7 +379,7 @@ def crear_nota_servicio(id):
         NOTA_SERVICIO_DATA["marca_disp"] = request.form["marca"]
         NOTA_SERVICIO_DATA["serial_disp"] = request.form["serial"]
         NOTA_SERVICIO_DATA["cod_bienes_disp"] = (
-            reporte.cod_bienes_dispositvo
+            reporte.cod_bienes_dispositivo
         )  # Fix typo
         # NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
         NOTA_SERVICIO_DATA["diagnostico"] = request.form["diagnostico"]
