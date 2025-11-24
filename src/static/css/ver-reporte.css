@@ -35,12 +35,40 @@
     font-size: 1.1rem;
 }
 
+#seccion-reporte-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
 .reporte-comentario {
     background-color: #fdfdfd;
     padding: .6rem;
     color: #52525b;
     border: 3px solid #d1d5db;
     border-radius: .3rem;
+}
+
+.reporte-comentario-propio {
+    background-color: #e0f7fa; /* Light cyan */
+    border-color: #00acc1; /* Cyan border */
+    color: #006064; /* Dark cyan text */
+    text-align: right;
+    align-self: flex-end;
+    margin-left: 3rem;
+}
+
+.reporte-comentario-otro {
+    background-color: #f3e5f5; /* Light purple */
+    border-color: #8e24aa; /* Purple border */
+    color: #4a148c; /* Dark purple text */
+    text-align: left;
+    align-self: flex-start;
+    margin-right: 3rem;
+}
+
+.comentario-fecha {
+    font-size: 0.8rem;
 }
 
 .resize-none {

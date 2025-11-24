@@ -43,16 +43,16 @@
             <!-- Comentarios -->
             {% if comentarios %}
             <hr>
-            <section class="overflow-y-auto" style="min-height: 300px;">
+            <section class="overflow-y-auto" id="seccion-reporte-comentarios" style="min-height: 300px;">
                 <h4>Comentarios:</h4>
                 {% for comentario in comentarios %}
-                <div class="reporte-comentario">
-                    {{ comentario.comentario }}
-                </div>
-                <div>
-                    <span>
-                        {{ comentario.fecha }}
-                    </span>
+                <div class="reporte-comentario {% if comentario.usuario_id == current_user.id %}reporte-comentario-propio{% else %}reporte-comentario-otro{% endif %}">
+                    <div class="comentario-text">
+                        {{ comentario.comentario }}
+                    </div>
+                    <div class="comentario-fecha">
+                        {{ comentario.fecha.strftime('%d-%m-%Y %H:%M') }}
+                    </div>
                 </div>
                 {% endfor %}
             </section>
