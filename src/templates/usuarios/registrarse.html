@@ -1,93 +1,77 @@
 {% extends "layout-user-auth.html" %}
 
-{% block link_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock link_css %}
+{% block title %}
+- Registrarse
+{% endblock %}
 
 {% block content %}
-    <div class="container-fluid bg-img">
-        <div class="row h-100">
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <div class="contenedor-bienvenida">
-                    <h1>Bienvenido a Cautec</h1>
-                    <p>La plataforma digital de la Unidad de Soporte Tecnico de la ULA-NURR para la gestion de servicios de soporte tecnico. Realiza reportes de trabajo y te atenderemos con gusto!</p>
-                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt nulla atque commodi assumenda perferendis ipsum minima magnam quia dolor accusamus alias tempora, iusto debitis aspernatur, rem pariatur. Non, sed neque?</p> -->
-                </div>
-            </div>
-
-           <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <div class="content-section  contenedor-formulario">
-                    <form method="POST" action="">
-                        {{ form.hidden_tag() }}
-                        <fieldset class="form-group">
-                            <legend class="border-bottom mb-4">Regístrate ahora</legend>
-                            <div class="form-group mb-3">
-                                {{ form.usuario.label(class="form-label fw-bold") }}
-                                {% if form.usuario.errors %}
-                                    {{ form.usuario(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.usuario.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.usuario(class="form-control form-control-lg", pattern="(?=.{3,20}$)(?!.*[_.-]{2})[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*") }}
-                                {% endif %}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form.email.label(class="form-label fw-bold") }}
-                                {% if form.email.errors %}
-                                <!-- FIELD ERROR MESSAGES -->
-                                    {{ form.email(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.email.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.email(class="form-control form-control-lg") }}
-                                {% endif %}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form.password.label(class="form-label fw-bold") }}
-                                {% if form.password.errors %}
-                                    {{ form.password(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.password.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.password(class="form-control form-control-lg") }}
-                                {% endif %}
-                            </div>
-                            <div class="form-group mb-3">
-                                <!-- Añadir dos puntos ":" al final del label -->
-                                {{ form.confirm_password.label(class="form-label fw-bold") }}
-                                {% if form.confirm_password.errors %}
-                                    {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        <!-- VALIDATION FEEDBACK -->
-                                        {% for error in form.confirm_password.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.confirm_password(class="form-control form-control-lg") }}
-                                {% endif %}
-                            </div>
-                        </fieldset>
-                        <div class="form-group mb-3">
-                            {{ form.submit(class="btn btn-info") }}
-                        </div>
-                    </form>
-                    <div class="border-top pt-3">
-                        <small class="text-muted">
-                            Ya tienes una cuenta? <a class="ml-2" href="{{ url_for('usuarios.login') }}">Ingresa</a>
-                        </small>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Regístrate ahora</legend>
+            <div class="form-group mb-3">
+                {{ form.usuario.label(class="form-label fw-bold") }}
+                {% if form.usuario.errors %}
+                    {{ form.usuario(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.usuario.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
                     </div>
-                </div>
+                {% else %}
+                    {{ form.usuario(class="form-control form-control-lg", pattern="(?=.{3,20}$)(?!.*[_.-]{2})[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*") }}
+                {% endif %}
             </div>
+            <div class="form-group mb-3">
+                {{ form.email.label(class="form-label fw-bold") }}
+                {% if form.email.errors %}
+                <!-- FIELD ERROR MESSAGES -->
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">
+                {{ form.password.label(class="form-label fw-bold") }}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group mb-3">
+                <!-- Añadir dos puntos ":" al final del label -->
+                {{ form.confirm_password.label(class="form-label fw-bold") }}
+                {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        <!-- VALIDATION FEEDBACK -->
+                        {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.confirm_password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group mb-3">
+            {{ form.submit(class="btn btn-info") }}
         </div>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Ya tienes una cuenta? <a class="ml-2" href="{{ url_for('usuarios.login') }}">Ingresa</a>
+        </small>
     </div>
 {% endblock content %}

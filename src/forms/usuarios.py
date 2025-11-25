@@ -95,7 +95,7 @@ class UpdateAccountForm(FlaskForm):
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField("Correo", validators=[DataRequired(), Email()])
+    email = StringField("Correo:", validators=[DataRequired(), Email()])
     submit = SubmitField("Solicitar restablecer contraseña")
 
     def validate_email(self, email):
@@ -107,27 +107,27 @@ class RequestResetForm(FlaskForm):
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField("Contraseña", validators=[DataRequired()])
+    password = PasswordField("Contraseña:", validators=[DataRequired()])
     confirm_password = PasswordField(
-        "Confirmar contraseña", validators=[DataRequired(), EqualTo("password")]
+        "Confirmar contraseña:", validators=[DataRequired(), EqualTo("password")]
     )
     submit = SubmitField("Restablecer contraseña")
 
 
 class CambiarContraseñaForm(FlaskForm):
     password_actual = PasswordField(
-        "Contraseña actual",
+        "Contraseña actual:",
         validators=[DataRequired()],
     )
     nueva_password = PasswordField(
-        "Nueva contraseña",
+        "Nueva contraseña:",
         validators=[
             DataRequired(),
             Length(min=4, max=20, message="La contraseña debe contener entre 4 y 20 caracteres."),
         ],
     )
     confirmar_password = PasswordField(
-        "Confirmar nueva contraseña",
+        "Confirmar nueva contraseña:",
         validators=[
             DataRequired(),
             EqualTo("nueva_password", message="Las contraseñas deben coincidir."),

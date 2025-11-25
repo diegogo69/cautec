@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-5.3.5-css/bootstrap.min.css') }}"
         type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     {% block link_css %}{% endblock %}
+
 </head>
 
 <body class="d-flex flex-column vh-100">
@@ -71,23 +71,7 @@
     <main class="flex-grow-1 d-flex flex-row">
         {% block sidebar %}{% endblock sidebar %}
         
-        <div class="container-fluid bg-img">
-            <div class="row h-100">
-                <div class="col-md-6 d-flex justify-content-center align-items-center">
-                    <div class="contenedor-bienvenida">
-                        <h1>Bienvenido a Cautec</h1>
-                        <p>La plataforma digital de la Unidad de Soporte Tecnico de la ULA-NURR para la gestion de servicios de soporte tecnico. Realiza reportes de trabajo y te atenderemos con gusto!</p>
-                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt nulla atque commodi assumenda perferendis ipsum minima magnam quia dolor accusamus alias tempora, iusto debitis aspernatur, rem pariatur. Non, sed neque?</p> -->
-                    </div>
-                </div>
-    
-               <div class="col-md-6 d-flex justify-content-center align-items-center">
-                    <div class="content-section contenedor-formulario">
-                        {% block content %}{% endblock content %}
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% block content %}{% endblock content %}
     </main>
 
     <footer></footer>

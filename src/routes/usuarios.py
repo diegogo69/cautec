@@ -220,7 +220,7 @@ def token_restablecer_contrasena(token):
     user = Usuario.verify_reset_token(token)
     if not user:
         flash('El token es inválido o ha expirado.', 'warning')
-        return redirect(url_for('restablecer_contrasena'))
+        return redirect(url_for('usuarios.restablecer_contrasena'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
