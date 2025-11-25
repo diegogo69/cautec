@@ -96,13 +96,13 @@ class UpdateAccountForm(FlaskForm):
 
 class RequestResetForm(FlaskForm):
     email = StringField("Correo", validators=[DataRequired(), Email()])
-    submit = SubmitField("Restablecer contraseña")
+    submit = SubmitField("Solicitar restablecer contraseña")
 
     def validate_email(self, email):
         user = Usuario.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError(
-                "El nombre de usuario no está registrado. Regístrate y crea una cuenta."
+                "No existe una cuenta asociada al correo. Regístrate y crea una cuenta."
             )
 
 

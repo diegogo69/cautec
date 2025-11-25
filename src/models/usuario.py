@@ -1,5 +1,7 @@
+import os
 from src.utils.db import db
 from flask_login import UserMixin
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 # UserMixin provides certain attributes and methods User model expects:
 # isAuthenticated, isActive, isAnonymous, get_id()
@@ -18,6 +20,20 @@ class Usuario(db.Model, UserMixin):
 
     departamento_id = db.Column(db.Integer, db.ForeignKey('departamentos.id')) #, nullable=False)
 
+    # 
 
+    def get_reset_token(self):
+        s = Serializer(os.getenv('SECRET_KEY', 'clave_por_defecto'))
+        return s.dumps({'user_id': self.id})#.decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(os.getenv('SECRET_KEY', 'clave_por_defecto'))
+        try:
+            user_id = s.loads(token, max_age=1800)['user_id']
+        except:
+            return None
+        return Usuario.query.get(user_id)
+    
     def __repr__(self):
         return f"Usuario('{self.usuario}')"
