@@ -9,6 +9,7 @@ from src.forms.usuarios import (
     UpdateAccountForm,
     RequestResetForm,
     ResetPasswordForm,
+    CambiarContraseñaForm,
 )
 
 # from src.utils import save_picture, remove_picture, send_reset_email
@@ -166,6 +167,21 @@ def cuenta():
         "usuarios/cuenta.html", title="Account", form=form, usuario=current_user
     )  # , profile_img=profile_img
 
+
+@usuarios.route("/cambiar-contrasena", methods=["GET", "POST"])
+@login_required
+def cambiar_contrasena():
+    form = CambiarContraseñaForm()
+    if form.validate_on_submit():
+        if bcrypt.check_password_hash(current_user.password, form.password_actual.data):
+            hashed_password = bcrypt.generate_password_hash(form.nueva_password.data).decode("utf-8")
+            current_user.password = hashed_password
+            db.session.commit()
+            flash("Tu contraseña ha sido actualizada exitosamente!", "success")
+            return redirect(url_for("usuarios.cuenta"))
+        else:
+            flash("La contraseña actual es incorrecta. Inténtalo de nuevo.", "danger")
+    return render_template("usuarios/cambiar-contraseña.html", title="Cambiar contraseña", form=form)
 
 # PAGINATION PAGE FOR SPECIFIC USER POSTS
 @usuarios.route("/user/<string:username>")
