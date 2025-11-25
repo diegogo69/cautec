@@ -51,6 +51,37 @@
                         {{ comentario.comentario }}
                     </div>
                     <div class="comentario-fecha">
+                        {% if current_user.tipo == 'solicitante' %}
+
+                            {% if comentario.usuario_id == current_user.id %}
+                                Solicitante
+                            {% else %}
+                                Soporte
+                            {% endif %}
+                                
+                        {% else %}
+
+                            {% if reporte.usuario_id == current_user.id %}
+
+                                {% if comentario.usuario_id == current_user.id %}
+                                    Solicitante
+                                {% else %}
+                                    Soporte
+                                {% endif %}
+                                    
+                            {% else %}
+                                    
+                                {% if comentario.usuario_id == current_user.id %}
+                                    Soporte
+                                {% else %}
+                                    Solicitante
+                                {% endif %}
+                                
+                            {% endif %}
+                                
+                        {% endif %}
+                        
+
                         {{ comentario.fecha.strftime('%d-%m-%Y %H:%M') }}
                     </div>
                 </div>
