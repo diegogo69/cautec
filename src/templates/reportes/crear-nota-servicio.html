@@ -30,8 +30,8 @@
 
                 <div class="col">
                     <label for="ext-telefonica" class="form-label">Ext. telefónica:</label>
-                    <input type="text" name="linea_telefonica" id="ext-telefonica" class="form-control" placeholder="3311"
-                        value="{{ departamento.linea_telefonica }}">
+                    <input type="text" name="linea_telefonica" id="ext-telefonica" class="form-control"
+                        value="{% if ext_telefonica %} {{ext_telefonica}} {% endif %}">
                 </div>
                 <div class="col">
                     <label for="email" class="form-label">Email:</label>
@@ -78,7 +78,7 @@
             <div>
                 <label class="form-label" for="falla">Falla:</label>
                 <input class="form-control" type="text" name="falla" id="falla"
-                    value="{{ reporte.falla | capitalize }}">
+                    value="{{ reporte.falla.descripcion | capitalize }}">
             </div>
             <div>
                 <fieldset class="">
@@ -120,17 +120,17 @@
                 <div class="col">
                     <label class="form-label" for="fecha_emision">Emitido:</label>
                     <input class="form-control" type="date" name="fecha_emision" id="fecha_emision"
-                        value="{{ reporte.fecha_emision.strftime('%Y-%m-%d') }}">
+                        value="{{ reporte.fecha_emision.strftime('%d-%m-%Y') }}">
                 </div>
                 <div class="col">
                     <label class="form-label" for="fecha_atencion">Atendido:</label>
                     <input class="form-control" type="date" name="fecha_atencion" id="fecha_atencion" {% if
-                        reporte.fecha_atencion %} value="{{reporte.fecha_atencion.strftime('%Y-%m-%d')}}" {% endif %}>
+                        reporte.fecha_atencion %} value="{{reporte.fecha_atencion.strftime('%d-%m-%Y')}}" {% endif %}>
                 </div>
                 <div class="col">
                     <label class="form-label" for="fecha_cierre">Resuelto:</label>
                     <input class="form-control" type="date" name="fecha_cierre" id="fecha_cierre" {% if
-                        reporte.fecha_cierre %} value="{{reporte.fecha_cierre.strftime('%Y-%m-%d')}}" {% endif %}>
+                        reporte.fecha_cierre %} value="{{reporte.fecha_cierre.strftime('%d-%m-%Y')}}" {% endif %}>
                 </div>
                 <div>
                     <label class="form-label" for="accion">Acción:</label>
@@ -140,7 +140,7 @@
         </section>
 
         <section>
-            <button type="submit" class="btn btn-primary">Generar nota de servicio</button>
+            <button type="submit" class="btn btn-primary mt-2">Generar nota de servicio</button>
         </section>
     </form>
 </div>

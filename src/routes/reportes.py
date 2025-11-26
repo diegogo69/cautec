@@ -382,12 +382,14 @@ def crear_nota_servicio(id):
 
         NOTA_SERVICIO_DATA["logo_ula"] = ruta_logo_ula.resolve().as_posix()
         NOTA_SERVICIO_DATA["id"] = reporte.id
-        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision.strftime("%Y-%m-%d")
+        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision
         # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
         NOTA_SERVICIO_DATA["nombre_solicitante"] = request.form["nombre_solicitante"]
         NOTA_SERVICIO_DATA["nombre_departamento"] = departamento.nombre
         # NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
-        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form["linea_telefonica"]
+        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form.get("linea_telefonica", ' extttttttt sdfjaf').strip()
+        print('---------------- EXT TELEFONICA -------------------')
+        print(NOTA_SERVICIO_DATA["ext_telefonica"])
         NOTA_SERVICIO_DATA["nombre_coordinador"] = request.form["coordinador"]
         NOTA_SERVICIO_DATA["marca_disp"] = request.form["marca"]
         NOTA_SERVICIO_DATA["serial_disp"] = request.form["serial"]

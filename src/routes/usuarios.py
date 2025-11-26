@@ -11,7 +11,8 @@ from src.forms.usuarios import (
     ResetPasswordForm,
     CambiarContraseñaForm,
 )
-from src.utils.usuarios import enviar_correo_recuperacion
+from src.utils.usuarios import enviar_correo_recuperacion, notificar_cambio_contrasena
+
 # from src.utils import save_picture, remove_picture, send_reset_email
 
 usuarios = Blueprint("usuarios", __name__)
@@ -38,6 +39,7 @@ def ver_usuarios():
     pagina = request.args.get('pagina', page_default, type=int)
 
     usuarios = query.paginate(page=pagina, per_page=por_pagina)
+    print(usuarios.first)
     # usuarios = Usuario.query.all()
 
     return render_template(
@@ -138,6 +140,10 @@ def login():
         elif usuario and bcrypt.check_password_hash(usuario.password, form.password.data):
             login_user(usuario, remember=form.remember.data)
 
+            # Verificar si el usuario debe cambiar su contraseña
+            if notificar_cambio_contrasena(current_user):
+                return redirect(url_for('usuarios.cambiar_contrasena_primera_vez'))
+
             # If next arg from previous attempt to acces a route without logged in. Redirect to that attempted route
             next_page = request.args.get("next")
             return redirect(next_page) if next_page else redirect(url_for("main.index"))
@@ -192,6 +198,22 @@ def cambiar_contrasena():
         else:
             flash("La contraseña actual es incorrecta. Inténtalo de nuevo.", "danger")
     return render_template("usuarios/cambiar-contraseña.html", title="Cambiar contraseña", form=form)
+
+# Ruta para cambiar la contraseña la primera vez que un usuario por defecto inicia sesión
+@usuarios.route("/cambiar-contrasena-primera-vez", methods=["GET", "POST"])
+@login_required
+def cambiar_contrasena_primera_vez():
+    form = CambiarContraseñaForm()
+    if form.validate_on_submit():
+        if bcrypt.check_password_hash(current_user.password, form.password_actual.data):
+            hashed_password = bcrypt.generate_password_hash(form.nueva_password.data).decode("utf-8")
+            current_user.password = hashed_password
+            db.session.commit()
+            flash("Tu contraseña ha sido actualizada exitosamente!", "success")
+            return redirect(url_for("usuarios.cuenta"))
+        else:
+            flash("La contraseña actual es incorrecta. Inténtalo de nuevo.", "danger")
+    return render_template("usuarios/cambiar-contraseña-primera-vez.html", form=form)
 
 # PAGINATION PAGE FOR SPECIFIC USER POSTS
 @usuarios.route("/user/<string:username>")
