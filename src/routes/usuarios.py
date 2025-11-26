@@ -28,7 +28,17 @@ def load_user(user_id):
 @usuarios.route("/ver-usuarios", methods=["GET"])
 @login_required
 def ver_usuarios():
-    usuarios = Usuario.query.all()
+    if current_user.tipo != "admin":
+        return redirect(url_for("main.index"))
+
+    query = Usuario.query
+    
+    page_default = 1
+    por_pagina = 20
+    pagina = request.args.get('pagina', page_default, type=int)
+
+    usuarios = query.paginate(page=pagina, per_page=por_pagina)
+    # usuarios = Usuario.query.all()
 
     return render_template(
         "usuarios/ver-usuarios.html", usuarios=usuarios
