@@ -37,7 +37,7 @@
                 <ul class="list-unstyled row g-3 align-items-end">
                     <li class="col-4">
                         <label for="torre" class="col-auto form-label m-0"><strong>Torre:</strong></label>
-                        <select name="torre" id="torre" class="col form-select" required>
+                        <select name="torre" id="torre" class="col form-select">
                             <option value="" selected>Seleccionar torre</option>
                             {% for torre in areas['torres'] %}
                             <option value="{{ torre }}">{{ torre|capitalize }}</option>
@@ -46,7 +46,7 @@
                     </li>
                     <li class="col-4">
                         <label for="piso" class="col-auto form-label m-0"><strong>Piso:</strong></label>
-                        <select name="piso" id="piso" class="col form-select" required>
+                        <select name="piso" id="piso" class="col form-select">
                             <option value="" selected>Seleccionar piso</option>
                             {% for piso in areas['pisos'] %}
                             {% if piso == '0' %}
@@ -59,7 +59,7 @@
                     </li>
                     <li class="col-4">
                         <label for="tipo-area" class="col-auto form-label m-0"><strong>Tipo de área:</strong></label>
-                        <select name="tipo-area" id="tipo-area" class="form-select" required>
+                        <select name="tipo-area" id="tipo-area" class="form-select">
                             <option value="" selected>Seleccionar tipo de área</option>
                             {% for tipo in areas['tipos'] %}
                             <option value="{{ tipo }}">{{ tipo|capitalize }}</option>

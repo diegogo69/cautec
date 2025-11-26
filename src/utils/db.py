@@ -99,6 +99,10 @@ def crear_dependencias_ula():
     from src.models.departamento import Departamento
     import csv
 
+    hay_departamentos = Departamento.query.first()
+    if hay_departamentos:
+        return
+
     # Abre el archivo CSV en modo lectura ('r')
     with open('datos_universidad.csv', mode='r', newline='', encoding='utf-8') as archivo_csv:
         # Crea un objeto DictReader
