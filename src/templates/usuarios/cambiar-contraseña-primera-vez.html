@@ -1,0 +1,38 @@
+{% extends "layout-user-auth.html" %}
+
+{% block title %}
+- Ingresar
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid flex-grow-1 py-2">    
+    <h2>Cambiar contraseña</h2>
+    <p>Por razones de seguridad por favor cambia tu contraseña por una mas segura.</p>
+    <form method="POST" action="{{ url_for('usuarios.cambiar_contrasena') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.password_actual.label(class="form-label") }}
+            {{ form.password_actual(class="form-control") }}
+            {% for error in form.password_actual.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.nueva_password.label(class="form-label") }}
+            {{ form.nueva_password(class="form-control") }}
+            {% for error in form.nueva_password.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.confirmar_password.label(class="form-label") }}
+            {{ form.confirmar_password(class="form-control") }}
+            {% for error in form.confirmar_password.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+    </form>
+
+</div>
+{% endblock %}

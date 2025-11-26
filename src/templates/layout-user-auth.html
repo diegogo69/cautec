@@ -69,7 +69,6 @@
     </header>
 
     <main class="flex-grow-1 d-flex flex-row">
-        {% block sidebar %}{% endblock sidebar %}
         
         <div class="container-fluid bg-img">
             <div class="row h-100">
@@ -83,6 +82,7 @@
     
                <div class="col-md-6 d-flex justify-content-center align-items-center">
                     <div class="content-section contenedor-formulario">
+                        {% include "messages.html" %}
                         {% block content %}{% endblock content %}
                     </div>
                 </div>

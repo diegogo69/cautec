@@ -1,10 +1,38 @@
 import os
 import secrets
 # from PIL import Image
-from flask import current_app, url_for
+from flask import current_app, url_for, flash, redirect
 from src.utils.auth import mail
 from flask_mail import Message
+from src import bcrypt
+# from src.routes.usuarios import cambiar_contrasena
 
+
+# Funcion para verificar si el usuario actual es un usuario por defecto y si no ha cambiado su contraseña
+def verificar_usuario_por_defecto(user):
+    print(user.id)
+    if user.id in (1, 2, 3):
+        match user.tipo:
+            case 'admin':
+                contrasena = 'admin'      # Usuario admin
+            case 'soporte':
+                contrasena = 'soporte'    # Usuario tecnico
+            case _:
+                contrasena = 'solicitante' # Usuario solicitante
+        if bcrypt.check_password_hash(user.password, contrasena):
+            print('si es')
+            return True
+        print('no es')
+        print(contrasena)
+    return False
+
+def notificar_cambio_contrasena(current_user_):
+    if current_user_.is_authenticated:
+        print('Verificando si el usuario debe cambiar su contraseña...')
+        if current_user_.is_authenticated and verificar_usuario_por_defecto(current_user_):
+            # flash('Por razones de seguridad, debes cambiar tu contraseña antes de continuar.', 'warning')
+            return True
+    return False
 
 # RESET AUTHENTICATION
 def enviar_correo_recuperacion(user):
