@@ -7,30 +7,38 @@
 
 {% block content %}
 
-<h2>Editar departamento</h2>
-<form action="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}" method="post">
-    <ul>
-        <li>
-            {{ form.nombre.label }}
-            {{ form.nombre }}
-            <!-- form.titulo(disabled='True') -->
-        </li>
-        <li>
-            {{ form.ubicacion.label }}
-            {{ form.ubicacion }}
-        </li>
-        <li>
-            <!-- Cambiar por un input check -->
-            {{ form.nombre_coordinador.label }}
-            {{ form.nombre_coordinador }}
-        </li>
-        <li>
-            {{ form.linea_telefonica.label }}
-            {{ form.linea_telefonica }}
-        </li>
-        <li>
-            {{ form.submit }}
-        </li>
-    </ul>
-</form>
+<div class="container-fluid flex-grow-1 py-2">
+    <div class="row">
+        {% include "messages.html" %}
+    </div>
+    <div class="row">
+        <h2>Editar departamento</h2>
+        <form action="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}" method="post">
+            <ul>
+                <li>
+                    {{ form.nombre.label }}
+                    {{ form.nombre }}
+                    <!-- form.titulo(disabled='True') -->
+                </li>
+                <li>
+                    {{ form.ubicacion.label }}
+                    {{ form.ubicacion }}
+                </li>
+                <li>
+                    <!-- Cambiar por un input check -->
+                    {{ form.nombre_coordinador.label }}
+                    {{ form.nombre_coordinador }}
+                </li>
+                <li>
+                    {{ form.linea_telefonica.label }}
+                    {{ form.linea_telefonica }}
+                </li>
+                <li>
+                    {{ form.submit }}
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
