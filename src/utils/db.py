@@ -95,8 +95,50 @@ def crear_usuarios():
     db.session.commit()
     print('Los usuarios por defecto has sido creados exitosamente')
 
+def crear_dependencias_ula():
+    from src.models.departamento import Departamento
+    import csv
 
-def crear_departamentos():
+    hay_departamentos = Departamento.query.first()
+    if hay_departamentos:
+        return
+
+    # Abre el archivo CSV en modo lectura ('r')
+    with open('datos_universidad.csv', mode='r', newline='', encoding='utf-8') as archivo_csv:
+        # Crea un objeto DictReader
+        lector_csv = csv.DictReader(archivo_csv)
+
+        # Itera sobre cada fila del archivo
+        for fila in lector_csv:
+            # Cada 'fila' es un diccionario
+            # Puedes acceder a los valores por el nombre de la columna
+            # print(f"Nombre: {fila['Nombre']}, Edad: {fila['Edad']}")
+
+            tipo = fila['tipo'].lower()
+            torre = fila['torre'].lower()
+            piso = fila['piso']
+            nombre = fila['nombre']
+
+            # piso_texto = piso if piso != '0' else 'planta baja' 
+            ubicacion = f"Torre {torre}, piso {piso}, {tipo} {nombre}"
+
+            departamento = Departamento(
+                tipo=tipo,
+                torre=torre,
+                piso=piso,
+                nombre=nombre,
+                ubicacion=ubicacion,
+                # nombre_coordinador=nombre_coor,
+                # linea_telefonica=linea_telefonica,
+            )
+
+            db.session.add(departamento)
+                
+        db.session.commit()
+        print('Departamentos creados exitosamente')
+
+
+def crear_departamentos_por_defecto():
     from src.utils.departamentos import AREAS_TORRES, AREAS_PISOS, AREAS_TIPOS
     from src.models.departamento import Departamento
     
@@ -158,6 +200,7 @@ def crear_fallas():
 # Comprobar si hay usuarios registrados en la base de datos
 def primera_vez():
     crear_usuarios()
-    crear_departamentos()
+    # crear_departamentos_por_defecto()
+    crear_dependencias_ula()
     crear_fallas()
     return

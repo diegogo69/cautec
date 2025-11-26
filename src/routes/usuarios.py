@@ -9,8 +9,9 @@ from src.forms.usuarios import (
     UpdateAccountForm,
     RequestResetForm,
     ResetPasswordForm,
+    CambiarContraseñaForm,
 )
-
+from src.utils.usuarios import enviar_correo_recuperacion
 # from src.utils import save_picture, remove_picture, send_reset_email
 
 usuarios = Blueprint("usuarios", __name__)
@@ -27,7 +28,17 @@ def load_user(user_id):
 @usuarios.route("/ver-usuarios", methods=["GET"])
 @login_required
 def ver_usuarios():
-    usuarios = Usuario.query.all()
+    if current_user.tipo != "admin":
+        return redirect(url_for("main.index"))
+
+    query = Usuario.query
+    
+    page_default = 1
+    por_pagina = 20
+    pagina = request.args.get('pagina', page_default, type=int)
+
+    usuarios = query.paginate(page=pagina, per_page=por_pagina)
+    # usuarios = Usuario.query.all()
 
     return render_template(
         "usuarios/ver-usuarios.html", usuarios=usuarios
@@ -167,6 +178,21 @@ def cuenta():
     )  # , profile_img=profile_img
 
 
+@usuarios.route("/cambiar-contrasena", methods=["GET", "POST"])
+@login_required
+def cambiar_contrasena():
+    form = CambiarContraseñaForm()
+    if form.validate_on_submit():
+        if bcrypt.check_password_hash(current_user.password, form.password_actual.data):
+            hashed_password = bcrypt.generate_password_hash(form.nueva_password.data).decode("utf-8")
+            current_user.password = hashed_password
+            db.session.commit()
+            flash("Tu contraseña ha sido actualizada exitosamente!", "success")
+            return redirect(url_for("usuarios.cuenta"))
+        else:
+            flash("La contraseña actual es incorrecta. Inténtalo de nuevo.", "danger")
+    return render_template("usuarios/cambiar-contraseña.html", title="Cambiar contraseña", form=form)
+
 # PAGINATION PAGE FOR SPECIFIC USER POSTS
 @usuarios.route("/user/<string:username>")
 def user_posts(username):
@@ -179,44 +205,37 @@ def user_posts(username):
     # return render_template('usuarios/user_posts.html', posts=posts, user=user)
 
 
-@usuarios.route("/reset_password", methods=["GET", "POST"])
-def reset_request():
-    pass
+@usuarios.route("/restablecer-contraseña", methods=['GET', 'POST'])
+def restablecer_contrasena():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = Usuario.query.filter_by(email=form.email.data).first()
+        try:
+            enviar_correo_recuperacion(user)
+        except Exception as e:
+            print(f"No se pudo enviar el correo de restablecimiento. Error: {e}")
+            flash('Algo salió mal, el correo de restablecimiento no pudo ser enviado. Intenta más tarde', 'danger')
+            return redirect(url_for('usuarios.login'))
+        flash('Se te ha enviado un mensaje a tu correo para restablecer la contraseña.', 'info')
+        return redirect(url_for('usuarios.login'))
+    return render_template('usuarios/restablecer-contrasena.html', form=form)
 
 
-#     if current_user.is_authenticated:
-#         return redirect(url_for('main.index'))
-#     form = RequestResetForm()
-#     if form.validate_on_submit():
-#         user = Usuario.query.filter_by(email=form.email.data).first()
-#         try:
-#             send_reset_email(user)
-#         except Exception as e:
-#             flash('Something went wrong, the email could not be sent. Try again later.', 'danger')
-#             return redirect(url_for('usuarios.login'))
-#         flash('An email has been sent with instructions to reset your password.', 'info')
-#         return redirect(url_for('usuarios.login'))
-#     return render_template('usuarios/reset_request.html', title='Reset Password', form=form)
-
-
-@usuarios.route("/reset_password/<token>", methods=["GET", "POST"])
-def reset_token(token):
-    pass
-
-
-#     if current_user.is_authenticated:
-#         return redirect(url_for('main.index'))
-#     user = Usuario.verify_reset_token(token)
-#     if user is None:
-#         flash('That is an invalid or expired token', 'warning')
-#         return redirect(url_for('usuarios.reset_request'))
-#     form = ResetPasswordForm()
-#     if form.validate_on_submit():
-#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-#         user.password = hashed_password
-#         db.session.commit()
-#         flash('Your password has been updated! You are now able to log in', 'success')
-#         return redirect(url_for('usuarios.login'))
-
-#     flash('User validation succesful. You can now reset your password', 'info')
-#     return render_template('usuarios/reset_token.html', title='Reset Password', form=form)
+@usuarios.route("/restablecer-contraseña/<token>", methods=['GET', 'POST'])
+def token_restablecer_contrasena(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    user = Usuario.verify_reset_token(token)
+    if not user:
+        flash('El token es inválido o ha expirado.', 'warning')
+        return redirect(url_for('usuarios.restablecer_contrasena'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('¡Tu contraseña se ha restablecido correctamente! Ahora puedes acceder a tu cuenta.', 'success')
+        return redirect(url_for('usuarios.login'))
+    return render_template('usuarios/token-restablecer-contrasena.html', form=form)

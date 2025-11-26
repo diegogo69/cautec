@@ -64,8 +64,10 @@ def ver_reportes():
     # Apply filters based on query parameters
     if 'estado' in request.args and request.args['estado']:
         query = query.filter(Reporte.estado == request.args['estado'])
-    if 'fecha_emision' in request.args and request.args['fecha_emision']:
-        query = query.filter(func.date(Reporte.fecha_emision) == request.args['fecha_emision'])
+    if 'desde' in request.args and request.args['desde']:
+        query = query.filter(Reporte.fecha_emision >= request.args['desde'])
+    if 'hasta' in request.args and request.args['hasta']:
+        query = query.filter(Reporte.fecha_emision <= request.args['hasta'])
     if 'nombre_solicitante' in request.args and request.args['nombre_solicitante']:
         query = query.filter(Reporte.nombre_solicitante.ilike(f"%{request.args['nombre_solicitante']}%"))
     if 'cod_bienes_dispositivo' in request.args and request.args['cod_bienes_dispositivo']:
@@ -87,7 +89,12 @@ def ver_reportes():
             (Departamento.id == departamento_filter)
         )
 
-    reportes = query.all()
+    page_default = 1
+    por_pagina = 20
+    pagina = request.args.get('pagina', page_default, type=int)
+
+    # reportes = query.all()
+    reportes = query.paginate(page=pagina, per_page=por_pagina)
     for reporte in reportes:
         reporte.dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
         
@@ -101,6 +108,8 @@ def ver_reportes():
     data["TIPOS_DISPOSITIVOS"] = TIPOS_DISPOSITIVOS
     # data["FALLAS_DISPOSITIVOS"] = FALLAS_DISPOSITIVOS
     data["FALLAS_DISPOSITIVOS"] = Falla_Dispositivo.query.filter_by(predeterminada=True).all()
+    data["query_falla"] = int(request.args.get('falla_id')) if request.args.get('falla_id') else None
+    data["query_dispositivo"] = int(request.args.get('tipo_dispositivo_id')) if request.args.get('tipo_dispositivo_id') else None
 
 
     return render_template("reportes/ver-reportes.html", data=data, enumerate=enumerate)
@@ -116,6 +125,10 @@ def ver_reporte(id):
     reporte.falla = Falla_Dispositivo.query.get_or_404(reporte.falla_id)
     reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
     reporte.estados = ESTADOS_REPORTE
+
+    if reporte.estado == 'nuevo':
+        reporte.estado = 'pendiente'
+        db.session.commit()
 
     return render_template(
         "reportes/ver-reporte.html",

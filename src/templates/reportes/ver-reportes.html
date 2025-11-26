@@ -23,58 +23,60 @@
     <!-- Search Form -->
     <form method="get" action="{{ url_for('reportes.ver_reportes') }}" class="mb-3">
         <div class="row g-2">
-            <div class="col">
+            <div class="col-2">
                 <label for="estado" class="form-label">Estado:</label>
                 <select class="form-select" name="estado" id="estado"
                     {% if current_user.tipo == 'solicitante' %} disabled {% endif %}>
                     <option value="">Ninguno</option>
                     {% for estado in data['ESTADOS_REPORTE'] %}
-                        <option value="{{ estado }}">
-                            {{ estado | capitalize() }}
+                        <option value="{{ estado }}" {% if estado == request.args.get('estado') %} selected {% endif %}>
+                            {{ estado | capitalize }}
                         </option>
                     {% endfor %}
                 </select>
-                <!-- <input type="text" name="estado" class="form-control" placeholder="Estado" value="{{ request.args.get('estado', '') }}"> -->
             </div>
-            <div class="col">
-                <label for="fecha_emision" class="form-label">Fecha Emisión:</label>
-                <input type="date" name="fecha_emision" id="fecha_emision" class="form-control" placeholder="Fecha Emisión" value="{{ request.args.get('fecha_emision', '') }}">
+            <div class="col-2">
+                <label for="desde" class="form-label">Desde:</label>
+                <input type="date" name="desde" id="desde" class="form-control" value="{{ request.args.get('desde', '') }}">
             </div>
-            <div class="col">
-                <label for="nombre_solicitante" class="form-label">Nombre Solicitante:</label>
-                <input type="text" name="nombre_solicitante" id="nombre_solicitante" class="form-control" placeholder="Nombre Solicitante" value="{{ request.args.get('nombre_solicitante', '') }}">
+            <div class="col-2">
+                <label for="hasta" class="form-label">Hasta:</label>
+                <input type="date" name="hasta" id="hasta" class="form-control" value="{{ request.args.get('hasta', '') }}">
             </div>
-            <div class="col">
-                <label for="cod-bienes" class="form-label">Código Bienes Dispositivo:</label>
-                <input type="text" name="cod_bienes_dispositivo" id="cod-bienes" class="form-control" maxlength="13" value="{{ request.args.get('cod_bienes_dispositivo', '') }}">
-            </div>
-            <div class="col">
+            <div class="col-3">
                 <label for="tipo_dispositivo_id" class="form-label">Tipo Dispositivo ID:</label>
                 <select name="tipo_dispositivo_id" id="tipo_dispositivo_id" class="form-select">
                     <option value="">Selecciona un tipo de dispositivo</option>
                     {% for index, tipo in enumerate(data['TIPOS_DISPOSITIVOS']) %}
-                    <option value="{{ index }}">{{ tipo|capitalize }}</option>
+                    <option value="{{ index }}" {% if index == data["query_dispositivo"] %} selected {% endif %}>{{ tipo|capitalize }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="col">
-                <label for="falla_id" class="form-label">Falla ID:</label>
+            <div class="col-3">
+                <label for="cod-bienes" class="form-label">Código Bienes Dispositivo:</label>
+                <input type="text" name="cod_bienes_dispositivo" id="cod-bienes" class="form-control" maxlength="13" value="{{ request.args.get('cod_bienes_dispositivo', '') }}">
+            </div>
+            <div class="col-3">
+                <label for="nombre_solicitante" class="form-label">Nombre Solicitante:</label>
+                <input type="text" name="nombre_solicitante" id="nombre_solicitante" class="form-control" value="{{ request.args.get('nombre_solicitante', '') }}">
+            </div>
+            <div class="col-3">
+                <label for="falla_id" class="form-label">Falla:</label>
                 <!-- <input type="number" name="falla_id" id="falla_id" class="form-control" placeholder="Falla ID" value="{{ request.args.get('falla_id', '') }}"> -->
                 <select name="falla_id" id="falla_id" class="form-select">
-                    <option value="" selected>Selecciona una falla</option>
+                    <option value="">Selecciona una falla</option>
                     {% for falla in data['FALLAS_DISPOSITIVOS'] %}
-                    <option value="{{ falla.id }}">{{ falla.descripcion | capitalize }}</option>
+                    <option value="{{ falla.id }}" {% if falla.id == data["query_falla"] %} selected {% endif %}>{{ falla.descripcion | capitalize }}</option>
                     {% endfor %}
-                    <option value="otro">Otro</option>
                 </select>
             </div>
-            <div class="col">
-                <label for="usuario_id" class="form-label">Usuario ID:</label>
-                <input type="text" name="usuario_id" id="usuario_id" class="form-control" placeholder="Usuario ID" value="{{ request.args.get('usuario_id', '') }}">
+            <div class="col-3">
+                <label for="usuario_id" class="form-label">Usuario:</label>
+                <input type="text" name="usuario_id" id="usuario_id" class="form-control">
             </div>
-            <div class="col">
-                <label for="departamento_id" class="form-label">Departamento ID:</label>
-                <input type="text" name="departamento_id" id="departamento_id" class="form-control" placeholder="Departamento ID" value="{{ request.args.get('departamento_id', '') }}">
+            <div class="col-3">
+                <label for="departamento_id" class="form-label">Departamento:</label>
+                <input type="text" name="departamento_id" id="departamento_id" class="form-control">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Buscar</button>
@@ -102,21 +104,21 @@
         <tbody>
             {% for reporte in data['reportes'] %}
             <tr>
-                <th scope="row">{{ reporte['id'] }}</td>
+                <th scope="row">{{ reporte['id'] }}</th>
                 <td>{{ reporte['departamento'] }}</td>
-                <td>{{ reporte['dispositivo'] }}</td>
-                <td>{{ reporte['falla']['descripcion'] }}</td>
-                <td>{{ reporte['estado'] }}</td>
+                <td>{{ reporte['dispositivo'] | capitalize }}</td>
+                <td>{{ reporte['falla']['descripcion'] | capitalize }}</td>
+                <td>
+                    <span class="circulo-reporte-estado reporte-{{ reporte['estado'] | replace(' ', '-') }}"></span>
+                    <span>
+                        {{ reporte['estado'] | capitalize }}
+                    </span>
+                </td>
 
                 <td>
                     <button class="btn btn-sm btn-outline-info">
                         <a href="{{ url_for('reportes.ver_reporte', id=reporte['id']) }}">Ver</a>
                     </button>
-                    <!--
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <a href="{{ url_for('reportes.editar_reporte', id=reporte['id']) }}">Editar</a>
-                    </button>
-                     -->
                     <button form="del-{{ reporte.id }}" type="submit"
                         class="btn btn-sm btn-outline-danger"
                         onclick="return confirm('¿Seguro que deseas eliminar el reporte #{{ reporte.id }}?')"
@@ -129,6 +131,24 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% for nro_pag in data['reportes'].iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if nro_pag %}
+            {% if data['reportes'].page == nro_pag %}
+            <li class="page-item active"><a class="page-link"
+                    href="{{ url_for('reportes.ver_reportes', pagina=nro_pag) }}">{{ nro_pag }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link"
+                    href="{{ url_for('reportes.ver_reportes', pagina=nro_pag) }}">{{ nro_pag }}</a></li>
+            {% endif %}
+            {% else %}
+            <li class="page-item"><a href="#" class="page-link">...</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
 
     {% else %}
     <p>No hay reportes para mostrar</p>

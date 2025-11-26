@@ -1,0 +1,34 @@
+{% extends "layout-user-auth.html" %}
+
+{% block title %}
+- Restablecer contraseña
+{% endblock %}
+
+{% block content %}
+    <h2>Restablecer contraseña</h2>
+    <p class="mb-2">Ingresa tu correo electrónico para enviarte un mensaje con un enlace de recuperación para restablecer tu contraseña.</p>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div >
+            {{ form.email.label(class="form-control-label") }}
+            {% if form.email.errors %}
+                {{ form.email(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.email(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        <div >
+            {{ form.submit(class="btn btn-info mt-2") }}
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a class="ml-2" href="{{ url_for('usuarios.login') }}">Volver</a>
+        </small>
+    </div>
+{% endblock content %}  

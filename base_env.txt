@@ -1,7 +1,10 @@
 USE_SQLITE_ = true
+SECRET_KEY = clave_secreta
 DB_DIALECT = mysql
 DB_USERNAME = cautec
 DB_PASSWORD = 1234
 DB_HOST = localhost
 DB_PORT = 3306 
 DB_DATABASE = cautec
+EMAIL_USER = 
+EMAIL_PASSWORD = 

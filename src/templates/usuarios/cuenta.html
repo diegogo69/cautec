@@ -1,14 +1,23 @@
-{% extends "layout.html" %}
+{% extends 'layout.html' %}
+
+{% block title %}
+- Cuenta
+{% endblock %}
+
 {% block content %}
-<div class="content-section">
-    <h2 class="account-heading">{{ usuario.usuario }}</h2>
-    <!-- FORM HERE -->
-    <div class="content-section">
+<div class="container-fluid flex-grow-1 py-2">
+    <div class="row">
+        {% include "messages.html" %}
+    </div>
+
+    <div class="row">
+        <h2 class="account-heading">{{ usuario.usuario }}</h2>
+        <!-- FORM HERE -->
         <!-- Empty action redirects to the same route -->
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Informacion de cuenta</legend>
+                <legend class="mb-2">Informacion de cuenta</legend>
                 <div class="form-group">
                     {{ form.usuario.label(class="form-control-label") }}
 
@@ -39,9 +48,11 @@
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ form.submit(class="btn btn-primary mt-2") }}
             </div>
         </form>
+
+        <a href="{{ url_for('usuarios.cambiar_contrasena')}}">Cambiar contraseña</a>
     </div>
 </div>
 {% endblock content %}

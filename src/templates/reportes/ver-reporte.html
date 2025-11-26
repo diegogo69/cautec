@@ -29,7 +29,11 @@
                 </div>
                 <div class="reporte-footer">
                     <div><strong>Creado:</strong> {{ reporte.fecha_emision.strftime('%d-%m-%Y') }}</div>
-                    <div><strong>Estado:</strong> {{ reporte.estado | capitalize }}</div>
+                    <div>
+                        <strong>Estado: </strong>
+                        {{ reporte.estado | capitalize }}
+                        <span class="circulo-reporte-estado reporte-{{ reporte['estado'] | replace(' ', '-') }}"></span>
+                    </div>
                     <div><strong>Ubicación:</strong> {{ departamento.nombre }}. Edificio
                         {{ departamento.torre | capitalize }}, piso {{ departamento.piso }}
                     </div>
@@ -39,16 +43,47 @@
             <!-- Comentarios -->
             {% if comentarios %}
             <hr>
-            <section class="overflow-y-auto" style="min-height: 300px;">
+            <section class="overflow-y-auto" id="seccion-reporte-comentarios" style="min-height: 300px;">
                 <h4>Comentarios:</h4>
                 {% for comentario in comentarios %}
-                <div class="reporte-comentario">
-                    {{ comentario.comentario }}
-                </div>
-                <div>
-                    <span>
-                        {{ comentario.fecha }}
-                    </span>
+                <div class="reporte-comentario {% if comentario.usuario_id == current_user.id %}reporte-comentario-propio{% else %}reporte-comentario-otro{% endif %}">
+                    <div class="comentario-text">
+                        {{ comentario.comentario }}
+                    </div>
+                    <div class="comentario-fecha">
+                        {% if current_user.tipo == 'solicitante' %}
+
+                            {% if comentario.usuario_id == current_user.id %}
+                                Solicitante
+                            {% else %}
+                                Soporte
+                            {% endif %}
+                                
+                        {% else %}
+
+                            {% if reporte.usuario_id == current_user.id %}
+
+                                {% if comentario.usuario_id == current_user.id %}
+                                    Solicitante
+                                {% else %}
+                                    Soporte
+                                {% endif %}
+                                    
+                            {% else %}
+                                    
+                                {% if comentario.usuario_id == current_user.id %}
+                                    Soporte
+                                {% else %}
+                                    Solicitante
+                                {% endif %}
+                                
+                            {% endif %}
+                                
+                        {% endif %}
+                        
+
+                        {{ comentario.fecha.strftime('%d-%m-%Y %H:%M') }}
+                    </div>
                 </div>
                 {% endfor %}
             </section>
@@ -77,9 +112,11 @@
                         <select class="form-select" name="estado" id="estado"
                             {% if current_user.tipo == 'solicitante' %} disabled {% endif %}>
                             {% for estado in reporte['estados'] %}
+                                {% if estado != 'nuevo' %}
                                 <option value="{{ estado }}" {% if estado == reporte.estado %} selected {% endif %}>
                                     {{ estado | capitalize() }}
                                 </option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>

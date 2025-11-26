@@ -49,6 +49,9 @@ def ver_departamento(id):
 @departamentos.route("/crear-departamento", methods=["GET", "POST"])
 @login_required
 def crear_departamento():
+    if current_user.tipo != "admin":
+        flash("Sólo un usuario administrador tiene permitido esa acción.", "success")
+        return redirect(url_for("main.index"))
     # tipo-area
     # nombre-area
     # nombre-coor
@@ -93,6 +96,10 @@ def crear_departamento():
 @departamentos.route("/departamento/<int:id>/editar", methods=["GET", "POST"])
 @login_required
 def editar_departamento(id):
+    if current_user.tipo != "admin":
+        flash("Sólo un usuario administrador tiene permitido esa acción.", "success")
+        return redirect(url_for("main.index"))
+    
     departamento = Departamento.query.get_or_404(id)
     form = CrearDepartamento()
 
@@ -124,6 +131,10 @@ def editar_departamento(id):
 @departamentos.route("/departamento/<int:id>/eliminar", methods=["GET", "POST"])
 @login_required
 def eliminar_departamento(id):
+    if current_user.tipo != "admin":
+        flash("Sólo un usuario administrador tiene permitido esa acción.", "success")
+        return redirect(url_for("main.index"))
+    
     if request.method == "POST":
         departamento = Departamento.query.get_or_404(id)
 

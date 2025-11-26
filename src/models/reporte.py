@@ -9,7 +9,7 @@ class Reporte(db.Model):
 
     # titulo = db.Column(db.String(100), nullable=False)
     # tipo = db.Column(db.String(20), nullable=False)
-    estado = db.Column(db.String(20), nullable=False, default='pendiente')
+    estado = db.Column(db.String(20), nullable=False, default='nuevo')
     # categoria = db.Column(db.String(20))
     # descripcion = db.Column(db.Text, nullable=False)
     diagnostico = db.Column(db.Text)

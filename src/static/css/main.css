@@ -1,5 +1,9 @@
 body {
   background: #fafafa;
+  --reporte-nuevo-bg: #4ade80;
+  --reporte-pendiente-bg: #facc15;
+  --reporte-en-proceso-bg: #38bdf8;
+  --reporte-cerrado-bg: #f87171;
 }
 
 .account-heading {
@@ -26,4 +30,33 @@ button > a {
 .usuario-cuenta-header {
   display: flex;
   align-items: center;  
+}
+
+.circulo-reporte-estado {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  /* margin-right: 0.5rem; */
+  vertical-align: -2px;
+}
+
+.reporte-nuevo {
+  background-color: var(--reporte-nuevo-bg); /* Light green */
+  color: #0f5132; /* Dark green */
+}
+
+.reporte-pendiente {
+  background-color: var(--reporte-pendiente-bg); /* Light yellow */
+  color: #664d03; /* Dark yellow */
+}
+
+.reporte-en-proceso {
+  background-color: var(--reporte-en-proceso-bg); /* Light blue */
+  color: #055160; /* Dark blue */
+}
+
+.reporte-cerrado {
+  background-color: var(--reporte-cerrado-bg); /* Light red */
+  color: #842029; /* Dark red */
 }

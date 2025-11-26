@@ -26,14 +26,14 @@ class RegistroForm(FlaskForm):
     )
 
     password = PasswordField(
-        "Contraseña:", validators=[DataRequired(), Length(min=3, max=20)]
+        "Contraseña:", validators=[DataRequired(), Length(min=4, max=20, message='La contraseña debe contener entre 4 y 20 caracteres')]
     )
     confirm_password = PasswordField(
         "Confirmar contraseña:",
         validators=[
             DataRequired(),
             EqualTo("password", message="Las contraseñas no coinciden"),
-            Length(min=3, max=20, message='Debe contener entre 4 y 20 caracteres'),
+            Length(min=4, max=20, message='La contraseña debe contener entre 4 y 20 caracteres'),
         ],
     )
 
@@ -95,20 +95,41 @@ class UpdateAccountForm(FlaskForm):
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField("Correo", validators=[DataRequired(), Email()])
-    submit = SubmitField("Restablecer contraseña")
+    email = StringField("Correo:", validators=[DataRequired(), Email()])
+    submit = SubmitField("Solicitar restablecer contraseña")
 
     def validate_email(self, email):
         user = Usuario.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError(
-                "El nombre de usuario no está registrado. Regístrate y crea una cuenta."
+                "No existe una cuenta asociada al correo. Regístrate y crea una cuenta."
             )
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField("Contraseña", validators=[DataRequired()])
+    password = PasswordField("Contraseña:", validators=[DataRequired()])
     confirm_password = PasswordField(
-        "Confirmar contraseña", validators=[DataRequired(), EqualTo("password")]
+        "Confirmar contraseña:", validators=[DataRequired(), EqualTo("password")]
     )
     submit = SubmitField("Restablecer contraseña")
+
+
+class CambiarContraseñaForm(FlaskForm):
+    password_actual = PasswordField(
+        "Contraseña actual:",
+        validators=[DataRequired()],
+    )
+    nueva_password = PasswordField(
+        "Nueva contraseña:",
+        validators=[
+            DataRequired(),
+            Length(min=4, max=20, message="La contraseña debe contener entre 4 y 20 caracteres."),
+        ],
+    )
+    confirmar_password = PasswordField(
+        "Confirmar nueva contraseña:",
+        validators=[
+            DataRequired(),
+            EqualTo("nueva_password", message="Las contraseñas deben coincidir."),
+        ],
+    )
