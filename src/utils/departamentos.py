@@ -24,6 +24,7 @@ AREAS_TIPOS = [
     "departamento",
     "dependencia",
     "laboratorio",
+    "sala",
     "unidad",
     "oficina",
 ]
@@ -50,6 +51,7 @@ def departamentos_json():
         dep_json[tipo] = []
 
     for dep in departamentos_db:
+        print(dep.tipo, dep_json.keys())
         if dep.tipo not in dep_json.keys():
             raise Exception('El area no es valida')
 

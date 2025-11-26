@@ -18,19 +18,19 @@ Laboratorio de Fisica I
 
 ### Piso 1
 
-A101 Laboratorio de Genética y microbiología
+Laboratorio de Genética y microbiología
 
-A102 Laboratorio de Bioquímica
+Laboratorio de Bioquímica
 
-A0103. Laboratorio de biología animal y humana
+Laboratorio de biología animal y humana
 
-A105. Laboratorio de fisiología vegetal
+Laboratorio de fisiología vegetal
 
-A106. Sala de secado
+Sala de secado
 
-A107. Sala de preparacion
+Sala de preparacion
 
-A108. Laboratorio de biología vegetal, botánica y morfoanatomía vegetal
+Laboratorio de biología vegetal, botánica y morfoanatomía vegetal
 
 ### Piso 2
 
@@ -82,29 +82,29 @@ Aulas B3001-B308
 
 ### Planta baja
 
-Area de mecánica, estructura y resistencia de materiales
+Oficina Area de mecánica, estructura y resistencia de materiales
 
 Laboratorio de materiales y ensayos
 
 Laboratorio de topografía
 
-Centro de copiado
+Oficina de Centro de copiado
 
-Proveduría y papelería
+Oficina de Proveduría y papelería
 
-DAES-NURR Departamento de asuntos estudiantiles
+Oficina de DAES-NURR Departamento de asuntos estudiantiles
 
 ### Piso 1
 
-Centro de estudiantes CENURR
+Oficina de Centro de estudiantes CENURR
 
 Sala de cine 
 
 Laboratorio de Audiovisual
 
-APULA Asociación de profesores ULA
+Oficina de APULA Asociación de profesores ULA
 
-UPP Instituto de prevision de profesorado de ula
+Oficina de UPP Instituto de prevision de profesorado de ula
 
 ### Piso 2
 
@@ -132,13 +132,13 @@ Aulas c301-c308
 
 ### Planta baja
 
-Area de ingeniería, suelos y agua
+Oficina de Area de ingeniería, suelos y agua
 
 Laboratorio de hidraulica
 
 ### Piso 1
 
-Oficina GISA Grupo de ingenieria suelos y agua
+Oficina de GISA Grupo de ingenieria suelos y agua
 
 Laboratorio de Deafología
 
@@ -166,17 +166,17 @@ Aulas 301-308
 
 ### Planta baja
 
-Publicaciones periodicas (Emeroteca)
+Oficina de Publicaciones periodicas (Emeroteca)
 
 Sala de prestamos
 
-Sala especializada en derecho
+Sala de derecho
 
 ### Piso 1
 
-Dirección biblioteca / Servicios bibliotecarios NURR
+Oficina de Dirección biblioteca / Servicios bibliotecarios NURR
 
-Secretaria de los servicios bibliotecarios del NURR
+Oficina de Secretaria de los servicios bibliotecarios del NURR
 
 Sala de referencia
 
@@ -192,12 +192,12 @@ Laboratorio de computación EF-220
 
 ### Piso 3
 
-Area de historia y antropologia
+Oficina de Area de historia y antropologia
 
 Sala de investigación en lenguas extranjeras
 
-Reading room
+Sala de Reading room
 
-Biblioteca de francés
+Sala de Biblioteca de francés
 
 Sala de geografía
