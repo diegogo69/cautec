@@ -37,7 +37,6 @@
                 <div>Otro contacto: {{ otro_contacto }}</div>
                 {% else %}
                 <div>Otro contacto:&nbsp;</div>
-                <div class="subrayado"></div>
                 {% endif %}
             </div>
         </section>
@@ -63,30 +62,30 @@
                 <span>Otro: __________________</span>
             </div>
         </section>
-        <section>
-            <div>Descripción de la Falla: Funciona: Sí ___. No ___</div>
+        <section class="seccion-diagnostico">
+            <div>Descripción de la Falla: Funciona: Sí ____. No ____</div>
+            <div class="falla-texto">{{ falla }}</div>
             <div>Diagnóstico:</div>
-            <div>{{ diagnostico }}</div>
+            <div class="diagnostico-texto">{{ diagnostico }}</div>
         </section>
         <div class="text-center">Para ser llenado por Servicio y Soporte Técnico NURR (5643)</div>
-        <section>
+        <section class="seccion-accion">
             <div>Número de reporte: __________</div>
-            <div class="linea-de-texto">
+            <div class="fecha-atencion-entrega">
                 {% if fecha_atencion %}
-                <div>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</div>
+                <span>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</span>
                 {% else %}
-                <div>Fecha de Atención: __/__/__</div>
+                <span>Fecha de Atención: ____/____/______</span>
                 {% endif %}
                 
                 {% if fecha_cierre %}
-                <div>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</div>
+                <span>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</span>
                 {% else %}
-                <div>Fecha de Entrega: __/__/__</div>
+                <span>Fecha de Entrega: ____/____/______</span>
                 {% endif %}
-                
             </div>
             <div>Acción:</div>
-            <div>{{ accion }}</div>
+            <div class="accion-texto">{{ accion }}</div>
         </section>
     </main>
     <footer>

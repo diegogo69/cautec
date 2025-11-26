@@ -59,6 +59,23 @@ main > section + div {
     margin-left: 2rem;
 }
 
+.seccion-diagnostico .diagnostico-texto {
+    min-height: 4rem;
+}
+
+.seccion-diagnostico .falla-texto {
+    min-height: 1rem;
+}
+
+.seccion-accion .accion-texto {
+    min-height: 1rem;
+}
+
+.fecha-atencion-entrega > span + span{
+    margin-left: 4rem;
+}
+
+
 footer {
     display: flex;
     flex-direction: column;
