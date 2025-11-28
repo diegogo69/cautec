@@ -31,17 +31,18 @@ def crear_pdf(data_template, ruta_template, ruta_css, ruta_pdf=None):
     template = env_template.get_template(nombre_template)
     html_string = template.render(data_template)
     print('------------------- HTML String ------------------------------')
-    print(html_string)
+    # print(html_string)
     print('-------------------------------------------------')
 
     # from version 0.12.6 wkhtmltopdf disables local file access by default
     # use 'enable-local-file-access' option to allow local images being rendered in the pdf  
     options = {
         "page-size": "letter",
-        "margin-bottom": "3cm",
-        "margin-left": "3cm",
-        "margin-right": "3cm",
-        "margin-top": "4cm",
+        "margin-bottom": "2cm",
+        "margin-left": "2cm",
+        "margin-right": "2cm",
+        "margin-top": "2cm",
+        # "margin-top": "4cm",
         'encoding': 'UTF-8',
         'enable-local-file-access': None,
     }

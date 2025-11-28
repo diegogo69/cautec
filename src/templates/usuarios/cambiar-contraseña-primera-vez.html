@@ -8,7 +8,7 @@
 <div class="container-fluid flex-grow-1 py-2">    
     <h2>Cambiar contraseña</h2>
     <p>Por razones de seguridad por favor cambia tu contraseña por una mas segura.</p>
-    <form method="POST" action="{{ url_for('usuarios.cambiar_contrasena') }}">
+    <form method="POST" action="{{ url_for('usuarios.cambiar_contrasena_primera_vez') }}">
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.password_actual.label(class="form-label") }}

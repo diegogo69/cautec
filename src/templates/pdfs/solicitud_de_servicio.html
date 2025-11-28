@@ -5,19 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de servicio</title>
-    <link rel="stylesheet" href="solicitud_de_servicio.css">
+    <link rel="stylesheet" href="../../static/css/pdfs/solicitud_de_servicio.css">
 </head>
 
 <body>
     <header>
         <!-- <img src="/src/static/images/rangel_hcga.png" id="nurr-logo" alt="" style="width: 150px; height: 150px;"> -->
-        <!-- <img src="C:/Users/LENOVO/OneDrive/Escritorio/diegogo/cautec/src/static/images/rangel_hcga.png" id="nurr-logo" alt=""> -->
-        <img src="{{ logo_ula }}" id="nurr-logo" alt="">
-        
+        <img src="{{ logo_ula }}" id="nurr-logo" alt="Logo ULA-NURR">
         <!-- <img src="../../static/images/rangel_hcga.png" id="nurr-logo" alt=""> -->
-        <!-- <img src="file:///home/diego/repos/cautec/src/static/images/rangel_hcga.png" id="nurr-logo" alt=""> -->
+        
         <h1>Solicitud de servicio</h1>
-        <div>Fecha: {{ fecha_emision }}</div>
+        <div>Fecha: {{ fecha_emision.strftime('%d-%m-%Y') }}</div>
     </header>
     <main>
         <section>
@@ -28,12 +26,8 @@
                 <div>Unidad o Dependencia: {{ nombre_departamento }}</div>
             </div>
             <div class="linea-de-texto">
-                {% if email %}
-                <div>Contactos: ext: {{ ext_telefonica }}. mail: {{ email }}</div>
-                {% else %}
-                <div>Contactos: ext: {{ ext_telefonica }}. mail:&nbsp;</div>
-                <div class="subrayado"></div>
-                {% endif %}
+                <span>Contactos: ext: {% if ext_telefonica %} {{ext_telefonica}} {% else %}______{% endif %}.</span>
+                <span>Mail: {% if email %} {{email}} {% else %}____________________________________________________{% endif %}.</span>
             </div>
             <div class="linea-de-texto">
                 <div>Coord. o Jefe de Unidad: {{ nombre_coordinador }}</div>
@@ -43,71 +37,67 @@
                 <div>Otro contacto: {{ otro_contacto }}</div>
                 {% else %}
                 <div>Otro contacto:&nbsp;</div>
-                <div class="subrayado"></div>
                 {% endif %}
             </div>
         </section>
         <section>
-            <div class="linea-de-texto">
-                <div>Especificación del equipo</div>
-                <div>Marca: {{ marca_disp }}</div>
-                <div>Serial: {{ serial_disp }}</div>
+            <div>Especificación del equipo</div>
+            <div class="marca-serial">
+                <span>Marca: {% if marca_disp %} {{marca_disp}} {% else %}________________________________{% endif %}.</span>
+                <span>Serial: {% if serial_disp %} {{serial_disp}} {% else %}________________________________{% endif %}.</span>
             </div>
-            <div class="linea-de-texto">
+            <div class="control-bienes">
                 <div>Control de bienes: {{ cod_bienes_disp }}</div>
             </div>
-            <div class="linea-de-texto">
-                <div>PC: ____</div>
-                <div>Teclado: ____</div>
-                <div>Ratón: ____</div>
-                <div>Monitor: ____</div>
+            <div class="tipo-dispositivo">
+                <span>PC: ______</span>
+                <span>Teclado: ______</span>
+                <span>Ratón: ______</span>
+                <span>Monitor: ______</span>
             </div>
-            <div class="linea-de-texto">
-                <div>Regulador</div>
-                <div>Impresora: ____</div>
-                <div>Router: ____</div>
-                <div>Otro:&nbsp;</div>
-                <div class="subrayado"></div>
+            <div class="tipo-dispositivo">
+                <span>Regulador: ______</span>
+                <span>Impresora: ______</span>
+                <span>Router: ______</span>
+                <span>Otro: __________________</span>
             </div>
         </section>
-        <section>
-            <div>Descripción de la Falla: Funciona: Sí ___. No ___</div>
+        <section class="seccion-diagnostico">
+            <div>Descripción de la Falla: Funciona: Sí ____. No ____</div>
+            <div class="falla-texto">{{ falla }}</div>
             <div>Diagnóstico:</div>
-            <div>{{ diagnostico }}</div>
+            <div class="diagnostico-texto">{{ diagnostico }}</div>
         </section>
         <div class="text-center">Para ser llenado por Servicio y Soporte Técnico NURR (5643)</div>
-        <section>
+        <section class="seccion-accion">
             <div>Número de reporte: __________</div>
-            <div class="linea-de-texto">
+            <div class="fecha-atencion-entrega">
                 {% if fecha_atencion %}
-                <div>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</div>
+                <span>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</span>
                 {% else %}
-                <div>Fecha de Atención: __/__/__</div>
+                <span>Fecha de Atención: ____/____/______</span>
                 {% endif %}
                 
                 {% if fecha_cierre %}
-                <div>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</div>
+                <span>Fecha de Entrega: {{ fecha_cierre.strftime('%d / %m / %Y')}}</span>
                 {% else %}
-                <div>Fecha de Entrega: __/__/__</div>
+                <span>Fecha de Entrega: ____/____/______</span>
                 {% endif %}
-                
             </div>
             <div>Acción:</div>
-            <div>{{ accion }}</div>
+            <div class="accion-texto">{{ accion }}</div>
         </section>
     </main>
     <footer>
         <div class="linea-de-texto">
-            <div>Solicitante:</div>
-            <div>Jefe Unidad:</div>
-            <div>SST-NURR:</div>
+            <span>Solicitante:</span>
+            <span>Jefe Unidad:</span>
+            <span>SST-NURR:</span>
         </div>
         <div>Servicio y Soporte Técnico</div>
-
         <div>
-            <p>Villa Universitaria. El Prado. Sector la Concepción. Edificio "D". Piso 1. Municipio Pampanito. Trujillo
-                3150.</p>
-            <p>República Bolivariana de Venezuela. Teléfonos: +58 FALTA LO DEMÁS</p>
+            <p>Villa Universitaria. El Prado. Sector la Concepción. Edificio "D". Piso 3. Municipio Pampanito. Trujillo
+                3150. República Bolivariana de Venezuela. Teléfonos: 0412-0955231. Corre-e: soportenurr@gmail.com</p>
         </div>
     </footer>
 </body>

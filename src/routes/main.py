@@ -6,7 +6,7 @@ from src.forms.usuarios import CambiarContraseñaForm
 main = Blueprint('main', __name__, template_folder='templates')
 
 @main.route('/')
-@main.route('/inicio')
+# @main.route('/inicio')
 # @login_required
 def index():
     # Si el usuario está autenticado, redirigir a su panel de control sino redigir a la pagina de login
@@ -16,9 +16,4 @@ def index():
         # Redirigir a la página de login
         return redirect(url_for('usuarios.login'))
 
-# Ejecutar esta función después de cada solicitud para verificar si el usuario debe cambiar su contraseña
-@main.before_request
-def verificar_contrasena():
-    if notificar_cambio_contrasena(current_user):
-            form = CambiarContraseñaForm()
-            return render_template("usuarios/cambiar-contraseña-primera-vez.html", form=form)
+# Ejecutar función después de cada solicitud @main.before_request

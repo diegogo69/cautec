@@ -54,12 +54,51 @@ main > section + div {
     margin-top: .2rem;
 }
 
+.marca-serial > span + span,
+.tipo-dispositivo > span + span{
+    margin-left: 2rem;
+}
+
+.seccion-diagnostico .diagnostico-texto {
+    min-height: 4rem;
+}
+
+.seccion-diagnostico .falla-texto {
+    min-height: 1rem;
+}
+
+.seccion-accion .accion-texto {
+    min-height: 1rem;
+}
+
+.fecha-atencion-entrega > span + span{
+    margin-left: 4rem;
+}
+
+
 footer {
     display: flex;
     flex-direction: column;
     gap: .5rem;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 4rem 1rem 1.5rem 1rem;
 }
+
 footer > .linea-de-texto {
     justify-content: space-between;
+}
+
+footer > .linea-de-texto > span {
+    margin-left: 6rem;
+}
+
+footer > .linea-de-texto > span + span {
+    margin-left: 10rem;
+}
+
+footer > div + div {
+    margin-top: 1rem;
+}
+
+.servicio-y-soporte-tecnico {
+    font-weight: 900;
 }

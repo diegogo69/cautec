@@ -88,8 +88,7 @@
         </div>
     </form>
 
-    {% if data['reportes'] %}
-
+    {% if data['reportes'].first %}
     <table class="table">
         <thead>
             <tr>
@@ -98,6 +97,7 @@
                 <th scope="col">Dispositivo</th>
                 <th>Falla</th>
                 <th>Estado</th>
+                <th>Fecha</th>
                 <td></td>
             </tr>
         </thead>
@@ -114,6 +114,8 @@
                         {{ reporte['estado'] | capitalize }}
                     </span>
                 </td>
+
+                <td>{{ reporte['fecha_emision'].strftime('%d-%m-%Y') }}</td>
 
                 <td>
                     <button class="btn btn-sm btn-outline-info">
@@ -151,7 +153,7 @@
     </nav>
 
     {% else %}
-    <p>No hay reportes para mostrar</p>
+        <p>No hay reportes para mostrar</p>
     {% endif %}
 </div>
 

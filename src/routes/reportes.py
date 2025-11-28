@@ -377,29 +377,31 @@ def crear_nota_servicio(id):
         # if reporte.usuario_id != current_user.id:
         #     abort(403)
 
-        reporte.accion = request.form["accion"].strip()
-        reporte.diagnostico = request.form["diagnostico"].strip()
+        reporte.accion = request.form.get("accion").strip()
+        reporte.diagnostico = request.form.get("diagnostico").strip()
 
         NOTA_SERVICIO_DATA["logo_ula"] = ruta_logo_ula.resolve().as_posix()
         NOTA_SERVICIO_DATA["id"] = reporte.id
-        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision.strftime("%Y-%m-%d")
+        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision
         # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
-        NOTA_SERVICIO_DATA["nombre_solicitante"] = request.form["nombre_solicitante"]
+        NOTA_SERVICIO_DATA["nombre_solicitante"] = request.form.get("nombre_solicitante").strip()
         NOTA_SERVICIO_DATA["nombre_departamento"] = departamento.nombre
         # NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
-        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form["linea_telefonica"]
-        NOTA_SERVICIO_DATA["nombre_coordinador"] = request.form["coordinador"]
-        NOTA_SERVICIO_DATA["marca_disp"] = request.form["marca"]
-        NOTA_SERVICIO_DATA["serial_disp"] = request.form["serial"]
+        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form.get("linea_telefonica", ' extttttttt sdfjaf').strip()
+        print('---------------- EXT TELEFONICA -------------------')
+        print(NOTA_SERVICIO_DATA["ext_telefonica"])
+        NOTA_SERVICIO_DATA["nombre_coordinador"] = request.form.get("coordinador").strip()
+        NOTA_SERVICIO_DATA["marca_disp"] = request.form.get("marca").strip()
+        NOTA_SERVICIO_DATA["serial_disp"] = request.form.get("serial").strip()
         NOTA_SERVICIO_DATA["cod_bienes_disp"] = (
             reporte.cod_bienes_dispositivo
         )  # Fix typo
         # NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
-        NOTA_SERVICIO_DATA["diagnostico"] = request.form["diagnostico"]
+        NOTA_SERVICIO_DATA["diagnostico"] = request.form.get("diagnostico").strip()
         # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
         # NOTA_SERVICIO_DATA['fecha_atencion'] = None
         # fecha_atencion = request.form['fecha_atencion']
-        fecha_atencion = request.form.get("fecha_atencion")
+        fecha_atencion = request.form.get("fecha_atencion").strip()
         if fecha_atencion:
             NOTA_SERVICIO_DATA["fecha_atencion"] = datetime.fromisoformat(
                 fecha_atencion
@@ -407,11 +409,11 @@ def crear_nota_servicio(id):
         # NOTA_SERVICIO_DATA['fecha_cierre'] = reporte.fecha_cierre.strftime('%Y-%m-%d')
         # NOTA_SERVICIO_DATA['fecha_cierre'] = None
         # fecha_cierre = request.form['fecha_cierre']
-        fecha_cierre = request.form.get("fecha_cierre")
+        fecha_cierre = request.form.get("fecha_cierre").strip()
         if fecha_cierre:
             NOTA_SERVICIO_DATA["fecha_cierre"] = datetime.fromisoformat(fecha_cierre)
         # NOTA_SERVICIO_DATA['accion'] = reporte.accion
-        NOTA_SERVICIO_DATA["accion"] = request.form["accion"]
+        NOTA_SERVICIO_DATA["accion"] = request.form.get("accion").strip()
 
         return redirect(url_for("reportes.nota_servicio", id=id))
 
