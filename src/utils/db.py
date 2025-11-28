@@ -4,8 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from src.utils.auth import bcrypt
 from pathlib import Path
-# load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
-load_dotenv()
+
+# Cargar archivo .env con las variables de entorno
+# load_dotenv()
+# Cargar archivo .env con las variables de entorno en servidor local XAMPP
+load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
 
 # db = MySQL()
 class SQLAlchemyBase(DeclarativeBase):
@@ -31,6 +34,9 @@ def get_variables_entorno():
     database = os.getenv('DB_DATABASE', None)
     use_sqlite = os.getenv('USE_SQLITE', None)
 
+    print('----- Variables de entorno para la base de datos -----')
+    print(dialect, username, password, host, port, database, use_sqlite)
+    
     return dialect, username, password, host, port, database, use_sqlite
 
 
@@ -47,9 +53,10 @@ def get_database_uri():
 
     if use_sqlite:
         database_uri = default_uri
-        print('Se utilizará una base de datos SQLite')
+        print('----- Se utilizará una base de datos SQLite -----')
 
     elif (dialect and username and password and host and database):
+        print(f'----- Se utilizará una base de datos {dialect} -----')
         database_uri = f'{dialect}://{username}:{password}@{host}:{port}/{database}'
 
         from sqlalchemy_utils import database_exists, create_database
@@ -65,7 +72,7 @@ def get_database_uri():
         
     else:
         database_uri = default_uri
-        print('Conexión a la base de datos fallida. Se utilizará una base de datos SQLite')
+        print('----- Conexión a la base de datos fallida. Se utilizará una base de datos SQLite -----')
 
     return database_uri
 

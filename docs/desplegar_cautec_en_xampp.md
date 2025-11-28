@@ -126,7 +126,11 @@ Dentro de httpd.conf busca las líneas que digan _Listen_
 
 Debajo de la ultima línea _Listen_ añade una línea para tu puerto:
 
-`Listen 5001`
+```
+# ------------------ Cautec puerto ------------------
+Listen 5001
+# Listen cautec_ip:5001
+```
 
 En este ejemplo el puerto es _5001_
 
@@ -138,7 +142,11 @@ Dentro de httpd.conf busca las línea que digan _ServerName_
 
 Justo debajo de la ultima añade una linea para tu aplicación:
 
-`ServerName localhost:5001`
+```
+# ------------------ Cautec ServerName ------------------
+ServerName localhost:5001
+# ServerName cautec_ip:5001
+```
 
 En este ejemplo el ServerName es _localhost_ y el puerto es _5001_
 
@@ -149,9 +157,11 @@ Para que Apache muestre nuestra Aplicación debemos generar la configuración de
 Pega la siguiente configuración al final del archivo **httpd.conf**, haciendo modificaciones respectivas según tu aplicación (puerto, servername, ruta del archivo _.wsgi_ y de la carpeta del proyecto)
 
 ```
+# ------------------ Cautec VirtualHost ------------------
 <VirtualHost *:5001>
   ServerAdmin soportenurr@gmail.com
   ServerName localhost
+  # ServerName cautec_ip
 
   WSGIApplicationGroup %{GLOBAL}
   WSGIScriptAlias / C:/xampp/htdocs/cautec/wsgi_scripts/cautec.wsgi
