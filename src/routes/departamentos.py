@@ -1,6 +1,7 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, abort
 from flask_login import current_user, login_required
 from src.models.departamento import Departamento
+from src.models.reporte import Reporte
 from src.forms.departamentos import CrearDepartamento
 from src.utils.departamentos import AREAS_TIPOS
 from src import db
@@ -137,6 +138,12 @@ def eliminar_departamento(id):
     
     if request.method == "POST":
         departamento = Departamento.query.get_or_404(id)
+
+        # Eliminar el departamento s definir como nulo la propiedad de departamento_id de los reportes asociados
+        # No funciona porque el departamento es un primary key en la tabla reportes
+        # reportes_asociados = Reporte.query.filter_by(departamento_id=id).all()
+        # for reporte in reportes_asociados:
+        #     reporte.departamento_id = None
 
         db.session.delete(departamento)
         db.session.commit()

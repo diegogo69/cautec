@@ -3,6 +3,9 @@ from src import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 from src.utils.auth import login_manager
 from src.models.usuario import Usuario
+from src.models.reporte import Reporte
+from src.models.notificacion import Notificacion
+from src.models.comentario import Comentario
 from src.forms.usuarios import (
     RegistroForm,
     LoginForm,
@@ -87,6 +90,20 @@ def eliminar_usuario(id):
         # Acción prohibida: esta acción causaría daños permanentes al sistema y no se puede realizar.
         abort(403)
         return
+    
+    # Eliminar modelos relacionados si es necesario antes de eliminar el usuario
+    # Obtener reportes del usuario
+    reportes_usuario = Reporte.query.filter_by(usuario_id=usuario.id).all()
+    for reporte in reportes_usuario:
+        # Eliminar comentarios asociados a cada reporte
+        comentarios = Comentario.query.filter_by(reporte_id=reporte.id).all()
+        for comentario in comentarios:
+            db.session.delete(comentario)
+        db.session.delete(reporte)
+    # Comentario.query.filter_by(usuario_id=usuario.id).delete()
+    # Reporte.query.filter_by(usuario_id=usuario.id).delete()
+    Notificacion.query.filter_by(usuario_id=usuario.id).delete()
+
 
     db.session.delete(usuario)
     db.session.commit()
