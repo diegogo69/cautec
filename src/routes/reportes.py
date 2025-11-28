@@ -14,6 +14,7 @@ from flask_login import current_user, login_required
 from src.models.reporte import Reporte
 from src.models.comentario import Comentario
 from src.models.departamento import Departamento
+from src.models.notificacion import Notificacion
 from src.models.falla_dispositivo import Falla_Dispositivo
 from src.models.usuario import Usuario
 
@@ -319,6 +320,7 @@ def eliminar_reporte(id):
 
     # Eliminar comentarios asociados al reporte
     Comentario.query.filter_by(reporte_id=id).delete()
+    Notificacion.query.filter_by(reporte_id=id).delete()
 
     db.session.delete(reporte)
     db.session.commit()
@@ -330,7 +332,9 @@ def eliminar_reporte(id):
 @reportes.route("/reporte/<int:reporte_id>/crear-comentario", methods=["POST"])
 @login_required
 def crear_comentario(reporte_id):
-    if current_user.id != reporte.usuario_id and current_user.tipo not in ('admin', 'soporte'):
+    reporte = Reporte.query.get_or_404(reporte_id)
+    if current_user.tipo not in ('admin', 'soporte') and current_user.id != reporte.usuario_id:
+        print('Usuario no autorizado para comentar en este reporte')
         abort(403)
 
     texto_comentario = request.form["comentario"].strip()
@@ -368,11 +372,8 @@ def crear_comentario(reporte_id):
 )
 @login_required
 def eliminar_comentario(id, reporte_id):
-    if current_user.id != comentario.usuario_id and current_user.tipo not in ('admin', 'soporte'):
-        abort(403)
-
     comentario = Comentario.query.get_or_404(id)
-    if comentario.usuario_id != current_user.id:
+    if current_user.id != comentario.usuario_id and current_user.tipo not in ('admin', 'soporte'):
         abort(403)
 
     db.session.delete(comentario)

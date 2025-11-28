@@ -46,6 +46,7 @@
                     <button class="btn btn-sm btn-outline-info">
                         <a href="{{ url_for('departamentos.ver_departamento', id=departamento.id) }}">Ver</a>
                     </button>
+                    <!--
                     <button class="btn btn-sm btn-outline-secondary">
                         <a href="{{ url_for('departamentos.editar_departamento', id=departamento.id) }}">Editar</a>
                     </button>
@@ -55,9 +56,12 @@
                         form="del-{{departamento.id}}"
                         onclick="return confirm('¿Seguro que deseas eliminar el siguiente demartamento: {{ departamento.nombre }}?')"
                         >Eliminar</button>
+                    -->
                 </td>
-                <form id="del-{{ departamento.id }}"
+                <!-- 
+                    <form id="del-{{ departamento.id }}"
                     action="{{ url_for('departamentos.eliminar_departamento', id=departamento.id) }}" method="post">
+                -->
                 </form>
             </tr>
             {% endfor %}
