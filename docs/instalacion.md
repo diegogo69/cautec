@@ -36,7 +36,32 @@ Ejecuta el siguiente comando para habilitar la activación del entorno virtual:
 Con el entorno virtual activo instala los paquetes y dependencias requeridos por el proyecto ejecutanto el siguiente comando:  
 `pip install -r requirements.txt`
 
+# Configurar variables de entorno
+
+Utiliza el archivo *base_env.txt* como base para definar las variables de entorno para configurar la base de datos y el servicio de Flask-Mail
+
+- **USE_SQLITE_ = true**: indica si el sistema usa sqlite como bd. Elimina el "_" al final para activarlo.
+
+- **SECRET_KEY**: define la clave secreta que utilizará flask para la instancia de la aplicación.
+
+- **DB_DIALECT**: nombre del gestor de base de datos, ej. mysql o postgresql.
+
+- **DB_USERNAME**: nombre del usuario que se utilizará para las acciones en la base de datos a utilizar.
+
+- **DB_PASSWORD**: contraseña del usuario de la base de datos a utilizar. 
+
+- **DB_HOST**: host de la base de datos, acorde a la base de datos.
+
+- **DB_PORT**: puerto que utiliza la base de datos. 3306 es el defecto para mysql.
+
+- **DB_DATABASE**: nombre de la base de datos a utilizar.
+
+- **EMAIL_USER**: correo electrónico que utilizará Flask-Mail
+
+- **EMAIL_PASSWORD**: clave del correo electrónico para permitir a Flask-Mail enviar correos. 
+
 ## Instalar wkhtmltopdf
+
 
 Para la generación de reportes en formato PDF se requiere la librería wkhtmltopdf, que trabaja en conjunto con el paquete Jinja2 que se instala junto con Flask.
 
