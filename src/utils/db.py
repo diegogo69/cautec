@@ -5,10 +5,14 @@ from sqlalchemy.orm import DeclarativeBase
 from src.utils.auth import bcrypt
 from pathlib import Path
 
-# Cargar archivo .env con las variables de entorno
-# load_dotenv()
-# Cargar archivo .env con las variables de entorno en servidor local XAMPP
-load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
+# ----- Cargar variables desde archivo .env -----
+# ruta_root = Path(__file__).parent.parent.parent
+ruta_utils = Path(__file__).parent
+rutal_src = ruta_utils.parent
+ruta_root = rutal_src.parent
+ruta_dot_env = ruta_root / '.env'
+# load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
+load_dotenv(ruta_dot_env.resolve())
 
 # db = MySQL()
 class SQLAlchemyBase(DeclarativeBase):
