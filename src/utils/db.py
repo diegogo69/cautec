@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from src.utils.auth import bcrypt
-
+from pathlib import Path
 # load_dotenv('C:\\xampp\\htdocs\\cautec\\.env')
 load_dotenv()
 
@@ -103,8 +103,14 @@ def crear_dependencias_ula():
     if hay_departamentos:
         return
 
+    
+    print(Path(__file__))
+    ruta_actual = Path(__file__).parent 
+    ruta_src = ruta_actual.parent
+    ruta_csv =  ruta_src / 'static' / 'csv' / 'datos_universidad.csv'
+    # ruta_csv = Path(__file__).parent.parent.parent / 'datos_universidad.csv'
     # Abre el archivo CSV en modo lectura ('r')
-    with open('datos_universidad.csv', mode='r', newline='', encoding='utf-8') as archivo_csv:
+    with open(ruta_csv.absolute(), mode='r', newline='', encoding='utf-8') as archivo_csv:
         # Crea un objeto DictReader
         lector_csv = csv.DictReader(archivo_csv)
 
