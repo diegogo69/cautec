@@ -125,6 +125,9 @@ def ver_reporte(id):
     reporte.tipo_dispositivo = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
     reporte.estados = ESTADOS_REPORTE
 
+    if current_user.id != reporte.usuario_id and current_user.tipo not in ('admin', 'soporte'):
+        return redirect(url_for("reportes.ver_reportes"))
+
     if reporte.estado == 'nuevo':
         reporte.estado = 'pendiente'
         db.session.commit()
@@ -307,8 +310,12 @@ def editar_reporte(id):
 def eliminar_reporte(id):
     reporte = Reporte.query.get_or_404(id)
 
-    if reporte.usuario_id != current_user.id:
+    # Si el usuario no es el creador del reporte ni admin/soporte, no puede eliminarlo
+    if current_user.id != reporte.usuario_id and current_user.tipo not in ('admin', 'soporte'):
         abort(403)
+
+    # Eliminar comentarios asociados al reporte
+    Comentario.query.filter_by(reporte_id=id).delete()
 
     db.session.delete(reporte)
     db.session.commit()
@@ -320,6 +327,9 @@ def eliminar_reporte(id):
 @reportes.route("/reporte/<int:reporte_id>/crear-comentario", methods=["POST"])
 @login_required
 def crear_comentario(reporte_id):
+    if current_user.id != reporte.usuario_id and current_user.tipo not in ('admin', 'soporte'):
+        abort(403)
+
     texto_comentario = request.form["comentario"].strip()
 
     if not texto_comentario:
@@ -355,6 +365,9 @@ def crear_comentario(reporte_id):
 )
 @login_required
 def eliminar_comentario(id, reporte_id):
+    if current_user.id != comentario.usuario_id and current_user.tipo not in ('admin', 'soporte'):
+        abort(403)
+
     comentario = Comentario.query.get_or_404(id)
     if comentario.usuario_id != current_user.id:
         abort(403)
@@ -369,6 +382,10 @@ def eliminar_comentario(id, reporte_id):
 @reportes.route("/reporte/<int:id>/generar-nota-de-servicio", methods=["GET", "POST"])
 @login_required
 def crear_nota_servicio(id):
+    # Solo admin puede generar notas de servicio
+    if current_user.tipo != "admin":
+        abort(403)
+    
     reporte = Reporte.query.get_or_404(id)
     departamento = Departamento.query.get_or_404(reporte.departamento_id)
 
