@@ -55,8 +55,8 @@ def registrar_usuario():
     form = RegistroForm()
 
     if request.method == 'POST' and form.validate():
-        nombre_usuario = form.usuario.data.strip()
-        email = form.email.data.strip()
+        nombre_usuario = form.usuario.data.strip().lower()
+        email = form.email.data.strip().lower()
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         tipo = request.form.get('tipo').strip()
 
@@ -102,8 +102,8 @@ def registrarse():
     form = RegistroForm()
     print(form.email.label(text="Correo Electrónico"))
     if form.validate_on_submit():
-        nombre_usuario = form.usuario.data.strip()
-        email = form.email.data.strip()
+        nombre_usuario = form.usuario.data.strip().lower()
+        email = form.email.data.strip().lower()
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         
         nuevo_usuario = Usuario(
@@ -128,7 +128,7 @@ def login():
 
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
-        nombre_usuario = form.usuario.data.strip()
+        nombre_usuario = form.usuario.data.strip().lower()
         usuario = Usuario.query.filter_by(usuario=nombre_usuario).first()
 
         if not usuario:
@@ -168,8 +168,8 @@ def cuenta():
     form = UpdateAccountForm()
     # ON POST METHOD AS SUMBIT FORM
     if form.validate_on_submit():
-        current_user.usuario = form.usuario.data
-        current_user.email = form.email.data
+        current_user.usuario = form.usuario.data.strip().lower()
+        current_user.email = form.email.data.strip().lower()
         db.session.commit()
 
         flash("Tu cuenta ha sido actualizada exitosamente!", "success")
@@ -233,7 +233,7 @@ def restablecer_contrasena():
         return redirect(url_for('main.index'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = Usuario.query.filter_by(email=form.email.data).first()
+        user = Usuario.query.filter_by(email=form.email.data.strip().lower()).first()
         try:
             enviar_correo_recuperacion(user)
         except Exception as e:
