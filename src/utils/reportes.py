@@ -6,15 +6,16 @@ ESTADOS_REPORTE = [
 ]
 
 TIPOS_DISPOSITIVOS = [
-    'otro',
-    "monitor",
-    "mouse",
-    "teclado",
     "cpu",
+    "teclado",
+    "mouse",
+    "monitor",
+    "regulador",
     "impresora",
-    "escáner",
-    "cornetas",
-    "regulador de voltaje",
+    "router",
+    # "cornetas",
+    # "regulador de voltaje",
+    'otro',
 ]
 
 FALLAS_DISPOSITIVOS = [

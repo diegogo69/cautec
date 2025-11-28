@@ -50,27 +50,27 @@
                 <div>Control de bienes: {{ cod_bienes_disp }}</div>
             </div>
             <div class="tipo-dispositivo">
-                <span>PC: ______</span>
-                <span>Teclado: ______</span>
-                <span>Ratón: ______</span>
-                <span>Monitor: ______</span>
+                <span>PC: {% if tipo_dispositivo == 'cpu' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Teclado: {% if tipo_dispositivo == 'teclado' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Ratón: {% if tipo_dispositivo == 'mouse' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Monitor: {% if tipo_dispositivo == 'monitor' %} Sí {% else %} ______ {% endif %}</span>
             </div>
             <div class="tipo-dispositivo">
-                <span>Regulador: ______</span>
-                <span>Impresora: ______</span>
-                <span>Router: ______</span>
-                <span>Otro: __________________</span>
+                <span>Regulador: {% if tipo_dispositivo == 'regulador' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Impresora: {% if tipo_dispositivo == 'impresora' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Router: {% if tipo_dispositivo == 'router' %} Sí {% else %} ______ {% endif %}</span>
+                <span>Otro: {% if tipo_dispositivo == 'otro' %} Sí {% else %} __________________ {% endif %}</span>
             </div>
         </section>
         <section class="seccion-diagnostico">
             <div>Descripción de la Falla: Funciona: Sí ____. No ____</div>
-            <div class="falla-texto">{{ falla }}</div>
+            <div class="falla-texto">{{ falla | capitalize }}</div>
             <div>Diagnóstico:</div>
             <div class="diagnostico-texto">{{ diagnostico }}</div>
         </section>
         <div class="text-center">Para ser llenado por Servicio y Soporte Técnico NURR (5643)</div>
         <section class="seccion-accion">
-            <div>Número de reporte: __________</div>
+            <div>Número de reporte: {{ id }}</div>
             <div class="fecha-atencion-entrega">
                 {% if fecha_atencion %}
                 <span>Fecha de Atención: {{ fecha_atencion.strftime('%d / %m / %Y')}}</span>
