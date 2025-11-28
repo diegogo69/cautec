@@ -230,7 +230,7 @@ Debes configurar el firewall de windows para que permmita el acceso al servidor 
 - Abre el _Firewall de Windows_
 - Ingresa a _Configuración avanzada_
 - En el panel izquierdo ingresa en _Reglas de entrada_
-- Busca las reglas que digan "_Apache HTTP Server_" y eliminalas
+- Busca las reglas que digan "_Apache HTTP Server_" y "_mysqld_" y eliminalas
 - En el panel derecho haz click en _Nueva regla_
 - Elige la opción de **Puerto** y haz click en _siguiente_
 - Selecciona las opciones de **TCP** y **Puertos específicos**, ingresa el número de puerto de tu aplicación en la casilla de texto y haz click en siguiente
