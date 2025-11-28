@@ -131,6 +131,7 @@ def crear_dependencias_ula():
             torre = fila['torre'].lower()
             piso = fila['piso']
             nombre = fila['nombre']
+            linea_telefonica = fila['ext']
 
             # piso_texto = piso if piso != '0' else 'planta baja' 
             ubicacion = f"Torre {torre}, piso {piso}, {tipo} {nombre}"
@@ -141,8 +142,8 @@ def crear_dependencias_ula():
                 piso=piso,
                 nombre=nombre,
                 ubicacion=ubicacion,
+                linea_telefonica=linea_telefonica,
                 # nombre_coordinador=nombre_coor,
-                # linea_telefonica=linea_telefonica,
             )
 
             db.session.add(departamento)
