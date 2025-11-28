@@ -128,7 +128,7 @@ def ver_reporte(id):
     if current_user.id != reporte.usuario_id and current_user.tipo not in ('admin', 'soporte'):
         return redirect(url_for("reportes.ver_reportes"))
 
-    if reporte.estado == 'nuevo':
+    if reporte.estado == 'nuevo' and current_user.tipo in ('admin', 'soporte'):
         reporte.estado = 'pendiente'
         db.session.commit()
 
@@ -248,6 +248,9 @@ def crear_reporte():
 @reportes.route("/reporte/<int:id>/actualizar", methods=["POST"])
 @login_required
 def actualizar_reporte(id):
+    if current_user.tipo not in ('admin', 'soporte'):
+        abort(403)
+
     reporte = Reporte.query.get_or_404(id)
 
     # if (current_user.tipo != 'admin' and current_user.tipo != 'soporte'):
@@ -398,25 +401,25 @@ def crear_nota_servicio(id):
 
         NOTA_SERVICIO_DATA["logo_ula"] = ruta_logo_ula.resolve().as_posix()
         NOTA_SERVICIO_DATA["id"] = reporte.id
-        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision
         # NOTA_SERVICIO_DATA['nombre_solicitante'] = reporte.nombre_solicitante
         NOTA_SERVICIO_DATA["nombre_solicitante"] = request.form.get("nombre_solicitante").strip()
         NOTA_SERVICIO_DATA["nombre_departamento"] = departamento.nombre
         # NOTA_SERVICIO_DATA['ext_telefonica'] = departamento.linea_telefonica
-        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form.get("linea_telefonica", ' extttttttt sdfjaf').strip()
-        print('---------------- EXT TELEFONICA -------------------')
-        print(NOTA_SERVICIO_DATA["ext_telefonica"])
+        NOTA_SERVICIO_DATA["ext_telefonica"] = request.form.get("linea_telefonica").strip()
+        NOTA_SERVICIO_DATA["email"] = request.form.get("email").strip().lower()
         NOTA_SERVICIO_DATA["nombre_coordinador"] = request.form.get("coordinador").strip()
+        NOTA_SERVICIO_DATA["otro_contacto"] = request.form.get("otro_contacto").strip()
+        NOTA_SERVICIO_DATA["tipo_dispositivo"] = TIPOS_DISPOSITIVOS[reporte.tipo_dispositivo_id]
+        NOTA_SERVICIO_DATA["cod_bienes_disp"] = (reporte.cod_bienes_dispositivo)  # Fix typo
         NOTA_SERVICIO_DATA["marca_disp"] = request.form.get("marca").strip()
-        NOTA_SERVICIO_DATA["serial_disp"] = request.form.get("serial").strip()
-        NOTA_SERVICIO_DATA["cod_bienes_disp"] = (
-            reporte.cod_bienes_dispositivo
-        )  # Fix typo
+        NOTA_SERVICIO_DATA["serial_disp" ] = request.form.get("serial").strip()
+        NOTA_SERVICIO_DATA["funciona"] = request.form.get("funciona").strip()
+        # Falla
+        NOTA_SERVICIO_DATA["falla"] = Falla_Dispositivo.query.get(reporte.falla_id).descripcion
         # NOTA_SERVICIO_DATA['diagnostico'] = reporte.diagnostico
         NOTA_SERVICIO_DATA["diagnostico"] = request.form.get("diagnostico").strip()
         # NOTA_SERVICIO_DATA['fecha_atencion'] = reporte.fecha_atencion.strftime('%Y-%m-%d')
-        # NOTA_SERVICIO_DATA['fecha_atencion'] = None
-        # fecha_atencion = request.form['fecha_atencion']
+        NOTA_SERVICIO_DATA["fecha_emision"] = reporte.fecha_emision
         fecha_atencion = request.form.get("fecha_atencion").strip()
         if fecha_atencion:
             NOTA_SERVICIO_DATA["fecha_atencion"] = datetime.fromisoformat(
