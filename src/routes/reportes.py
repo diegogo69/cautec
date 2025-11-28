@@ -111,7 +111,6 @@ def ver_reportes():
     data["query_falla"] = int(request.args.get('falla_id')) if request.args.get('falla_id') else None
     data["query_dispositivo"] = int(request.args.get('tipo_dispositivo_id')) if request.args.get('tipo_dispositivo_id') else None
 
-
     return render_template("reportes/ver-reportes.html", data=data, enumerate=enumerate)
 
 

@@ -92,7 +92,7 @@
             <fieldset>
                 <legend>Descripción del equipo</legend>
                 <ul class="list-unstyled row g-2">
-                    <li class="col-6">
+                    <li class="col">
                         <label for="tipo-dispositivo" class="form-label"><strong>Tipo de dispositivo:</strong></label>
                         <select name="tipo-dispositivo" id="tipo-dispositivo" class="form-select" required>
                             <option value="">Selecciona un tipo de dispositivo</option>
@@ -101,13 +101,18 @@
                             {% endfor %}
                         </select>
                     </li>
-                    <li class="col-6">
+                    <li class="col oculto" id="disp-otro-container">
+                        <label for="disp-otro" class="form-label"><strong>Dispositivo:</strong></label>
+                        <input type="text" name="disp-otro" id="disp-otro" class="form-control">
+                        <!-- <div class="form-text">Añada una descripción breve del dispositivo.</div> -->
+                    </li>
+                    <li class="col">
                         <label for="cod-bienes" class="form-label"><strong>Chapa ULA:</strong></label>
                         <input type="text" name="cod-bienes" id="cod-bienes" class="form-control" maxlength="13" required>
                         <!-- placeholder="2-80124-34011" -->
                         <div class="form-text">Ingresa el código Chapa ULA del equipo. Sólo digitos.</div>
                     </li>
-                    <li class="col">
+                    <li class="col-12">
                         <label for="falla" class="form-label"><strong>Falla del equipo:</strong></label>
                         <select name="falla" id="falla" class="form-select" required>
                             <option value="" selected>Selecciona una falla</option>
@@ -250,6 +255,31 @@
     }
     nombreSolInput.addEventListener('input', permitirSoloLetrasYEspacios);
     apellidoSolInput.addEventListener('input', permitirSoloLetrasYEspacios);
+</script>
+<script>
+    const dispositivoSelect = document.querySelector('#tipo-dispositivo');
+    const containerDispOtro = document.querySelector('#disp-otro-container');
+    const campoDispOtro = document.querySelector('#disp-otro');
+
+    // Function to handle the change event
+    function handleSelectChange(e) {
+        const fallaSeleccionada = e.target.value;
+
+        if (fallaSeleccionada === 'otro') {
+            containerDispOtro.classList.remove('oculto'); // Show the container
+            campoDispOtro.setAttribute('required', 'required'); // Make the input required
+            campoDispOtro.focus(); // Optionally focus the input field
+        } else {
+            containerDispOtro.classList.add('oculto'); // Hide the container
+            campoDispOtro.removeAttribute('required'); // Remove required attribute
+            campoDispOtro.value = ''; // Clear the input field when hidden
+        }
+    }
+
+    // Add event listener for the select field
+    dispositivoSelect.addEventListener('change', handleSelectChange);
+
+    // handleSelectChange();
 </script>
 <script>
     const fallaSelect = document.querySelector('#falla');

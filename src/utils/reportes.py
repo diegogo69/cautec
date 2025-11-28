@@ -6,6 +6,7 @@ ESTADOS_REPORTE = [
 ]
 
 TIPOS_DISPOSITIVOS = [
+    'otro',
     "monitor",
     "mouse",
     "teclado",
