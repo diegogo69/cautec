@@ -39,8 +39,8 @@
             <tr>
                 <td>{{ departamento.nombre }}</td>
                 <td>{{ departamento.ubicacion }}</td>
-                <td>{{ departamento.nombre_coordinador }}</td>
-                <td>{{ departamento.linea_telefonica }}</td>
+                <td>{% if departamento.nombre_coordinador %} {{ departamento.nombre_coordinador }} {% endif %}</td>
+                <td>{% if departamento.linea_telefonica %} {{ departamento.linea_telefonica }} {% endif %}</td>
 
                 <td>
                     <button class="btn btn-sm btn-outline-info">

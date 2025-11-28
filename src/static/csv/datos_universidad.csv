@@ -1,60 +1,60 @@
 torre,piso,tipo,ext,coordinador,nombre
-A,0,Laboratorio,,,Laboratorio demostrativo
-A,0,Laboratorio,,,Laboratorio de Física I y II
-A,0,Laboratorio,,,Laboratorio de Termodinámica
-A,0,Oficina,,,Oficina GRINCEF
-A,0,Laboratorio,,,Laboratorio de física
+A,0,Laboratorio,5605,,Laboratorio de demostración de la física
+A,0,Laboratorio,5594,,Laboratorio de Física I y II
+A,0,Laboratorio,5592,,Laboratorio de Termodinámica
+A,0,Oficina,5590,,Oficina GRINCEF Grupo de investigación científica y de la enseñanza de la física
+A,0,Laboratorio,5602,,Laboratorio de física
 A,0,Sala,,,Sala de profesores
-A,0,Laboratorio,,,Laboratorio de Física I
-A,1,Laboratorio,,,Laboratorio de Genética y microbiología
+A,0,Laboratorio,5604,,Laboratorio de Física I
+A,1,Laboratorio,5588,,Laboratorio de Genética y microbiología
 A,1,Laboratorio,,,Laboratorio de Bioquímica
-A,1,Laboratorio,,,Laboratorio de Biología animal y humana
-A,1,Laboratorio,,,Laboratorio de Fisiología vegetal
+A,1,Laboratorio,5583,,Laboratorio de Biología animal y humana
+A,1,Laboratorio,5647,,Laboratorio de Fisiología vegetal
 A,1,Sala,,,Sala de secado
 A,1,Sala,,,Sala de preparación
-A,1,Laboratorio,,,"Laboratorio de Biología vegetal, botánica y morfoanatomía vegetal"
-A,2,Laboratorio,,,Laboratorio de Química orgánica
-A,2,Laboratorio,,,Laboratorio de química general
+A,1,Laboratorio,5587,,"Laboratorio de Biología vegetal, botánica y morfoanatomía vegetal"
+A,2,Laboratorio,5633,,Laboratorio de Química orgánica
+A,2,Laboratorio,5584,,Laboratorio de química general
 A,2,Sala,,,Sala de reactivos sólidos
 A,2,Sala,,,Sala de reactivos líquidos
 A,2,Laboratorio,,,Laboratorio de química analítica
 A,2,Sala,,,Sala de estudio
 A,2,Sala,,,Sala de preparación de reactivos
-A,2,Laboratorio,,,Laboratorio de bioquimica
+A,2,Laboratorio,5597,,Laboratorio de bioquímica
 A,3,Laboratorio,,,Laboratorio de investigación de parásitos (LIEM)
-A,3,Laboratorio,,,Laboratorio de análisis instrumental
-A,3,Laboratorio,,,Laboratorio de química Ambiental
-A,3,Laboratorio,,,Laboratorio de productos naturales
+A,3,Laboratorio,5596,,Laboratorio de análisis instrumental
+A,3,Laboratorio,5593,,Laboratorio de química Ambiental
+A,3,Laboratorio,5648,,Laboratorio de productos naturales
 B,0,Aula,,,Aulas B0001-B008
 B,1,Aula,,,Aulas B1001-B108
 B,2,Aula,,,Aulas B2001-B208
 B,3,Aula,,,Aulas B3001-B308
 C,0,Oficina,,,"Oficina Área de mecánica, estructura y resistencia de materiales"
-C,0,Laboratorio,,,Laboratorio de materiales y ensayos
+C,0,Laboratorio,5608,,Laboratorio de materiales y ensayos
 C,0,Laboratorio,,,Laboratorio de topografía
 C,0,Oficina,,,Oficina de Centro de copiado
 C,0,Oficina,,,Oficina de Proveduría y papelería
-C,0,Oficina,,,Oficina de DAES-NURR Departamento de asuntos estudiantiles
+C,0,Oficina,5600,,Oficina de DAES-NURR Departamento de asuntos estudiantiles
 C,1,Oficina,,,Oficina de Centro de estudiantes CENURR
 C,1,Sala,,,Sala de cine
 C,1,Laboratorio,,,Laboratorio de Audiovisual
 C,1,Oficina,,,Oficina de APULA Asociación de profesores ULA
 C,1,Oficina,,,Oficina de UPP Instituto de prevision de profesorado de ula
-C,2,Unidad,,,Unidad de caja
-C,2,Unidad,,,Unidad de servicios generales
+C,2,Unidad,5513,,Unidad de caja
+C,2,Unidad,5544,,Unidad de servicios generales
 C,2,Unidad,,,Unidad de apoyo administrativo
-C,2,Oficina,,,Coordinacion de servicios generales
+C,2,Oficina,5511,,Coordinacion de servicios generales
 C,2,Oficina,,,Coordinacion administrativa
-C,2,Oficina,,,Oficina de Contabilidad
+C,2,Oficina,5567,,Oficina de Contabilidad
 C,2,Oficina,,,Oficina de Control de bienes
 C,3,Aula,,,Aulas D301-D308
-D,0,Oficina,,,Oficina de ORE-NURR
-D,0,Unidad,,,Unidad de informática 
-D,0,Unidad,,,Unidad de personal
+D,0,Oficina,5547,,Oficina de ORE-NURR
+D,0,Unidad,5639,,Unidad de informática 
+D,0,Unidad,5558,,Unidad de personal
 D,0,Oficina,,,Oficina de UDAP
 D,0,Oficina,,,Oficina de SOULA-NURR
-D,0,Unidad,,,Unidad de Telecomunicaciones
-D,1,Oficina,,,Oficina de Vicerrectorado
+D,0,Unidad,5999,,Unidad de Telecomunicaciones
+D,1,Oficina,5500,,Oficina de Vicerrectorado
 D,1,Oficina,,,Oficina de OFAE
 D,1,Oficina,,,Oficina de Secretaría
 D,1,Oficina,,,Oficina de Coordinación académica
@@ -63,47 +63,47 @@ D,1,Oficina,,,Oficina de Consejo de núcleo
 D,1,Oficina,,,Oficina de Servicio comunitario?
 D,1,Unidad,,,Unidad de taquilla?
 D,1,Unidad,,,Unidad de servicios jurídicos
-D,1,Oficina,,,Prensa-Nurr / REDULA-NURR
+D,1,Oficina,5561,,Prensa-Nurr / REDULA-NURR
 D,1,Oficina,,,Oficina de OSEPLAN
 D,1,Unidad,,,Unidad de planta física 
-D,1,Unidad,,,Unidad de presupuesto y planificación Nurr
-D,2,Departamento,,,Departamento de Lenguas modernas
-D,2,Departamento,,,Departamento de Administración y economía
-D,2,Departamento,,,Departamento de Ciencias pedagógicas
-D,2,Departamento,,,Departamento de Ciencias sociales
+D,1,Unidad,5539,,Unidad de presupuesto y planificación Nurr
+D,2,Departamento,5519,,Departamento de Lenguas modernas
+D,2,Departamento,5521,,Departamento de Administración y economía
+D,2,Departamento,5524,,Departamento de Ciencias pedagógicas
+D,2,Departamento,5529,,Departamento de Ciencias sociales
 D,2,Sala,,,Sala audio visual
-D,2,Departamento,,,Departamento de Ciencias agrarias
-D,2,Departamento,,,Departamento de Física y matemática
+D,2,Departamento,5531,,Departamento de Ciencias agrarias
+D,2,Departamento,5533,,Departamento de Física y matemática
 D,3,Unidad,,,Unidad de servicio y soporte técnico
-D,3,Laboratorio,,,Laboratorio de computación
+D,3,Laboratorio,5548,,Laboratorio de computación
 D,3,Oficina,,,Grupo de investigación en ciencias contables y administrativas
 D,3,Oficina,,,Centro de estudios canadienses
-D,3,Oficina,,,CEIDIS-NURR
-F,0,Oficina,,,Oficina de Publicaciones periódicas (Emeroteca)
+D,3,Oficina,5573,,CEIDIS-NURR
+F,0,Oficina,5576,,Oficina de Publicaciones periódicas (Emeroteca)
 F,0,Sala,,,Sala de préstamos
 F,0,Sala,,,Sala de derecho
-F,1,Oficina,,,Oficina de Dirección biblioteca
+F,1,Oficina,5620,,Oficina de Dirección biblioteca
 F,1,Oficina,,,Oficina de Servicios bibliotecarios
 F,1,Oficina,,,Oficina de Secretaria de los servicios bibliotecarios
 F,1,Sala,,,Sala de referencia
 F,1,Sala,,,Sala procesos tecnicos
-F,2,Laboratorio,,,Laboratorio de computación F201
-F,2,Laboratorio,,,Laboratorio de computación EF-207
-F,2,Laboratorio,,,Laboratorio de computación EF-220
+F,2,Laboratorio,5554,,Laboratorio de computación F201
+F,2,Laboratorio,5582,,Laboratorio de computación EF-207
+F,2,Laboratorio,5629,,Laboratorio de computación EF-220
 F,3,Oficina,,,Oficina de Área de historia y antropologia
 F,3,Sala,,,Sala de Investigación en lenguas extranjeras
 F,3,Sala,,,Sala de Reading room
 F,3,Sala,,,Sala de Biblioteca de francés
 F,3,Sala,,,Sala de geografía
 E,0,Oficina,,,"Oficina de Área de ingeniería, suelos y agua"
-E,0,Laboratorio,,,Laboratorio de hidraulica
-E,1,Oficina,,,Oficina de GISA Grupo de ingenieria suelos y agua
+E,0,Laboratorio,5607,,Laboratorio de hidráulica
+E,1,Oficina,5640,,Oficina de GISA Grupo de ingenieria suelos y agua
 E,1,Laboratorio,,,Laboratorio de Deafología
-E,1,Laboratorio,,,Laboratorio de servicios de análisis de suelos
+E,1,Laboratorio,5644,,Laboratorio de servicios de análisis de suelos
 E,1,Laboratorio,,,Laboratorio de manejo de fertilidad de suelos
 E,1,Laboratorio,,,Laboratorio de reproduccion e inseminación artifical
-E,1,Laboratorio,,,Laboratorio de investigación de suelos
+E,1,Laboratorio,5641,,Laboratorio de investigación de suelos
 E,1,Laboratorio,,,Laboratorio de nutrición animal
-E,1,Laboratorio,,,Laboratorio de parasitología
-E,2,Departamento,,,Departamento de Ingeniería
+E,1,Laboratorio,5627,,Laboratorio de parasitología
+E,2,Departamento,5541,,Departamento de Ingeniería
 E,3,Aula,,,Aulas D301-D308
